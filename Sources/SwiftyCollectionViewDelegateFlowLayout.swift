@@ -8,10 +8,12 @@
 import Foundation
 import UIKit
 
-public typealias SwiftyCollectionViewDelegateFlowLayout = SwiftyCollectionViewDelegateWaterFlowLayout & XXX
+public typealias SwiftyCollectionViewDelegateFlowLayout = SwiftyCollectionViewDelegateWaterFlowLayout & SwiftyCollectionViewDelegateBasicFlowLayout
 
-public protocol XXX: UICollectionViewDelegateFlowLayout {
-    
+public protocol SwiftyCollectionViewDelegateBasicFlowLayout: UICollectionViewDelegateFlowLayout {
+//    func collectionView(_ collectionView: UICollectionView,
+//                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+//                        expandHeader section: Int) -> Bool
 }
 
 public protocol SwiftyCollectionViewDelegateWaterFlowLayout: UICollectionViewDelegateFlowLayout {
