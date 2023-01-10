@@ -8,6 +8,22 @@
 import Foundation
 import UIKit
 
-public protocol SwiftyCollectionViewDelegateFlowLayout: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfColumnsInSection section: Int) -> Int
+public typealias SwiftyCollectionViewDelegateFlowLayout = SwiftyCollectionViewDelegateWaterFlowLayout & XXX
+
+public protocol XXX: UICollectionViewDelegateFlowLayout {
+    
+}
+
+public protocol SwiftyCollectionViewDelegateWaterFlowLayout: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                        numberOfColumnsInSection section: Int) -> Int
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                        columnSpacingForSectionAt section: Int) -> CGFloat
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                        rowSpacingForSectionAt section: Int) -> CGFloat
 }
