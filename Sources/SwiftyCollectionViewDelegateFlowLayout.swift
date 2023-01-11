@@ -21,11 +21,11 @@ public protocol SwiftyCollectionViewDelegateWaterFlowLayout: UICollectionViewDel
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
                         numberOfColumnsInSection section: Int) -> Int
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                        columnSpacingForSectionAt section: Int) -> CGFloat
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                        rowSpacingForSectionAt section: Int) -> CGFloat
+//    func collectionView(_ collectionView: UICollectionView,
+//                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+//                        columnSpacingForSectionAt section: Int) -> CGFloat
+//
+//    func collectionView(_ collectionView: UICollectionView,
+//                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+//                        rowSpacingForSectionAt section: Int) -> CGFloat
 }
