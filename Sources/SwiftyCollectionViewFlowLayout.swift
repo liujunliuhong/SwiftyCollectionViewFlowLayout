@@ -32,9 +32,9 @@ class WaterFlowSectionAttributes {
     /// 当前Section总高度
     func totalHeight(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
         if scrollDirection == .vertical {
-            return headerSize.height + inset.top + maxBodyHeight + inset.bottom + footerSize.height
+            return headerSize.height + sectionInset.top + maxBodyHeight + sectionInset.bottom + footerSize.height
         } else if scrollDirection == .horizontal {
-            return headerSize.width + inset.left + maxBodyHeight + inset.right + footerSize.width
+            return headerSize.width + sectionInset.left + maxBodyHeight + sectionInset.right + footerSize.width
         }
         return .zero
     }
@@ -148,41 +148,43 @@ extension SwiftyCollectionViewFlowLayout {
         if scrollDirection == .vertical {
             let columnWidth = (collectionView.frame.width - sectionInset.left - sectionInset.right - CGFloat(numberOfColumns - 1) * sectionAttr.interitemSpacing) / CGFloat(numberOfColumns)
             
+            item_width = columnWidth
+            item_height = itemSize.height
+            
             item_x = sectionInset.left + (sectionAttr.interitemSpacing + columnWidth) * CGFloat(minElement.key)
             
             item_y = getBeforeSectionTotalHeight(currentSection: indexPath.section) + sectionAttr.headerSize.height + sectionInset.top
             
             var changeHeight: CGFloat = .zero
             if !minElement.value.isLessThanOrEqualTo(.zero) {
-                changeHeight = minElement.value + sectionAttr.lineSpacing
+                changeHeight = item_height + sectionAttr.lineSpacing
             }
             item_y += changeHeight
             
-            item_width = columnWidth
-            item_height = itemSize.height
-            
-            for (_, element) in sectionAttr.body.enumerated() {
-                if element.key == minElement.key {
-                    let height = element.value + changeHeight
-                    sectionAttr.body[element.key] = height
-                    break
-                }
-            }
-            
-            cellAttr.frame = CGRect(x: item_x, y: item_y, width: item_width, height: item_height)
+            // Update Body
+            sectionAttr.body[minElement.key] = minElement.value + changeHeight
             
         } else if scrollDirection == .horizontal {
-            let columnHeight = (collectionView.frame.height - sectionInset.top - sectionInset.bottom - CGFloat(numberOfColumns - 1) * columnSpacing) / CGFloat(numberOfColumns)
+            let columnHeight = (collectionView.frame.height - sectionInset.top - sectionInset.bottom - CGFloat(numberOfColumns - 1) * sectionAttr.interitemSpacing) / CGFloat(numberOfColumns)
             
+            item_width = itemSize.width
+            item_height = columnHeight
             
-            item_y = sectionInset.top + (columnSpacing + columnHeight) * CGFloat(minElement.key)
+            item_y = sectionInset.top + (sectionAttr.interitemSpacing + columnHeight) * CGFloat(minElement.key)
             
             item_x = getBeforeSectionTotalHeight(currentSection: indexPath.section) + sectionAttr.headerSize.width + sectionInset.left
+            
+            var changeWidth: CGFloat = .zero
             if !minElement.value.isLessThanOrEqualTo(.zero) {
-                item_y += (minElement.value + lineSpacing)
+                changeWidth = item_width + sectionAttr.lineSpacing
             }
+            item_x += changeWidth
+            
+            // Update Body
+            sectionAttr.body[minElement.key] = minElement.value + changeWidth
         }
         
+        cellAttr.frame = CGRect(x: item_x, y: item_y, width: item_width, height: item_height)
         
         
         
@@ -281,7 +283,7 @@ extension SwiftyCollectionViewFlowLayout {
             let section = element.key
             let attr = element.value
             if section < currentSection {
-                totalHeight = totalHeight + attr.totalHeight(scrollDirection: scrollDirection)
+                totalHeight += attr.totalHeight(scrollDirection: scrollDirection)
             }
         }
         return totalHeight
