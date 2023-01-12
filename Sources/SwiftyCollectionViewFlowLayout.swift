@@ -18,35 +18,25 @@ class WaterFlowSectionAttributes {
     var body: [Int: CGFloat] = [:]
     
     
-    /// 当前Section的Body总高度
-    var maxBodyHeight: CGFloat {
-        var maxHeight: CGFloat = .zero
-        for height in body.values {
-            if !height.isLessThanOrEqualTo(maxHeight) {
-                maxHeight = height
+    /// 当前Section的Body总长度
+    var maxBodyLength: CGFloat {
+        var maxLength: CGFloat = .zero
+        for length in body.values {
+            if !length.isLessThanOrEqualTo(maxLength) {
+                maxLength = length
             }
         }
-        return maxHeight
+        return maxLength
     }
     
-    /// 当前Section总高度
-    func totalHeight(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
+    /// 当前Section总长度
+    func totalLength(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
         if scrollDirection == .vertical {
-            return headerSize.height + sectionInset.top + maxBodyHeight + sectionInset.bottom + footerSize.height
+            return headerSize.height + sectionInset.top + maxBodyLength + sectionInset.bottom + footerSize.height
         } else if scrollDirection == .horizontal {
-            return headerSize.width + sectionInset.left + maxBodyHeight + sectionInset.right + footerSize.width
+            return headerSize.width + sectionInset.left + maxBodyLength + sectionInset.right + footerSize.width
         }
         return .zero
-    }
-    
-    /// 当前Section Body之前的高度
-    var bodyBeforeHeight: CGFloat {
-        return headerHeight + inset.top
-    }
-    
-    /// 当前Section Footer之前的高度
-    var footerBeforeHeight: CGFloat {
-        return headerHeight + inset.top + maxBodyHeight + inset.bottom
     }
 }
 
@@ -58,7 +48,7 @@ open class SwiftyCollectionViewFlowLayout: UICollectionViewFlowLayout {
     }
     
     private var waterFlowSectionAttributes: [Int: WaterFlowSectionAttributes] = [:]
-    
+    private var attributesForElements: [UICollectionViewLayoutAttributes] = []
     
     public override init() {
         super.init() 
@@ -77,6 +67,7 @@ extension SwiftyCollectionViewFlowLayout {
         
         
         waterFlowSectionAttributes.removeAll()
+        attributesForElements.removeAll()
         
         for section in 0..<collectionView.numberOfSections {
             let sectionInset = mDelegate?.collectionView?(collectionView, layout: self, insetForSectionAt: section) ?? .zero
@@ -105,17 +96,13 @@ extension SwiftyCollectionViewFlowLayout {
         }
     }
     
-    open override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        return []
-    }
+    
     
     open override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         guard let collectionView = collectionView else { return nil }
-        
-        let cellAttr = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+        guard let cellAttr = super.layoutAttributesForItem(at: indexPath) else { return nil }
         
         let itemSize = mDelegate?.collectionView?(collectionView, layout: self, sizeForItemAt: indexPath) ?? .zero
-        
         
         let sectionAttr = waterFlowSectionAttributes[indexPath.section]! // 一定存在
         
@@ -126,6 +113,7 @@ extension SwiftyCollectionViewFlowLayout {
         }
         
         let sectionInset = sectionAttr.sectionInset
+        let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: indexPath.section)
         
         var minElement: Dictionary<Int, CGFloat>.Element!
         for (_, element) in sectionAttr.body.enumerated() {
@@ -144,6 +132,7 @@ extension SwiftyCollectionViewFlowLayout {
         var item_y: CGFloat = .zero
         var item_width: CGFloat = .zero
         var item_height: CGFloat = .zero
+        var changeLength: CGFloat = .zero
         
         if scrollDirection == .vertical {
             let columnWidth = (collectionView.frame.width - sectionInset.left - sectionInset.right - CGFloat(numberOfColumns - 1) * sectionAttr.interitemSpacing) / CGFloat(numberOfColumns)
@@ -153,16 +142,12 @@ extension SwiftyCollectionViewFlowLayout {
             
             item_x = sectionInset.left + (sectionAttr.interitemSpacing + columnWidth) * CGFloat(minElement.key)
             
-            item_y = getBeforeSectionTotalHeight(currentSection: indexPath.section) + sectionAttr.headerSize.height + sectionInset.top
+            item_y = beforeSectionTotalLength + sectionAttr.headerSize.height + sectionInset.top
             
-            var changeHeight: CGFloat = .zero
             if !minElement.value.isLessThanOrEqualTo(.zero) {
-                changeHeight = item_height + sectionAttr.lineSpacing
+                changeLength = item_height + sectionAttr.lineSpacing
             }
-            item_y += changeHeight
-            
-            // Update Body
-            sectionAttr.body[minElement.key] = minElement.value + changeHeight
+            item_y += changeLength
             
         } else if scrollDirection == .horizontal {
             let columnHeight = (collectionView.frame.height - sectionInset.top - sectionInset.bottom - CGFloat(numberOfColumns - 1) * sectionAttr.interitemSpacing) / CGFloat(numberOfColumns)
@@ -172,102 +157,88 @@ extension SwiftyCollectionViewFlowLayout {
             
             item_y = sectionInset.top + (sectionAttr.interitemSpacing + columnHeight) * CGFloat(minElement.key)
             
-            item_x = getBeforeSectionTotalHeight(currentSection: indexPath.section) + sectionAttr.headerSize.width + sectionInset.left
+            item_x = beforeSectionTotalLength + sectionAttr.headerSize.width + sectionInset.left
             
-            var changeWidth: CGFloat = .zero
             if !minElement.value.isLessThanOrEqualTo(.zero) {
-                changeWidth = item_width + sectionAttr.lineSpacing
+                changeLength = item_width + sectionAttr.lineSpacing
             }
-            item_x += changeWidth
-            
-            // Update Body
-            sectionAttr.body[minElement.key] = minElement.value + changeWidth
+            item_x += changeLength
         }
         
+        // Update Body
+        sectionAttr.body[minElement.key] = minElement.value + changeLength
+        
+        // Update Cell Attr
         cellAttr.frame = CGRect(x: item_x, y: item_y, width: item_width, height: item_height)
         
-        
+        attributesForElements.append(cellAttr)
         
         return cellAttr
     }
     
     open override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         guard let collectionView = collectionView else { return nil }
+        guard let supplementaryViewAttr = super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath) else { return nil }
         
-        let attr = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, with: indexPath)
+        let sectionAttr = waterFlowSectionAttributes[indexPath.section]! // 一定存在
+        
+        var header_x: CGFloat = .zero
+        var header_y: CGFloat = .zero
+        var header_width: CGFloat = .zero
+        var header_height: CGFloat = .zero
+        
+        let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: indexPath.section)
         
         if elementKind == UICollectionView.elementKindSectionHeader {
-            let headerSize = mDelegate?.collectionView?(collectionView, layout: self, referenceSizeForHeaderInSection: indexPath.section) ?? .zero
             
-            let beforeHeight = getBeforeSectionTotalHeight(currentSection: indexPath.section)
-            
-            var header_x: CGFloat = .zero
-            var header_y: CGFloat = .zero
-            var header_width: CGFloat = .zero
-            var header_height: CGFloat = .zero
+            let headerSize = sectionAttr.headerSize
             
             if scrollDirection == .vertical {
                 header_x = .zero
-                header_y = beforeHeight
+                header_y = beforeSectionTotalLength
                 header_width = collectionView.frame.width
                 header_height = headerSize.height
             } else if scrollDirection == .horizontal {
-                header_x = beforeHeight
+                header_x = beforeSectionTotalLength
                 header_y = .zero
                 header_width = headerSize.width
                 header_height = collectionView.frame.height
             }
             
-            attr.frame = CGRect(x: header_x, y: header_y, width: header_width, height: header_height)
-            
-            if let attr = waterFlowSectionAttributes[indexPath.section] {
-                attr.headerHeight = headerSize.height
-            } else {
-                let attr = WaterFlowSectionAttributes()
-                attr.headerHeight = headerSize.height
-                waterFlowSectionAttributes[indexPath.section] = attr
-            }
         } else if elementKind == UICollectionView.elementKindSectionFooter {
-            let footerSize = mDelegate?.collectionView?(collectionView, layout: self, referenceSizeForFooterInSection: indexPath.section) ?? .zero
             
-            var beforeHeight = getBeforeSectionTotalHeight(currentSection: indexPath.section)
-            
-            if let attr = waterFlowSectionAttributes[indexPath.section] {
-                beforeHeight += attr.footerBeforeHeight
-            }
-            
-            var header_x: CGFloat = .zero
-            var header_y: CGFloat = .zero
-            var header_width: CGFloat = .zero
-            var header_height: CGFloat = .zero
+            let footerSize = sectionAttr.footerSize
             
             if scrollDirection == .vertical {
                 header_x = .zero
-                header_y = beforeHeight
+                header_y = beforeSectionTotalLength + sectionAttr.headerSize.height + sectionAttr.sectionInset.top + sectionAttr.maxBodyLength + sectionAttr.sectionInset.bottom
                 header_width = collectionView.frame.width
                 header_height = footerSize.height
             } else if scrollDirection == .horizontal {
-                header_x = beforeHeight
+                header_x = beforeSectionTotalLength + sectionAttr.headerSize.width + sectionAttr.sectionInset.left + sectionAttr.maxBodyLength + sectionAttr.sectionInset.right
                 header_y = .zero
                 header_width = footerSize.width
                 header_height = collectionView.frame.height
             }
-            
-            attr.frame = CGRect(x: header_x, y: header_y, width: header_width, height: header_height)
-            
-            if let attr = waterFlowSectionAttributes[indexPath.section] {
-                attr.footerHeight = footerSize.height
-            } else {
-                let attr = WaterFlowSectionAttributes()
-                attr.footerHeight = footerSize.height
-                waterFlowSectionAttributes[indexPath.section] = attr
-            }
         }
-        return nil
+        
+        supplementaryViewAttr.frame = CGRect(x: header_x, y: header_y, width: header_width, height: header_height)
+        
+        attributesForElements.append(supplementaryViewAttr)
+        
+        return supplementaryViewAttr
     }
     
     open override func layoutAttributesForDecorationView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        return nil
+        guard let collectionView = collectionView else { return nil }
+        guard let decorationAttr = super.layoutAttributesForDecorationView(ofKind: elementKind, at: indexPath) else { return nil }
+        
+        
+        return decorationAttr
+    }
+    
+    open override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        return attributesForElements
     }
     
     open override var collectionViewContentSize: CGSize {
@@ -276,16 +247,16 @@ extension SwiftyCollectionViewFlowLayout {
 }
 
 extension SwiftyCollectionViewFlowLayout {
-    private func getBeforeSectionTotalHeight(currentSection: Int) -> CGFloat {
-        var totalHeight: CGFloat = .zero
+    private func getBeforeSectionTotalLength(currentSection: Int) -> CGFloat {
+        var totalLength: CGFloat = .zero
         
         for (_, element) in waterFlowSectionAttributes.enumerated() {
             let section = element.key
             let attr = element.value
             if section < currentSection {
-                totalHeight += attr.totalHeight(scrollDirection: scrollDirection)
+                totalLength += attr.totalLength(scrollDirection: scrollDirection)
             }
         }
-        return totalHeight
+        return totalLength
     }
 }
