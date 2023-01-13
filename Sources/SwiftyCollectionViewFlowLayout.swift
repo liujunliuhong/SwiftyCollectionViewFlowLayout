@@ -8,14 +8,12 @@
 import UIKit
 
 class WaterFlowSectionAttributes {
-    var sectionInset: UIEdgeInsets = .zero
-    var headerSize: CGSize = .zero
-    var footerSize: CGSize = .zero
+    var headerLayoutAttributes: UICollectionViewLayoutAttributes?
+    var footerLayoutAttributes: UICollectionViewLayoutAttributes?
+    var itemLayoutAttributes: [UICollectionViewLayoutAttributes] = []
     
-    var lineSpacing: CGFloat = .zero
-    var interitemSpacing: CGFloat = .zero
     
-    var body: [Int: CGFloat] = [:]
+    var bodyColumnHeights: [Int: CGFloat] = [:]
     
     
     /// 当前Section的Body总长度
@@ -43,8 +41,8 @@ class WaterFlowSectionAttributes {
 open class SwiftyCollectionViewFlowLayout: UICollectionViewFlowLayout {
     
     
-    private var mDelegate: SwiftyCollectionViewDelegateFlowLayout? {
-        return collectionView?.delegate as? SwiftyCollectionViewDelegateFlowLayout
+    private var mDelegate: UICollectionViewDelegateFlowLayout? {
+        return collectionView?.delegate as? UICollectionViewDelegateFlowLayout
     }
     
     private var waterFlowSectionAttributes: [Int: WaterFlowSectionAttributes] = [:]
@@ -77,7 +75,14 @@ extension SwiftyCollectionViewFlowLayout {
             let lineSpacing = mDelegate?.collectionView?(collectionView, layout: self, minimumLineSpacingForSectionAt: section) ?? .zero
             let interitemSpacing = mDelegate?.collectionView?(collectionView, layout: self, minimumInteritemSpacingForSectionAt: section) ?? .zero
             
-            let numberOfColumns = mDelegate?.collectionView(collectionView, layout: self, numberOfColumnsInSection: section) ?? 0
+            let numberOfColumns = (mDelegate as? SwiftyCollectionViewDelegateWaterFlowLayout)?.collectionView(collectionView, layout: self, numberOfColumnsInSection: section) ?? 0
+            
+            
+            let headerIndexPath = IndexPath(item: 0, section: section)
+            if let sectionHeader = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: headerIndexPath) {
+                
+            }
+            
             
             var body: [Int: CGFloat] = [:]
             for column in 0..<numberOfColumns {

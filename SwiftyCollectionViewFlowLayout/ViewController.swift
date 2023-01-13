@@ -7,6 +7,27 @@
 
 import UIKit
 
+fileprivate class Layout: UICollectionViewFlowLayout {
+    override func prepare() {
+        super.prepare()
+    }
+    
+    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let atr = super.layoutAttributesForItem(at: indexPath)
+        return atr
+    }
+    
+    override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let atr = super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)
+        return atr
+    }
+    
+    override func layoutAttributesForDecorationView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let atr = super.layoutAttributesForDecorationView(ofKind: elementKind, at: indexPath)
+        return atr
+    }
+}
+
 fileprivate class Cell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,27 +65,38 @@ public final class ViewController: UIViewController {
 
     
     lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 30, right: 40)
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 10
-        layout.minimumLineSpacing = 10
-        layout.itemSize = CGSize(width: 150, height: view.bounds.height - 10 - 30)
+        let layout = Layout()
+        //let layout = SwiftyCollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
         
-        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        let frame = CGRect(x: 30, y: 90, width: view.bounds.width - 30 - 30, height: view.bounds.height - 90 - 90)
+        
+        let collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.backgroundColor = .cyan
         collectionView.register(Cell.classForCoder(), forCellWithReuseIdentifier: NSStringFromClass(Cell.classForCoder()))
         collectionView.register(HeaderSupplementary.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(HeaderSupplementary.classForCoder()))
         collectionView.register(FooterSupplementary.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(FooterSupplementary.classForCoder()))
         return collectionView
     }()
     
+    private var heights: [CGFloat] {
+        return [20, 30, 40, 50, 60, 70]
+    }
+    
+    private var widths: [CGFloat] {
+        return [40, 50, 60, 70, 80, 90]
+    }
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(collectionView)
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.collectionView.reloadData()
+        }
     }
 
 
@@ -76,7 +108,7 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 11
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -87,13 +119,32 @@ extension ViewController: UICollectionViewDataSource {
     }
 }
 
+
+
 extension ViewController: UICollectionViewDelegateFlowLayout {
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 10, left: 20, bottom: 30, right: 40)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: widths.randomElement()!, height: heights.randomElement()!)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 15
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 25
+    }
+    
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: 10, height: 50)
+        return CGSize(width: 0, height: 50)
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: 10, height: 50)
+        return CGSize(width: 0, height: 80)
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -109,6 +160,12 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
             return footerView
         }
         return UICollectionReusableView()
+    }
+}
+
+extension ViewController: SwiftyCollectionViewDelegateWaterFlowLayout {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, numberOfColumnsInSection section: Int) -> Int {
+        return 2
     }
 }
 

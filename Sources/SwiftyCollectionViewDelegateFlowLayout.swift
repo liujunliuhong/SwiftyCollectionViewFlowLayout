@@ -21,3 +21,7 @@ public protocol SwiftyCollectionViewDelegateWaterFlowLayout: UICollectionViewDel
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
                         numberOfColumnsInSection section: Int) -> Int
 }
+
+extension SwiftyCollectionViewDelegateWaterFlowLayout {
+    
+}
