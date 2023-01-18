@@ -10,21 +10,47 @@ import UIKit
 fileprivate class Layout: UICollectionViewFlowLayout {
     override func prepare() {
         super.prepare()
+        print("😄prepare")
     }
     
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let atr = super.layoutAttributesForItem(at: indexPath)
+        
+        print("😄layoutAttributesForItem indexPath: \(indexPath)  atr: \(atr)")
+        
         return atr
     }
     
     override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let atr = super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)
+        
+        print("😄layoutAttributesForSupplementaryView elementKind: \(elementKind) indexPath: \(indexPath)  atr: \(atr)")
+        
         return atr
     }
     
     override func layoutAttributesForDecorationView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let atr = super.layoutAttributesForDecorationView(ofKind: elementKind, at: indexPath)
+        
+        print("😄layoutAttributesForDecorationView elementKind: \(elementKind) indexPath: \(indexPath) atr: \(atr)")
+        
         return atr
+    }
+    
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        let attrs = super.layoutAttributesForElements(in: rect)
+        
+        print("😄layoutAttributesForElements  rect: \(rect) attrs: \(attrs)")
+        
+        return attrs
+    }
+    
+    override var collectionViewContentSize: CGSize {
+        let size = super.collectionViewContentSize
+        
+        print("😄collectionViewContentSize  size: \(size)")
+        
+        return size
     }
 }
 
@@ -61,6 +87,17 @@ fileprivate class FooterSupplementary: UICollectionReusableView {
     }
 }
 
+
+fileprivate class Model {
+    var width: CGFloat = .zero
+    var height: CGFloat = .zero
+    
+    init(width: CGFloat, height: CGFloat) {
+        self.width = width
+        self.height = height
+    }
+}
+
 public final class ViewController: UIViewController {
 
     
@@ -89,26 +126,67 @@ public final class ViewController: UIViewController {
         return [40, 50, 60, 70, 80, 90]
     }
     
+    private var dataSource: [[Model]] = []
+    
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(collectionView)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.collectionView.reloadData()
+        
+        var dataSource: [[Model]] = []
+        for _ in 0...5 {
+            var items: [Model] = []
+            for _ in 0...15 {
+                let model = Model(width: widths.randomElement()!, height: heights.randomElement()!)
+                items.append(model)
+            }
+            dataSource.append(items)
+        }
+        self.dataSource = dataSource
+        self.collectionView.reloadData()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//            let insertModel = Model(width: 25, height: 25)
+//
+//            let insertSection: Int = 0
+//            let insetItem: Int = 1
+//
+//            self.dataSource[insertSection].insert(insertModel, at: insetItem)
+//
+//            let insertIndexPath = IndexPath(item: insetItem, section: insertSection)
+//
+//            self.collectionView.performBatchUpdates { [weak self] in
+//                guard let self = self else { return }
+//                self.collectionView.insertItems(at: [insertIndexPath])
+//            }
+            
+            
+            
+            let updateSection: Int = 0
+            let updateRow: Int = 1
+            
+            let reloadPath = IndexPath(item: updateRow, section: updateSection)
+            
+            let updateModel = self.dataSource[updateSection][updateRow]
+            updateModel.width = 150
+            updateModel.height = 150
+            
+            self.collectionView.performBatchUpdates {
+                self.collectionView.reloadItems(at: [reloadPath])
+            }
         }
     }
-
-
 }
 
 extension ViewController: UICollectionViewDataSource {
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 8
+        return dataSource.count
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 11
+        return dataSource[section].count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -128,7 +206,8 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: widths.randomElement()!, height: heights.randomElement()!)
+        let model = dataSource[indexPath.section][indexPath.item]
+        return CGSize(width: model.width, height: model.height)
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -164,9 +243,9 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension ViewController: SwiftyCollectionViewDelegateWaterFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, numberOfColumnsInSection section: Int) -> Int {
-        return 2
-    }
+//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, numberOfColumnsInSection section: Int) -> Int {
+//        return 2
+//    }
 }
 
 extension ViewController: UICollectionViewDelegate {
