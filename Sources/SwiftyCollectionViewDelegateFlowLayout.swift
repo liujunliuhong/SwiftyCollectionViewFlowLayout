@@ -8,11 +8,7 @@
 import Foundation
 import UIKit
 
-public typealias SwiftyCollectionViewDelegateFlowLayout = SwiftyCollectionViewDelegateWaterFlowLayout & SwiftyCollectionViewDelegateBasicFlowLayout
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-public protocol SwiftyCollectionViewDelegateBasicFlowLayout: UICollectionViewDelegateFlowLayout {
+public protocol SwiftyCollectionViewDelegateFlowLayout: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
                         sectionType section: Int) -> SwiftyCollectionViewSectionType
@@ -26,32 +22,16 @@ public protocol SwiftyCollectionViewDelegateBasicFlowLayout: UICollectionViewDel
                         sectionInsetContainFooter section: Int) -> Bool
 }
 
-extension SwiftyCollectionViewDelegateBasicFlowLayout {
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                        sectionInsetContainHeader section: Int) -> Bool {
+extension SwiftyCollectionViewDelegateFlowLayout {
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                               sectionInsetContainHeader section: Int) -> Bool {
         return false
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                        sectionInsetContainFooter section: Int) -> Bool {
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                               sectionInsetContainFooter section: Int) -> Bool {
         return false
-    }
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-public protocol SwiftyCollectionViewDelegateWaterFlowLayout: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                        numberOfColumnsInSection section: Int) -> Int
-}
-
-extension SwiftyCollectionViewDelegateWaterFlowLayout {
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                        numberOfColumnsInSection section: Int) -> Int {
-        return 1
     }
 }

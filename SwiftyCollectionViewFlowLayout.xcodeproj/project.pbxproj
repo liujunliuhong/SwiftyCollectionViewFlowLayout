@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B9E251D047E84D36ED62F99A /* Pods_SwiftyCollectionViewFlowLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FAA686229DF3391EBE205FF /* Pods_SwiftyCollectionViewFlowLayout.framework */; };
 		D1013F09296BE19100F545A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1013F08296BE19100F545A8 /* AppDelegate.swift */; };
 		D1013F0D296BE19100F545A8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1013F0C296BE19100F545A8 /* ViewController.swift */; };
 		D1013F10296BE19100F545A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1013F0E296BE19100F545A8 /* Main.storyboard */; };
@@ -15,11 +16,20 @@
 		D1013F20296BE2D000F545A8 /* SwiftyCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1013F1F296BE2D000F545A8 /* SwiftyCollectionViewFlowLayout.swift */; };
 		D1013F22296BE48000F545A8 /* SwiftyCollectionViewDelegateFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1013F21296BE48000F545A8 /* SwiftyCollectionViewDelegateFlowLayout.swift */; };
 		D18A4D6A2988C4EC00CA5979 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18A4D692988C4EC00CA5979 /* Model.swift */; };
-		D18A4D6C2989079300CA5979 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18A4D6B2989079300CA5979 /* Cache.swift */; };
+		D19563C7298A4B68007C1AA9 /* SwiftyCollectionViewFlowLayout+TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19563C6298A4B68007C1AA9 /* SwiftyCollectionViewFlowLayout+TagList.swift */; };
+		D19563C9298A4BEF007C1AA9 /* SwiftyCollectionViewFlowLayout+WaterFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19563C8298A4BEF007C1AA9 /* SwiftyCollectionViewFlowLayout+WaterFlow.swift */; };
+		D19563CB298A4D9F007C1AA9 /* SwiftyCollectionViewFlowLayout+Supplementary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19563CA298A4D9F007C1AA9 /* SwiftyCollectionViewFlowLayout+Supplementary.swift */; };
+		D19563CD298A4E70007C1AA9 /* SwiftyCollectionViewFlowLayout+Normal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19563CC298A4E70007C1AA9 /* SwiftyCollectionViewFlowLayout+Normal.swift */; };
+		D19563D0298A6160007C1AA9 /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19563CF298A6160007C1AA9 /* TagListViewController.swift */; };
+		D19563D3298A6317007C1AA9 /* TagListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19563D2298A6317007C1AA9 /* TagListModel.swift */; };
+		D19563D5298A657B007C1AA9 /* TagListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19563D4298A657B007C1AA9 /* TagListCell.swift */; };
 		D1E04F86296FF7A10028B834 /* SwiftyCollectionViewSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E04F85296FF7A10028B834 /* SwiftyCollectionViewSectionType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		60CB38307093EB8F906E7987 /* Pods-SwiftyCollectionViewFlowLayout.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftyCollectionViewFlowLayout.release.xcconfig"; path = "Target Support Files/Pods-SwiftyCollectionViewFlowLayout/Pods-SwiftyCollectionViewFlowLayout.release.xcconfig"; sourceTree = "<group>"; };
+		9FAA686229DF3391EBE205FF /* Pods_SwiftyCollectionViewFlowLayout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftyCollectionViewFlowLayout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C213F033447EC22F52E64709 /* Pods-SwiftyCollectionViewFlowLayout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftyCollectionViewFlowLayout.debug.xcconfig"; path = "Target Support Files/Pods-SwiftyCollectionViewFlowLayout/Pods-SwiftyCollectionViewFlowLayout.debug.xcconfig"; sourceTree = "<group>"; };
 		D1013F05296BE19100F545A8 /* SwiftyCollectionViewFlowLayout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftyCollectionViewFlowLayout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1013F08296BE19100F545A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D1013F0C296BE19100F545A8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -30,7 +40,13 @@
 		D1013F1F296BE2D000F545A8 /* SwiftyCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		D1013F21296BE48000F545A8 /* SwiftyCollectionViewDelegateFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewDelegateFlowLayout.swift; sourceTree = "<group>"; };
 		D18A4D692988C4EC00CA5979 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		D18A4D6B2989079300CA5979 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+		D19563C6298A4B68007C1AA9 /* SwiftyCollectionViewFlowLayout+TagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+TagList.swift"; sourceTree = "<group>"; };
+		D19563C8298A4BEF007C1AA9 /* SwiftyCollectionViewFlowLayout+WaterFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+WaterFlow.swift"; sourceTree = "<group>"; };
+		D19563CA298A4D9F007C1AA9 /* SwiftyCollectionViewFlowLayout+Supplementary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+Supplementary.swift"; sourceTree = "<group>"; };
+		D19563CC298A4E70007C1AA9 /* SwiftyCollectionViewFlowLayout+Normal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+Normal.swift"; sourceTree = "<group>"; };
+		D19563CF298A6160007C1AA9 /* TagListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
+		D19563D2298A6317007C1AA9 /* TagListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListModel.swift; sourceTree = "<group>"; };
+		D19563D4298A657B007C1AA9 /* TagListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListCell.swift; sourceTree = "<group>"; };
 		D1E04F85296FF7A10028B834 /* SwiftyCollectionViewSectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewSectionType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -39,18 +55,39 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9E251D047E84D36ED62F99A /* Pods_SwiftyCollectionViewFlowLayout.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E47D2242A63E909FD9D4F8A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9FAA686229DF3391EBE205FF /* Pods_SwiftyCollectionViewFlowLayout.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7639F89ED924793B8342C8DC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C213F033447EC22F52E64709 /* Pods-SwiftyCollectionViewFlowLayout.debug.xcconfig */,
+				60CB38307093EB8F906E7987 /* Pods-SwiftyCollectionViewFlowLayout.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		D1013EFC296BE19100F545A8 = {
 			isa = PBXGroup;
 			children = (
 				D1013F1E296BE21C00F545A8 /* Sources */,
 				D1013F07296BE19100F545A8 /* SwiftyCollectionViewFlowLayout */,
 				D1013F06296BE19100F545A8 /* Products */,
+				7639F89ED924793B8342C8DC /* Pods */,
+				0E47D2242A63E909FD9D4F8A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +104,7 @@
 			children = (
 				D1013F08296BE19100F545A8 /* AppDelegate.swift */,
 				D1013F0C296BE19100F545A8 /* ViewController.swift */,
+				D19563CE298A6134007C1AA9 /* Demo */,
 				D1013F0E296BE19100F545A8 /* Main.storyboard */,
 				D1013F11296BE19300F545A8 /* Assets.xcassets */,
 				D1013F13296BE19300F545A8 /* LaunchScreen.storyboard */,
@@ -79,12 +117,33 @@
 			isa = PBXGroup;
 			children = (
 				D1013F1F296BE2D000F545A8 /* SwiftyCollectionViewFlowLayout.swift */,
+				D19563CA298A4D9F007C1AA9 /* SwiftyCollectionViewFlowLayout+Supplementary.swift */,
+				D19563C8298A4BEF007C1AA9 /* SwiftyCollectionViewFlowLayout+WaterFlow.swift */,
+				D19563C6298A4B68007C1AA9 /* SwiftyCollectionViewFlowLayout+TagList.swift */,
+				D19563CC298A4E70007C1AA9 /* SwiftyCollectionViewFlowLayout+Normal.swift */,
 				D1013F21296BE48000F545A8 /* SwiftyCollectionViewDelegateFlowLayout.swift */,
 				D1E04F85296FF7A10028B834 /* SwiftyCollectionViewSectionType.swift */,
 				D18A4D692988C4EC00CA5979 /* Model.swift */,
-				D18A4D6B2989079300CA5979 /* Cache.swift */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		D19563CE298A6134007C1AA9 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				D19563D1298A6304007C1AA9 /* TagList */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+		D19563D1298A6304007C1AA9 /* TagList */ = {
+			isa = PBXGroup;
+			children = (
+				D19563CF298A6160007C1AA9 /* TagListViewController.swift */,
+				D19563D2298A6317007C1AA9 /* TagListModel.swift */,
+				D19563D4298A657B007C1AA9 /* TagListCell.swift */,
+			);
+			path = TagList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -94,9 +153,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D1013F19296BE19300F545A8 /* Build configuration list for PBXNativeTarget "SwiftyCollectionViewFlowLayout" */;
 			buildPhases = (
+				5F6FAD75EF0E38FDE92EAEAD /* [CP] Check Pods Manifest.lock */,
 				D1013F01296BE19100F545A8 /* Sources */,
 				D1013F02296BE19100F545A8 /* Frameworks */,
 				D1013F03296BE19100F545A8 /* Resources */,
+				7F1CD3E72F39C7BD40BA9BA7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -153,18 +214,66 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5F6FAD75EF0E38FDE92EAEAD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SwiftyCollectionViewFlowLayout-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7F1CD3E72F39C7BD40BA9BA7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SwiftyCollectionViewFlowLayout/Pods-SwiftyCollectionViewFlowLayout-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SwiftyCollectionViewFlowLayout/Pods-SwiftyCollectionViewFlowLayout-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SwiftyCollectionViewFlowLayout/Pods-SwiftyCollectionViewFlowLayout-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D1013F01296BE19100F545A8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D18A4D6C2989079300CA5979 /* Cache.swift in Sources */,
 				D18A4D6A2988C4EC00CA5979 /* Model.swift in Sources */,
 				D1013F20296BE2D000F545A8 /* SwiftyCollectionViewFlowLayout.swift in Sources */,
 				D1013F22296BE48000F545A8 /* SwiftyCollectionViewDelegateFlowLayout.swift in Sources */,
 				D1013F0D296BE19100F545A8 /* ViewController.swift in Sources */,
+				D19563C7298A4B68007C1AA9 /* SwiftyCollectionViewFlowLayout+TagList.swift in Sources */,
 				D1013F09296BE19100F545A8 /* AppDelegate.swift in Sources */,
+				D19563D5298A657B007C1AA9 /* TagListCell.swift in Sources */,
+				D19563D3298A6317007C1AA9 /* TagListModel.swift in Sources */,
+				D19563D0298A6160007C1AA9 /* TagListViewController.swift in Sources */,
+				D19563C9298A4BEF007C1AA9 /* SwiftyCollectionViewFlowLayout+WaterFlow.swift in Sources */,
+				D19563CB298A4D9F007C1AA9 /* SwiftyCollectionViewFlowLayout+Supplementary.swift in Sources */,
 				D1E04F86296FF7A10028B834 /* SwiftyCollectionViewSectionType.swift in Sources */,
+				D19563CD298A4E70007C1AA9 /* SwiftyCollectionViewFlowLayout+Normal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +415,7 @@
 		};
 		D1013F1A296BE19300F545A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C213F033447EC22F52E64709 /* Pods-SwiftyCollectionViewFlowLayout.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -334,6 +444,7 @@
 		};
 		D1013F1B296BE19300F545A8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 60CB38307093EB8F906E7987 /* Pods-SwiftyCollectionViewFlowLayout.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

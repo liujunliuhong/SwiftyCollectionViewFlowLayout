@@ -24,7 +24,7 @@ internal class BaseSectionModel {
 
 extension BaseSectionModel {
     /// 当前Section中所有Item的总长度
-    func allItemsLength(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
+    internal func allItemsLength(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
         var length: CGFloat = .zero
         if scrollDirection == .vertical {
             if !itemLayoutAttributes.isEmpty {
@@ -45,7 +45,7 @@ extension BaseSectionModel {
     }
     
     /// 当前Section总长度
-    func totalLength(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
+    internal func totalLength(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
         var length: CGFloat = .zero
         if scrollDirection == .vertical {
             //
@@ -81,7 +81,8 @@ extension BaseSectionModel {
         return length
     }
     
-    func bodyBeforeLength(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
+    // 当前Section的Body之前的长度(header + sectionInset.top)
+    internal func bodyBeforeLength(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
         var length: CGFloat = .zero
         if scrollDirection == .vertical {
             //
@@ -101,8 +102,8 @@ extension BaseSectionModel {
         return length
     }
     
-    // 当前Section的Footer之前的长度
-    func footerBeforeLength(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
+    /// 当前Section的Footer之前的长度(header + sectionInset.top + body + sectionInset.bottom)
+    internal func footerBeforeLength(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
         var length: CGFloat = .zero
         if scrollDirection == .vertical {
             //
@@ -138,20 +139,20 @@ internal class NormalSectionModel: BaseSectionModel {
 
 
 internal class WaterFlowSectionModel: BaseSectionModel {
-    var bodyColumnLengths: [Int: CGFloat] = [:]
+    var bodyColumnLengths: [CGFloat] = []
     
-    /// 当前Section的Body总长度
-    var maxBodyLength: CGFloat {
-        var maxLength: CGFloat = .zero
-        for length in bodyColumnLengths.values {
-            if !length.isLessThanOrEqualTo(maxLength) {
-                maxLength = length
-            }
-        }
-        return maxLength
-    }
-    
-    
-    
+//    /// 当前Section的Body总长度
+//    var maxBodyLength: CGFloat {
+//        var maxLength: CGFloat = .zero
+//        for length in bodyColumnLengths.values {
+//            if !length.isLessThanOrEqualTo(maxLength) {
+//                maxLength = length
+//            }
+//        }
+//        return maxLength
+//    }
+}
+
+internal class TagListSectionModel: BaseSectionModel {
     
 }

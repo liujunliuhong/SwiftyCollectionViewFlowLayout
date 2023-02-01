@@ -7,8 +7,19 @@
 
 import Foundation
 
+public enum SwiftyCollectionViewAlignment: Equatable {
+    case top
+    case center
+    case bottom
+}
+
+public enum SwiftyCollectionViewDirection: Equatable {
+    case left
+    case right
+}
+
 public enum SwiftyCollectionViewSectionType: Equatable {
     case normal
-    case waterFlow
-    case tagList
+    case waterFlow(numberOfColumns: Int)
+    case tagList(alignment: SwiftyCollectionViewAlignment)
 }

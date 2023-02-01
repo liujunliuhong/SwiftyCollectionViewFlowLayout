@@ -55,9 +55,22 @@ fileprivate class Layout: UICollectionViewFlowLayout {
 }
 
 fileprivate class Cell: UICollectionViewCell {
+    lazy var label: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 15)
+        label.textAlignment = .center
+        return label
+    }()
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .orange
+        contentView.addSubview(label)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        label.frame = bounds
     }
     
     required init?(coder: NSCoder) {
@@ -100,12 +113,14 @@ fileprivate class Model {
 
 public final class ViewController: UIViewController {
 
-    
-    lazy var collectionView: UICollectionView = {
+    lazy var layout: UICollectionViewFlowLayout = {
         let layout = Layout()
         //let layout = SwiftyCollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        
+        return layout
+    }()
+    
+    lazy var collectionView: UICollectionView = {
         let frame = CGRect(x: 30, y: 90, width: view.bounds.width - 30 - 30, height: view.bounds.height - 90 - 90)
         
         let collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
@@ -146,6 +161,9 @@ public final class ViewController: UIViewController {
         }
         self.dataSource = dataSource
         self.collectionView.reloadData()
+        
+        collectionView.layoutIfNeeded()
+        print("😄😄😄\(layout.collectionViewContentSize)")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
 //            let insertModel = Model(width: 25, height: 25)
@@ -193,6 +211,7 @@ extension ViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(Cell.classForCoder()), for: indexPath) as? Cell else {
             return UICollectionViewCell()
         }
+        cell.label.text = "\(indexPath.section) - \(indexPath.item)"
         return cell
     }
 }
@@ -219,11 +238,11 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: 0, height: 50)
+        return CGSize(width: 50, height: 50)
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: 0, height: 80)
+        return CGSize(width: 50, height: 80)
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -242,10 +261,24 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension ViewController: SwiftyCollectionViewDelegateWaterFlowLayout {
-//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, numberOfColumnsInSection section: Int) -> Int {
-//        return 2
-//    }
+extension ViewController: SwiftyCollectionViewDelegateFlowLayout {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionType section: Int) -> SwiftyCollectionViewSectionType {
+        if section == 0 {
+            return .tagList(alignment: .bottom)
+        } else if section == 1 {
+            return .waterFlow(numberOfColumns: 3)
+        } else {
+            return .waterFlow(numberOfColumns: 4)
+        }
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionInsetContainFooter section: Int) -> Bool {
+        return true
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionInsetContainHeader section: Int) -> Bool {
+        return true
+    }
 }
 
 extension ViewController: UICollectionViewDelegate {
