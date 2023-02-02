@@ -19,6 +19,9 @@
 		8565A874298BF6A800FFE2FD /* TagListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A86D298BF6A800FFE2FD /* TagListCell.swift */; };
 		8565A875298BF6A800FFE2FD /* TagListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A86E298BF6A800FFE2FD /* TagListModel.swift */; };
 		8565A876298BF6A800FFE2FD /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A86F298BF6A800FFE2FD /* TagListViewController.swift */; };
+		8565A878298BF7DB00FFE2FD /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A877298BF7DB00FFE2FD /* NavigationController.swift */; };
+		8565A87A298BFBDF00FFE2FD /* IrregularTagListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A879298BFBDF00FFE2FD /* IrregularTagListHeaderView.swift */; };
+		8565A87C298BFBF300FFE2FD /* IrregularTagListFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A87B298BFBF300FFE2FD /* IrregularTagListFooterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,9 @@
 		8565A86D298BF6A800FFE2FD /* TagListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListCell.swift; sourceTree = "<group>"; };
 		8565A86E298BF6A800FFE2FD /* TagListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListModel.swift; sourceTree = "<group>"; };
 		8565A86F298BF6A800FFE2FD /* TagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
+		8565A877298BF7DB00FFE2FD /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		8565A879298BFBDF00FFE2FD /* IrregularTagListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IrregularTagListHeaderView.swift; sourceTree = "<group>"; };
+		8565A87B298BFBF300FFE2FD /* IrregularTagListFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IrregularTagListFooterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +102,7 @@
 			children = (
 				8565A837298BF57300FFE2FD /* AppDelegate.swift */,
 				8565A83B298BF57300FFE2FD /* ViewController.swift */,
+				8565A877298BF7DB00FFE2FD /* NavigationController.swift */,
 				8565A867298BF6A800FFE2FD /* Demo */,
 				8565A83D298BF57300FFE2FD /* Main.storyboard */,
 				8565A840298BF57400FFE2FD /* Assets.xcassets */,
@@ -126,6 +133,8 @@
 			isa = PBXGroup;
 			children = (
 				8565A869298BF6A800FFE2FD /* IrregularTagListViewController.swift */,
+				8565A879298BFBDF00FFE2FD /* IrregularTagListHeaderView.swift */,
+				8565A87B298BFBF300FFE2FD /* IrregularTagListFooterView.swift */,
 				8565A86A298BF6A800FFE2FD /* IrregularTagListModel.swift */,
 				8565A86B298BF6A800FFE2FD /* IrregularTagListCell.swift */,
 			);
@@ -285,9 +294,12 @@
 				8565A871298BF6A800FFE2FD /* IrregularTagListViewController.swift in Sources */,
 				8565A874298BF6A800FFE2FD /* TagListCell.swift in Sources */,
 				8565A875298BF6A800FFE2FD /* TagListModel.swift in Sources */,
+				8565A878298BF7DB00FFE2FD /* NavigationController.swift in Sources */,
 				8565A873298BF6A800FFE2FD /* IrregularTagListCell.swift in Sources */,
 				8565A876298BF6A800FFE2FD /* TagListViewController.swift in Sources */,
+				8565A87C298BFBF300FFE2FD /* IrregularTagListFooterView.swift in Sources */,
 				8565A83C298BF57300FFE2FD /* ViewController.swift in Sources */,
+				8565A87A298BFBDF00FFE2FD /* IrregularTagListHeaderView.swift in Sources */,
 				8565A838298BF57300FFE2FD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

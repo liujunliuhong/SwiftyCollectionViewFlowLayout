@@ -15,7 +15,7 @@ public final class IrregularTagListCell: UICollectionViewCell {
         label.layer.masksToBounds = true
         label.backgroundColor = UIColor(red: 255.0/255.0, green: 105.0/255.0, blue: 193.0/255.0, alpha: 1)
         label.textColor = .white
-        label.font = .boldSystemFont(ofSize: 18)
+        label.font = .systemFont(ofSize: 15)
         return label
     }()
     
