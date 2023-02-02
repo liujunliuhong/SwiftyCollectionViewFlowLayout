@@ -2,17 +2,16 @@
 //  ViewController.swift
 //  iOS Example
 //
-//  Created by dfsx6 on 2023/2/2.
+//  Created by galaxy on 2023/2/2.
 //
 
 import UIKit
-import SwiftyCollectionViewFlowLayout
 
-public final class ViewController: UIViewController {
+class ViewController: UIViewController {
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // Do any additional setup after loading the view.
     }
 
 

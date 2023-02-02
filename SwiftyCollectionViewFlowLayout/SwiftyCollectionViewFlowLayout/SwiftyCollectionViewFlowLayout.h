@@ -2,7 +2,7 @@
 //  SwiftyCollectionViewFlowLayout.h
 //  SwiftyCollectionViewFlowLayout
 //
-//  Created by dfsx6 on 2023/2/2.
+//  Created by galaxy on 2023/2/2.
 //
 
 #import <Foundation/Foundation.h>

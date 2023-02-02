@@ -4,4 +4,7 @@
    <FileRef
       location = "group:iOS Example/iOS Example.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:SwiftyCollectionViewFlowLayout/SwiftyCollectionViewFlowLayout.xcodeproj">
+   </FileRef>
 </Workspace>
