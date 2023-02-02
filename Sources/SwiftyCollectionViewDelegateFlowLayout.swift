@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 public protocol SwiftyCollectionViewDelegateFlowLayout: UICollectionViewDelegateFlowLayout {
+    /// SectionType
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
                         sectionType section: Int) -> SwiftyCollectionViewSectionType
@@ -20,6 +21,11 @@ public protocol SwiftyCollectionViewDelegateFlowLayout: UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
                         sectionInsetContainFooter section: Int) -> Bool
+    
+    /// The collection view calls this method when the collectionView contentSize change.
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                        contentSizeDidChange size: CGSize)
 }
 
 extension SwiftyCollectionViewDelegateFlowLayout {
@@ -34,4 +40,8 @@ extension SwiftyCollectionViewDelegateFlowLayout {
                                sectionInsetContainFooter section: Int) -> Bool {
         return false
     }
+    
+    public func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                        contentSizeDidChange size: CGSize) { }
 }

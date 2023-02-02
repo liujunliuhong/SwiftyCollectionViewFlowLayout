@@ -185,18 +185,20 @@ extension SwiftyCollectionViewFlowLayout {
                 }
             }
         }
+        
+        mDelegate?.collectionView(collectionView, layout: self, contentSizeDidChange: collectionViewContentSize)
     }
     
     open override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        return super.layoutAttributesForItem(at: indexPath)
+        return super.layoutAttributesForItem(at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
     }
     
     open override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)
+        return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
     }
     
     open override func layoutAttributesForDecorationView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        return super.layoutAttributesForDecorationView(ofKind: elementKind, at: indexPath)
+        return super.layoutAttributesForDecorationView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
     }
     
     open override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
@@ -217,6 +219,10 @@ extension SwiftyCollectionViewFlowLayout {
         return elements
     }
     
+    open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+        return false
+    }
+    
     open override var collectionViewContentSize: CGSize {
         guard let collectionView = collectionView else { return super.collectionViewContentSize }
         //
@@ -226,14 +232,16 @@ extension SwiftyCollectionViewFlowLayout {
             totalLength += section.totalLength(scrollDirection: scrollDirection)
         }
         //
+        var size = super.collectionViewContentSize
         switch scrollDirection {
             case .vertical:
-                return CGSize(width: collectionView.bounds.width, height: totalLength)
+                size = CGSize(width: collectionView.bounds.width, height: totalLength)
             case .horizontal:
-                return CGSize(width: totalLength, height: collectionView.bounds.height)
+                size = CGSize(width: totalLength, height: collectionView.bounds.height)
             @unknown default:
-                return super.collectionViewContentSize
+                break
         }
+        return size
     }
 }
 

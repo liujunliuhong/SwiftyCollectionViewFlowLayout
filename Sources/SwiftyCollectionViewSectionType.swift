@@ -8,18 +8,18 @@
 import Foundation
 
 public enum SwiftyCollectionViewAlignment: Equatable {
-    case top
+    case top      // if scrollDirection == .horizontal, equal left
     case center
-    case bottom
+    case bottom   // if scrollDirection == .horizontal, equal right
 }
 
 public enum SwiftyCollectionViewDirection: Equatable {
-    case left
-    case right
+    case left    // if scrollDirection == .horizontal, equal top
+    case right   // if scrollDirection == .horizontal, equal bottom
 }
 
 public enum SwiftyCollectionViewSectionType: Equatable {
     case normal
     case waterFlow(numberOfColumns: Int)
-    case tagList(alignment: SwiftyCollectionViewAlignment)
+    case tagList(direction: SwiftyCollectionViewDirection, alignment: SwiftyCollectionViewAlignment)
 }

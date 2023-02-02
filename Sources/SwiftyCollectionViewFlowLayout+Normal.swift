@@ -12,7 +12,7 @@ extension SwiftyCollectionViewFlowLayout {
     internal func _layoutNormalAttributesForItem(at indexPath: IndexPath) {
         guard let _ = collectionView else { return }
         guard let sectionModel = sectionModels[indexPath.section] else { return }
-        guard let cellAttr = super.layoutAttributesForItem(at: indexPath) else { return }
+        guard let cellAttr = super.layoutAttributesForItem(at: indexPath)?.copy() as? UICollectionViewLayoutAttributes else { return }
         // Use system item frame
         // Update Section Model
         sectionModel.itemLayoutAttributes.append(cellAttr)
