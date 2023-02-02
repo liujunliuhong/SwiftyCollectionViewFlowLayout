@@ -16,6 +16,8 @@
 		D1FFCD66298B9B8300E9B222 /* TagListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FFCD62298B9B8300E9B222 /* TagListCell.swift */; };
 		D1FFCD67298B9B8300E9B222 /* TagListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FFCD63298B9B8300E9B222 /* TagListModel.swift */; };
 		D1FFCD68298B9B8300E9B222 /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FFCD64298B9B8300E9B222 /* TagListViewController.swift */; };
+		D1FFCD72298BB44F00E9B222 /* IrregularTagListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FFCD71298BB44F00E9B222 /* IrregularTagListModel.swift */; };
+		D1FFCD74298BB60300E9B222 /* IrregularTagListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FFCD73298BB60300E9B222 /* IrregularTagListCell.swift */; };
 		F177A06F17B1C4A7A092DB0B /* Pods_iOS_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCD7217158A80F07E4F0639E /* Pods_iOS_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +46,8 @@
 		D1FFCD62298B9B8300E9B222 /* TagListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListCell.swift; sourceTree = "<group>"; };
 		D1FFCD63298B9B8300E9B222 /* TagListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListModel.swift; sourceTree = "<group>"; };
 		D1FFCD64298B9B8300E9B222 /* TagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
+		D1FFCD71298BB44F00E9B222 /* IrregularTagListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IrregularTagListModel.swift; sourceTree = "<group>"; };
+		D1FFCD73298BB60300E9B222 /* IrregularTagListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IrregularTagListCell.swift; sourceTree = "<group>"; };
 		F184436BBDD162A423CC51D1 /* Pods-iOS Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS Example.debug.xcconfig"; path = "Target Support Files/Pods-iOS Example/Pods-iOS Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -130,6 +134,8 @@
 			isa = PBXGroup;
 			children = (
 				D1FFCD60298B9B8300E9B222 /* IrregularTagListViewController.swift */,
+				D1FFCD71298BB44F00E9B222 /* IrregularTagListModel.swift */,
+				D1FFCD73298BB60300E9B222 /* IrregularTagListCell.swift */,
 			);
 			path = IrregularTagList;
 			sourceTree = "<group>";
@@ -275,7 +281,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1FFCD72298BB44F00E9B222 /* IrregularTagListModel.swift in Sources */,
 				D1FFCD66298B9B8300E9B222 /* TagListCell.swift in Sources */,
+				D1FFCD74298BB60300E9B222 /* IrregularTagListCell.swift in Sources */,
 				D1FFCD65298B9B8300E9B222 /* IrregularTagListViewController.swift in Sources */,
 				D1FFCD30298B991600E9B222 /* ViewController.swift in Sources */,
 				D1FFCD68298B9B8300E9B222 /* TagListViewController.swift in Sources */,
