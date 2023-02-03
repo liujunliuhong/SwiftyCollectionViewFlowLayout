@@ -8,14 +8,14 @@
 import Foundation
 
 public enum SwiftyCollectionViewAlignment: Equatable {
-    case top      // if scrollDirection == .horizontal, equal left
-    case center
-    case bottom   // if scrollDirection == .horizontal, equal right
+    case top      /// if scrollDirection == .horizontal, equal left
+    case center   /// center
+    case bottom   /// if scrollDirection == .horizontal, equal right
 }
 
 public enum SwiftyCollectionViewDirection: Equatable {
-    case left    // if scrollDirection == .horizontal, equal top
-    case right   // if scrollDirection == .horizontal, equal bottom
+    case left    /// if scrollDirection == .horizontal, equal top
+    case right   /// if scrollDirection == .horizontal, equal bottom
 }
 
 public enum SwiftyCollectionViewSectionType: Equatable {

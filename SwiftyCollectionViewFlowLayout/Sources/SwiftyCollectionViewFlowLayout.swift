@@ -146,7 +146,34 @@ extension SwiftyCollectionViewFlowLayout {
                         }
                         _layoutTagListAttributesForItem(at: section)
                 }
-                if sectionModel.sectionType != .normal {
+                if sectionModel.sectionType == .normal {
+                    if !sectionModel.itemLayoutAttributes.isEmpty {
+                        // find minY and minX
+                        var minY = sectionModel.itemLayoutAttributes[0].frame.minY
+                        var minX = sectionModel.itemLayoutAttributes[0].frame.minX
+                        for attr in sectionModel.itemLayoutAttributes {
+                            if attr.frame.minY.isLess(than: minY) {
+                                minY = attr.frame.minY
+                            }
+                            if attr.frame.minX.isLess(than: minX) {
+                                minX = attr.frame.minX
+                            }
+                        }
+                        //
+                        let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: section)
+                        for attr in sectionModel.itemLayoutAttributes {
+                            var frame = attr.frame
+                            if scrollDirection == .vertical {
+                                frame.origin.y -= minY
+                                frame.origin.y += (beforeSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection))
+                            } else if scrollDirection == .horizontal {
+                                frame.origin.x -= minX
+                                frame.origin.x += (beforeSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection))
+                            }
+                            attr.frame = frame // update item frame
+                        }
+                    }
+                } else {
                     let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: section)
                     for attr in sectionModel.itemLayoutAttributes {
                         var frame = attr.frame

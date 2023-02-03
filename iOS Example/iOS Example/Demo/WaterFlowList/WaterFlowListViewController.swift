@@ -1,28 +1,28 @@
 //
-//  IrregularTagListViewController.swift
-//  SwiftyCollectionViewFlowLayout
+//  WaterFlowListViewController.swift
+//  iOS Example
 //
-//  Created by dfsx6 on 2023/2/2.
+//  Created by dfsx6 on 2023/2/3.
 //
 
 import UIKit
 import SwiftyCollectionViewFlowLayout
 import SnapKit
 
-private let heights: [CGFloat] = [40, 60, 80, 90, 100]
-private let widths: [CGFloat] = [70, 80, 100, 120, 140]
+private let heights: [CGFloat] = [40, 50, 80, 110, 140]
+private let widths: [CGFloat] = [40, 80, 110, 140, 150]
 
 
-public final class IrregularTagListViewController: UIViewController {
+public final class WaterFlowListViewController: UIViewController {
     
     private var dataSource: [[IrregularTagListModel]] = []
     
-    private var direction: SwiftyCollectionViewDirection = .left {
+    private var sectionInsetContainHeader: Bool = false {
         didSet {
             updateUI()
         }
     }
-    private var alignment: SwiftyCollectionViewAlignment = .top {
+    private var sectionInsetContainFooter: Bool = false {
         didSet {
             updateUI()
         }
@@ -39,14 +39,6 @@ public final class IrregularTagListViewController: UIViewController {
         return layout
     }()
     
-    private lazy var directionButton: UIButton = {
-        let directionButton = UIButton(type: .system)
-        directionButton.titleLabel?.numberOfLines = 0
-        directionButton.contentHorizontalAlignment = .center
-        directionButton.addTarget(self, action: #selector(directionAction), for: .touchUpInside)
-        return directionButton
-    }()
-    
     private lazy var scrollDirectionButton: UIButton = {
         let scrollDirectionButton = UIButton(type: .system)
         scrollDirectionButton.titleLabel?.numberOfLines = 0
@@ -55,12 +47,20 @@ public final class IrregularTagListViewController: UIViewController {
         return scrollDirectionButton
     }()
     
-    private lazy var alignmentButton: UIButton = {
-        let alignmentButton = UIButton(type: .system)
-        alignmentButton.titleLabel?.numberOfLines = 0
-        alignmentButton.contentHorizontalAlignment = .center
-        alignmentButton.addTarget(self, action: #selector(alignmentAction), for: .touchUpInside)
-        return alignmentButton
+    private lazy var sectionInsetContainHeaderButton: UIButton = {
+        let sectionInsetContainHeaderButton = UIButton(type: .system)
+        sectionInsetContainHeaderButton.titleLabel?.numberOfLines = 0
+        sectionInsetContainHeaderButton.contentHorizontalAlignment = .center
+        sectionInsetContainHeaderButton.addTarget(self, action: #selector(sectionInsetContainHeaderAction), for: .touchUpInside)
+        return sectionInsetContainHeaderButton
+    }()
+    
+    private lazy var sectionInsetContainFooterButton: UIButton = {
+        let sectionInsetContainFooterButton = UIButton(type: .system)
+        sectionInsetContainFooterButton.titleLabel?.numberOfLines = 0
+        sectionInsetContainFooterButton.contentHorizontalAlignment = .center
+        sectionInsetContainFooterButton.addTarget(self, action: #selector(sectionInsetContainFooterAction), for: .touchUpInside)
+        return sectionInsetContainFooterButton
     }()
     
     private lazy var collectionView: UICollectionView = {
@@ -69,9 +69,9 @@ public final class IrregularTagListViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.backgroundColor = .cyan
         collectionView.contentInsetAdjustmentBehavior = .never
-        collectionView.register(IrregularTagListCell.classForCoder(), forCellWithReuseIdentifier: NSStringFromClass(IrregularTagListCell.classForCoder()))
-        collectionView.register(IrregularTagListHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(IrregularTagListHeaderView.classForCoder()))
-        collectionView.register(IrregularTagListFooterView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(IrregularTagListFooterView.classForCoder()))
+        collectionView.register(WaterFlowListCell.classForCoder(), forCellWithReuseIdentifier: NSStringFromClass(WaterFlowListCell.classForCoder()))
+        collectionView.register(WaterFlowListHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(WaterFlowListHeaderView.classForCoder()))
+        collectionView.register(WaterFlowListFooterView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(WaterFlowListFooterView.classForCoder()))
         return collectionView
     }()
     
@@ -80,27 +80,29 @@ public final class IrregularTagListViewController: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(scrollDirectionButton)
-        view.addSubview(directionButton)
-        view.addSubview(alignmentButton)
+        view.addSubview(sectionInsetContainHeaderButton)
+        view.addSubview(sectionInsetContainFooterButton)
         view.addSubview(collectionView)
         
         
         scrollDirectionButton.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(20)
             make.top.equalToSuperview().offset(120)
-            make.height.equalTo(60)
+            make.height.equalTo(30)
         }
-        directionButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.height.equalTo(scrollDirectionButton)
+        sectionInsetContainHeaderButton.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(20)
+            make.top.equalTo(scrollDirectionButton.snp.bottom).offset(15)
+            make.height.equalTo(scrollDirectionButton)
         }
-        alignmentButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-20)
-            make.top.height.equalTo(scrollDirectionButton)
+        sectionInsetContainFooterButton.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(20)
+            make.top.equalTo(sectionInsetContainHeaderButton.snp.bottom).offset(15)
+            make.height.equalTo(scrollDirectionButton)
         }
         collectionView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(25)
-            make.top.equalTo(scrollDirectionButton.snp.bottom).offset(15)
+            make.top.equalTo(sectionInsetContainFooterButton.snp.bottom).offset(15)
             make.bottom.equalToSuperview().offset(-80)
         }
         
@@ -110,7 +112,7 @@ public final class IrregularTagListViewController: UIViewController {
     }
 }
 
-extension IrregularTagListViewController {
+extension WaterFlowListViewController {
     private func loadData() {
         dataSource.removeAll()
         
@@ -129,23 +131,13 @@ extension IrregularTagListViewController {
         collectionView.reloadData()
     }
     
-    @objc private func directionAction() {
-        if direction == .left {
-            direction = .right
-        } else {
-            direction = .left
-        }
+    @objc private func sectionInsetContainHeaderAction() {
+        sectionInsetContainHeader = !sectionInsetContainHeader
         collectionView.reloadData()
     }
     
-    @objc private func alignmentAction() {
-        if alignment == .top {
-            alignment = .center
-        } else if alignment == .center {
-            alignment = .bottom
-        } else if alignment == .bottom {
-            alignment = .top
-        }
+    @objc private func sectionInsetContainFooterAction() {
+        sectionInsetContainFooter = !sectionInsetContainFooter
         collectionView.reloadData()
     }
     
@@ -161,44 +153,18 @@ extension IrregularTagListViewController {
     }
     
     private func updateUI() {
-        if scrollDirection == .vertical {
-            if direction == .left {
-                directionButton.setTitle("标签排列方向\n左", for: .normal)
-            } else if direction == .right {
-                directionButton.setTitle("标签排列方向\n右", for: .normal)
-            }
-            scrollDirectionButton.setTitle("滑动方向\n垂直", for: .normal)
-        } else if scrollDirection == .horizontal {
-            if direction == .left {
-                directionButton.setTitle("标签排列方向\n上", for: .normal)
-            } else if direction == .right {
-                directionButton.setTitle("标签排列方向\n下", for: .normal)
-            }
-            scrollDirectionButton.setTitle("滑动方向\n水平", for: .normal)
-        }
-        
+        sectionInsetContainHeaderButton.setTitle("sectionInsetContainHeader: \(sectionInsetContainHeader ? "YES": "NO")", for: .normal)
+        sectionInsetContainFooterButton.setTitle("sectionInsetContainFooter: \(sectionInsetContainFooter ? "YES": "NO")", for: .normal)
         
         if scrollDirection == .vertical {
-            if alignment == .top {
-                alignmentButton.setTitle("对齐方向\n顶部对齐", for: .normal)
-            } else if alignment == .center {
-                alignmentButton.setTitle("对齐方向\n居中对齐", for: .normal)
-            } else if alignment == .bottom {
-                alignmentButton.setTitle("对齐方向\n底部对齐", for: .normal)
-            }
+            scrollDirectionButton.setTitle("滑动方向: 垂直", for: .normal)
         } else if scrollDirection == .horizontal {
-            if alignment == .top {
-                alignmentButton.setTitle("对齐方向\n向左对齐", for: .normal)
-            } else if alignment == .center {
-                alignmentButton.setTitle("对齐方向\n居中对齐", for: .normal)
-            } else if alignment == .bottom {
-                alignmentButton.setTitle("对齐方向\n向右对齐", for: .normal)
-            }
+            scrollDirectionButton.setTitle("滑动方向: 水平", for: .normal)
         }
     }
 }
 
-extension IrregularTagListViewController: UICollectionViewDataSource {
+extension WaterFlowListViewController: UICollectionViewDataSource {
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataSource.count
     }
@@ -208,7 +174,7 @@ extension IrregularTagListViewController: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(IrregularTagListCell.classForCoder()), for: indexPath) as? IrregularTagListCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(WaterFlowListCell.classForCoder()), for: indexPath) as? WaterFlowListCell else {
             return UICollectionViewCell()
         }
         cell.label.text = "\(indexPath.section) - \(indexPath.row)"
@@ -217,12 +183,12 @@ extension IrregularTagListViewController: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
-            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(IrregularTagListHeaderView.classForCoder()), for: indexPath) as? IrregularTagListHeaderView else {
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(WaterFlowListHeaderView.classForCoder()), for: indexPath) as? WaterFlowListHeaderView else {
                 return UICollectionReusableView()
             }
             return headerView
         } else if kind == UICollectionView.elementKindSectionFooter {
-            guard let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(IrregularTagListFooterView.classForCoder()), for: indexPath) as? IrregularTagListFooterView else {
+            guard let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(WaterFlowListFooterView.classForCoder()), for: indexPath) as? WaterFlowListFooterView else {
                 return UICollectionReusableView()
             }
             return footerView
@@ -231,7 +197,7 @@ extension IrregularTagListViewController: UICollectionViewDataSource {
     }
 }
 
-extension IrregularTagListViewController: UICollectionViewDelegateFlowLayout {
+extension WaterFlowListViewController: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
@@ -244,7 +210,7 @@ extension IrregularTagListViewController: UICollectionViewDelegateFlowLayout {
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 25
+        return 10
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -264,16 +230,16 @@ extension IrregularTagListViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension IrregularTagListViewController: SwiftyCollectionViewDelegateFlowLayout {
+extension WaterFlowListViewController: SwiftyCollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionInsetContainHeader section: Int) -> Bool {
-        return false
+        return sectionInsetContainHeader
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionInsetContainFooter section: Int) -> Bool {
-        return false
+        return sectionInsetContainFooter
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionType section: Int) -> SwiftyCollectionViewSectionType {
-        return .tagList(direction: direction, alignment: alignment)
+        return .waterFlow(numberOfColumns: 3)
     }
 }

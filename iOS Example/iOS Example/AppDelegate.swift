@@ -18,7 +18,7 @@ import UIKit
         window?.backgroundColor = .black
         window?.makeKeyAndVisible()
         
-        let vc = TagListViewController()
+        let vc = ViewController()
         let navi = NavigationController(rootViewController: vc)
         window?.rootViewController = navi
         

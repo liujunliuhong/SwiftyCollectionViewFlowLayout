@@ -11,7 +11,7 @@ public final class TagListCell: UICollectionViewCell {
     private lazy var label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.layer.cornerRadius = 8.0
+        label.layer.cornerRadius = 4.0
         label.layer.masksToBounds = true
         return label
     }()

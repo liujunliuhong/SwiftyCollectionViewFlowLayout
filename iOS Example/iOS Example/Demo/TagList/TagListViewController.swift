@@ -63,7 +63,6 @@ public final class TagListViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        navigationItem.title = "标签列表(等高不等宽)"
         view.addSubview(desLabel)
         view.addSubview(randomButton)
         view.addSubview(directionButton)

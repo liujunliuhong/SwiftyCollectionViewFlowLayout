@@ -1,18 +1,16 @@
 //
-//  IrregularTagListCell.swift
+//  MixListCell.swift
 //  iOS Example
 //
-//  Created by dfsx6 on 2023/2/2.
+//  Created by dfsx6 on 2023/2/3.
 //
 
 import UIKit
 
-public final class IrregularTagListCell: UICollectionViewCell {
+public final class MixListCell: UICollectionViewCell {
     public private(set) lazy var label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.layer.cornerRadius = 4.0
-        label.layer.masksToBounds = true
         label.backgroundColor = UIColor(red: 255.0/255.0, green: 105.0/255.0, blue: 193.0/255.0, alpha: 1)
         label.textColor = .white
         label.font = .systemFont(ofSize: 15)
@@ -33,3 +31,4 @@ public final class IrregularTagListCell: UICollectionViewCell {
         label.frame = bounds
     }
 }
+

@@ -1,27 +1,28 @@
 //
-//  IrregularTagListCell.swift
+//  MixListHeaderView.swift
 //  iOS Example
 //
-//  Created by dfsx6 on 2023/2/2.
+//  Created by dfsx6 on 2023/2/3.
 //
 
 import UIKit
 
-public final class IrregularTagListCell: UICollectionViewCell {
+public final class MixListHeaderView: UICollectionReusableView {
+    
     public private(set) lazy var label: UILabel = {
         let label = UILabel()
+        label.textColor = .black
+        label.font = .boldSystemFont(ofSize: 18)
         label.textAlignment = .center
-        label.layer.cornerRadius = 4.0
-        label.layer.masksToBounds = true
-        label.backgroundColor = UIColor(red: 255.0/255.0, green: 105.0/255.0, blue: 193.0/255.0, alpha: 1)
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 15)
+        label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(label)
+        backgroundColor = .orange
+        addSubview(label)
     }
     
     required init?(coder: NSCoder) {
@@ -31,5 +32,9 @@ public final class IrregularTagListCell: UICollectionViewCell {
     public override func layoutSubviews() {
         super.layoutSubviews()
         label.frame = bounds
+    }
+    
+    public override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        
     }
 }
