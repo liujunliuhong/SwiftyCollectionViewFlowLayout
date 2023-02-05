@@ -13,6 +13,8 @@ internal class BaseSectionModel {
     var footerLayoutAttributes: UICollectionViewLayoutAttributes?
     var itemLayoutAttributes: [UICollectionViewLayoutAttributes] = []
     
+    var decorationAttributes: UICollectionViewLayoutAttributes?
+    
     var sectionInset: UIEdgeInsets = .zero
     var lineSpacing: CGFloat = .zero
     var interitemSpacing: CGFloat = .zero
@@ -137,20 +139,8 @@ internal class NormalSectionModel: BaseSectionModel {
     
 }
 
-
 internal class WaterFlowSectionModel: BaseSectionModel {
     var bodyColumnLengths: [CGFloat] = []
-    
-//    /// 当前Section的Body总长度
-//    var maxBodyLength: CGFloat {
-//        var maxLength: CGFloat = .zero
-//        for length in bodyColumnLengths.values {
-//            if !length.isLessThanOrEqualTo(maxLength) {
-//                maxLength = length
-//            }
-//        }
-//        return maxLength
-//    }
 }
 
 internal class TagListSectionModel: BaseSectionModel {

@@ -14,6 +14,8 @@ open class SwiftyCollectionViewFlowLayout: UICollectionViewFlowLayout {
         return collectionView?.delegate as? SwiftyCollectionViewDelegateFlowLayout
     }
     
+    internal var decorationElementKind: String?
+    
     internal var sectionModels: [Int: BaseSectionModel] = [:]
     
     public override init() {
@@ -26,6 +28,16 @@ open class SwiftyCollectionViewFlowLayout: UICollectionViewFlowLayout {
 }
 
 extension SwiftyCollectionViewFlowLayout {
+    open override func register(_ viewClass: AnyClass?, forDecorationViewOfKind elementKind: String) {
+        super.register(viewClass, forDecorationViewOfKind: elementKind)
+        decorationElementKind = elementKind
+    }
+    
+    open override func register(_ nib: UINib?, forDecorationViewOfKind elementKind: String) {
+        super.register(nib, forDecorationViewOfKind: elementKind)
+        decorationElementKind = elementKind
+    }
+    
     open override func prepare() {
         super.prepare()
         //
@@ -34,6 +46,8 @@ extension SwiftyCollectionViewFlowLayout {
         sectionModels.removeAll()
         //
         let numberOfSections = collectionView.numberOfSections
+        
+        // Basic Info
         for section in 0..<numberOfSections {
             let indexPath = IndexPath(item: 0, section: section)
             
@@ -98,15 +112,15 @@ extension SwiftyCollectionViewFlowLayout {
                     sectionModels[section] = tagListSectionModel
             }
         }
-        //
+        // layout
         for section in 0..<numberOfSections {
             let numberOfItems = collectionView.numberOfItems(inSection: section)
             // header
             if let sectionModel = sectionModels[section] {
                 let headerSection = IndexPath(item: 0, section: section)
                 _layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: headerSection)
-                let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: section)
                 if let attr = sectionModel.headerLayoutAttributes {
+                    let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: section)
                     var frame = attr.frame
                     if scrollDirection == .vertical {
                         frame.origin.y = beforeSectionTotalLength
@@ -190,8 +204,8 @@ extension SwiftyCollectionViewFlowLayout {
             if let sectionModel = sectionModels[section] {
                 let footerSection = IndexPath(item: 0, section: section)
                 _layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, at: footerSection)
-                let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: section)
                 if let attr = sectionModel.footerLayoutAttributes {
+                    let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: section)
                     var frame = attr.frame
                     if scrollDirection == .vertical {
                         frame.origin.y = beforeSectionTotalLength + sectionModel.footerBeforeLength(scrollDirection: scrollDirection)
@@ -209,6 +223,58 @@ extension SwiftyCollectionViewFlowLayout {
                         }
                     }
                     attr.frame = frame // update footer frame
+                }
+            }
+            // decoration
+            if let sectionModel = sectionModels[section] {
+                let decorationViewDisplay = mDelegate?.collectionView(collectionView, layout: self, decorationViewDisplay: section) ?? false
+                if decorationViewDisplay {
+                    let decorationSection = IndexPath(item: 0, section: section)
+                    _layoutDecorationAttributesForItem(at: decorationSection)
+                    if let attr = sectionModel.decorationAttributes {
+                        let decorationExtraInset = mDelegate?.collectionView(collectionView, layout: self, decorationExtraInset: section) ?? .zero
+                        
+                        let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: section)
+                        
+                        var frame = attr.frame
+                        
+                        if scrollDirection == .vertical {
+                            if let headerAttr = sectionModel.headerLayoutAttributes, sectionModel.sectionInsetContainHeader {
+                                frame.origin.y = headerAttr.frame.origin.y
+                                frame.size.height += headerAttr.frame.height
+                            } else {
+                                frame.origin.y += (beforeSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection))
+                            }
+                            
+                            if let footerAttr = sectionModel.footerLayoutAttributes, sectionModel.sectionInsetContainFooter {
+                                frame.size.height += footerAttr.frame.height
+                            }
+                            
+                            frame.origin.x -= decorationExtraInset.left
+                            frame.origin.y -= decorationExtraInset.top
+                            frame.size.width += (decorationExtraInset.left + decorationExtraInset.right)
+                            frame.size.height += (decorationExtraInset.top + decorationExtraInset.bottom)
+                            
+                        } else if scrollDirection == .horizontal {
+                            if let headerAttr = sectionModel.headerLayoutAttributes, sectionModel.sectionInsetContainHeader {
+                                frame.origin.x = headerAttr.frame.origin.x
+                                frame.size.width += headerAttr.frame.width
+                            } else {
+                                frame.origin.x += (beforeSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection))
+                            }
+                            
+                            if let footerAttr = sectionModel.footerLayoutAttributes, sectionModel.sectionInsetContainFooter {
+                                frame.size.width += footerAttr.frame.width
+                            }
+                            
+                            frame.origin.x -= decorationExtraInset.left
+                            frame.origin.y -= decorationExtraInset.top
+                            frame.size.width += (decorationExtraInset.left + decorationExtraInset.right)
+                            frame.size.height += (decorationExtraInset.top + decorationExtraInset.bottom)
+                        }
+                        attr.zIndex = -999
+                        attr.frame = frame // update decoration frame
+                    }
                 }
             }
         }
@@ -240,6 +306,10 @@ extension SwiftyCollectionViewFlowLayout {
             elements.append(contentsOf: section.itemLayoutAttributes)
             //
             if let attr = section.footerLayoutAttributes {
+                elements.append(attr)
+            }
+            //
+            if let attr = section.decorationAttributes {
                 elements.append(attr)
             }
         }

@@ -15,7 +15,7 @@ private let widths: [CGFloat] = [40, 80, 110, 140, 150]
 
 public final class WaterFlowListViewController: UIViewController {
     
-    private var dataSource: [[IrregularTagListModel]] = []
+    private var dataSource: [[WaterFlowModel]] = []
     
     private var sectionInsetContainHeader: Bool = false {
         didSet {
@@ -118,11 +118,11 @@ extension WaterFlowListViewController {
         
         let counts: [Int] = [10, 15, 20, 25, 30]
         for _ in 0...4 {
-            var array: [IrregularTagListModel] = []
+            var array: [WaterFlowModel] = []
             for _ in 0..<counts.randomElement()! {
                 let width = widths.randomElement()!
                 let height = heights.randomElement()!
-                let model = IrregularTagListModel(width: width, height: height)
+                let model = WaterFlowModel(width: width, height: height)
                 array.append(model)
             }
             dataSource.append(array)
@@ -183,12 +183,12 @@ extension WaterFlowListViewController: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
-            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(WaterFlowListHeaderView.classForCoder()), for: indexPath) as? WaterFlowListHeaderView else {
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: NSStringFromClass(WaterFlowListHeaderView.classForCoder()), for: indexPath) as? WaterFlowListHeaderView else {
                 return UICollectionReusableView()
             }
             return headerView
         } else if kind == UICollectionView.elementKindSectionFooter {
-            guard let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(WaterFlowListFooterView.classForCoder()), for: indexPath) as? WaterFlowListFooterView else {
+            guard let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: NSStringFromClass(WaterFlowListFooterView.classForCoder()), for: indexPath) as? WaterFlowListFooterView else {
                 return UICollectionReusableView()
             }
             return footerView

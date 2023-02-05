@@ -17,6 +17,8 @@
 		8565A860298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+WaterFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A858298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout+WaterFlow.swift */; };
 		8565A861298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Supplementary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A859298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Supplementary.swift */; };
 		8565A862298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */; };
+		85DC920A298F564200F0170D /* SwiftyCollectionViewFlowLayout+DecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DC9209298F564200F0170D /* SwiftyCollectionViewFlowLayout+DecorationView.swift */; };
+		85DC920E298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DC920D298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 		8565A858298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout+WaterFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+WaterFlow.swift"; sourceTree = "<group>"; };
 		8565A859298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Supplementary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+Supplementary.swift"; sourceTree = "<group>"; };
 		8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewSectionType.swift; sourceTree = "<group>"; };
+		85DC9209298F564200F0170D /* SwiftyCollectionViewFlowLayout+DecorationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+DecorationView.swift"; sourceTree = "<group>"; };
+		85DC920D298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewLayoutDecorationAttributes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,14 +77,16 @@
 		8565A852298BF5A400FFE2FD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				8565A853298BF5C300FFE2FD /* Model.swift */,
 				8565A857298BF5C300FFE2FD /* SwiftyCollectionViewDelegateFlowLayout.swift */,
 				8565A856298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout.swift */,
 				8565A854298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout+Normal.swift */,
 				8565A859298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Supplementary.swift */,
 				8565A855298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout+TagList.swift */,
 				8565A858298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout+WaterFlow.swift */,
+				85DC9209298F564200F0170D /* SwiftyCollectionViewFlowLayout+DecorationView.swift */,
+				85DC920D298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift */,
 				8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */,
+				8565A853298BF5C300FFE2FD /* Model.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -164,6 +170,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85DC920E298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift in Sources */,
 				8565A85C298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Normal.swift in Sources */,
 				8565A862298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift in Sources */,
 				8565A85D298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+TagList.swift in Sources */,
@@ -173,6 +180,7 @@
 				8565A85F298BF5C400FFE2FD /* SwiftyCollectionViewDelegateFlowLayout.swift in Sources */,
 				8565A85B298BF5C400FFE2FD /* Model.swift in Sources */,
 				8565A85E298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout.swift in Sources */,
+				85DC920A298F564200F0170D /* SwiftyCollectionViewFlowLayout+DecorationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
