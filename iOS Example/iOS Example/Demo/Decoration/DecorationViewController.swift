@@ -18,7 +18,6 @@ public final class DecorationViewController: UIViewController {
     
     private lazy var layout: SwiftyCollectionViewFlowLayout = {
         let layout = SwiftyCollectionViewFlowLayout()
-        layout.register(DecorationView.classForCoder(), forDecorationViewOfKind: NSStringFromClass(DecorationView.classForCoder())) // 注册装饰视图
         layout.scrollDirection = .vertical
         return layout
     }()
@@ -48,6 +47,10 @@ public final class DecorationViewController: UIViewController {
         }
         
         loadData()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.layout.register(DecorationView.classForCoder(), forDecorationViewOfKind: NSStringFromClass(DecorationView.classForCoder())) // 注册装饰视图
+        }
     }
 }
 

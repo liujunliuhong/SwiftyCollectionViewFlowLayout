@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+/// `SwiftyCollectionViewFlowLayout`
+/// Inherit `UICollectionViewFlowLayout`
 open class SwiftyCollectionViewFlowLayout: UICollectionViewFlowLayout {
     
     internal var mDelegate: SwiftyCollectionViewDelegateFlowLayout? {
@@ -31,11 +33,13 @@ extension SwiftyCollectionViewFlowLayout {
     open override func register(_ viewClass: AnyClass?, forDecorationViewOfKind elementKind: String) {
         super.register(viewClass, forDecorationViewOfKind: elementKind)
         decorationElementKind = elementKind
+        invalidateLayout()
     }
     
     open override func register(_ nib: UINib?, forDecorationViewOfKind elementKind: String) {
         super.register(nib, forDecorationViewOfKind: elementKind)
         decorationElementKind = elementKind
+        invalidateLayout()
     }
     
     open override func prepare() {

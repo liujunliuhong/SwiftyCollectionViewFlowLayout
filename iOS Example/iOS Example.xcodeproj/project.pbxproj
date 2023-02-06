@@ -193,11 +193,11 @@
 			children = (
 				85DC9211298FEA2B00F0170D /* DecorationViewController.swift */,
 				85DC9215298FECB700F0170D /* DecorationCell.swift */,
-				85DC9213298FEBEF00F0170D /* DecorationExtraAttributes.swift */,
 				85DC921B298FEDBD00F0170D /* DecorationModel.swift */,
 				85DC9217298FECEC00F0170D /* DecorationHeaderView.swift */,
 				85DC9219298FECF700F0170D /* DecorationFooterView.swift */,
 				85DC921D298FEF1A00F0170D /* DecorationView.swift */,
+				85DC9213298FEBEF00F0170D /* DecorationExtraAttributes.swift */,
 			);
 			path = Decoration;
 			sourceTree = "<group>";
