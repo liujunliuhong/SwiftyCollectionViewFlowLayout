@@ -19,7 +19,7 @@ public enum SwiftyCollectionViewDirection: Equatable {
 }
 
 public enum SwiftyCollectionViewSectionType: Equatable {
-    case normal
+    case system
     case waterFlow(numberOfColumns: Int)
     case tagList(direction: SwiftyCollectionViewDirection, alignment: SwiftyCollectionViewAlignment)
 }

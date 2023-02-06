@@ -13,7 +13,7 @@ internal class BaseSectionModel {
     var footerLayoutAttributes: UICollectionViewLayoutAttributes?
     var itemLayoutAttributes: [UICollectionViewLayoutAttributes] = []
     
-    var decorationAttributes: UICollectionViewLayoutAttributes?
+    var groupDecorationAttributes: UICollectionViewLayoutAttributes?
     
     var sectionInset: UIEdgeInsets = .zero
     var lineSpacing: CGFloat = .zero
@@ -21,7 +21,7 @@ internal class BaseSectionModel {
     var sectionInsetContainHeader: Bool = false
     var sectionInsetContainFooter: Bool = false
     
-    var sectionType: SwiftyCollectionViewSectionType = .normal
+    var sectionType: SwiftyCollectionViewSectionType = .system
 }
 
 extension BaseSectionModel {
@@ -135,7 +135,7 @@ extension BaseSectionModel {
 }
 
 
-internal class NormalSectionModel: BaseSectionModel {
+internal class SystemSectionModel: BaseSectionModel {
     
 }
 

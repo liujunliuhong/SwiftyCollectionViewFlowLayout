@@ -73,7 +73,7 @@ extension SwiftyCollectionViewFlowLayout {
             
             let sectionType = mDelegate?.collectionView(collectionView,
                                                         layout: self,
-                                                        sectionType: section) ?? .normal
+                                                        sectionType: section) ?? .system
             
             switch sectionType {
                 case .waterFlow(let numberOfColumns):
@@ -92,15 +92,15 @@ extension SwiftyCollectionViewFlowLayout {
                     waterFlowSectionModel.bodyColumnLengths = bodyColumnLengths
                     
                     sectionModels[section] = waterFlowSectionModel
-                case .normal:
-                    let normalSectionModel = NormalSectionModel()
-                    normalSectionModel.sectionInset = sectionInset
-                    normalSectionModel.sectionInsetContainHeader = sectionInsetContainHeader
-                    normalSectionModel.sectionInsetContainFooter = sectionInsetContainFooter
-                    normalSectionModel.lineSpacing = lineSpacing
-                    normalSectionModel.interitemSpacing = interitemSpacing
-                    normalSectionModel.sectionType = sectionType
-                    sectionModels[section] = normalSectionModel
+                case .system:
+                    let systemSectionModel = SystemSectionModel()
+                    systemSectionModel.sectionInset = sectionInset
+                    systemSectionModel.sectionInsetContainHeader = sectionInsetContainHeader
+                    systemSectionModel.sectionInsetContainFooter = sectionInsetContainFooter
+                    systemSectionModel.lineSpacing = lineSpacing
+                    systemSectionModel.interitemSpacing = interitemSpacing
+                    systemSectionModel.sectionType = sectionType
+                    sectionModels[section] = systemSectionModel
                 case .tagList:
                     let tagListSectionModel = TagListSectionModel()
                     tagListSectionModel.sectionInset = sectionInset
@@ -143,10 +143,10 @@ extension SwiftyCollectionViewFlowLayout {
             // item
             if let sectionModel = sectionModels[section] {
                 switch sectionModel.sectionType {
-                    case .normal:
+                    case .system:
                         for index in 0..<numberOfItems {
                             let itemIndexPath = IndexPath(item: index, section: section)
-                            _layoutNormalAttributesForItem(at: itemIndexPath)
+                            _layoutSystemAttributesForItem(at: itemIndexPath)
                         }
                     case .waterFlow:
                         for index in 0..<numberOfItems {
@@ -156,11 +156,11 @@ extension SwiftyCollectionViewFlowLayout {
                     case .tagList:
                         for index in 0..<numberOfItems {
                             let itemIndexPath = IndexPath(item: index, section: section)
-                            _layoutNormalAttributesForItem(at: itemIndexPath)
+                            _layoutSystemAttributesForItem(at: itemIndexPath)
                         }
                         _layoutTagListAttributesForItem(at: section)
                 }
-                if sectionModel.sectionType == .normal {
+                if sectionModel.sectionType == .system {
                     if !sectionModel.itemLayoutAttributes.isEmpty {
                         // find minY and minX
                         var minY = sectionModel.itemLayoutAttributes[0].frame.minY
@@ -230,8 +230,8 @@ extension SwiftyCollectionViewFlowLayout {
                 let decorationViewDisplay = mDelegate?.collectionView(collectionView, layout: self, decorationViewDisplay: section) ?? false
                 if decorationViewDisplay {
                     let decorationSection = IndexPath(item: 0, section: section)
-                    _layoutDecorationAttributesForItem(at: decorationSection)
-                    if let attr = sectionModel.decorationAttributes {
+                    _layoutGroupDecorationAttributesForItem(at: decorationSection)
+                    if let attr = sectionModel.groupDecorationAttributes {
                         let decorationExtraInset = mDelegate?.collectionView(collectionView, layout: self, decorationExtraInset: section) ?? .zero
                         
                         let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: section)
@@ -298,18 +298,18 @@ extension SwiftyCollectionViewFlowLayout {
         var elements: [UICollectionViewLayoutAttributes] = []
         for (_, v) in sectionModels.enumerated() {
             let section = v.value
-            //
+            // header
             if let attr = section.headerLayoutAttributes {
                 elements.append(attr)
             }
-            //
+            // items
             elements.append(contentsOf: section.itemLayoutAttributes)
-            //
+            // footer
             if let attr = section.footerLayoutAttributes {
                 elements.append(attr)
             }
-            //
-            if let attr = section.decorationAttributes {
+            // group decoration
+            if let attr = section.groupDecorationAttributes {
                 elements.append(attr)
             }
         }

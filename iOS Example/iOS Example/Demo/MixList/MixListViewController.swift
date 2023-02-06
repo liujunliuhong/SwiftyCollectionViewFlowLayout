@@ -14,8 +14,8 @@ private let widths: [CGFloat] = [40, 80, 110, 140, 150]
 private let sectionTypes: [SwiftyCollectionViewSectionType] = [.waterFlow(numberOfColumns: 2),
                                                                .waterFlow(numberOfColumns: 3),
                                                                .waterFlow(numberOfColumns: 4),
-                                                               .normal,
-                                                               .normal,
+                                                               .system,
+                                                               .system,
                                                                .tagList(direction: .left, alignment: .top),
                                                                .tagList(direction: .left, alignment: .center),
                                                                .tagList(direction: .left, alignment: .bottom)]
@@ -109,8 +109,8 @@ extension MixListViewController: UICollectionViewDataSource {
             }
             let sectionType = dataSource[indexPath.section].sectionType
             switch sectionType {
-                case .normal:
-                    headerView.label.text = "Header\nSection-\(indexPath.section)\nSectionType:\nnormal"
+                case .system:
+                    headerView.label.text = "Header\nSection-\(indexPath.section)\nSectionType:\nsystem"
                 case .waterFlow(let numberOfColumns):
                     headerView.label.text = "Header\nSection-\(indexPath.section)\nSectionType:\nwaterFlow(numberOfColumns: \(numberOfColumns))"
                 case .tagList(let direction, let alignment):
