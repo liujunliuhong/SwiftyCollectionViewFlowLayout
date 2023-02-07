@@ -9,13 +9,39 @@ import Foundation
 import UIKit
 
 extension SwiftyCollectionViewFlowLayout {
-    internal func _layoutWaterFlowAttributesForItem(at indexPath: IndexPath) {
+    internal func _layoutWaterFlowAttributesForItem(at section: Int) {
+        guard let sectionModel = sectionModels[section] else { return }
+        guard let collectionView = collectionView else { return }
+        
+        sectionModel.itemLayoutAttributes.removeAll()
+        
+        let numberOfItems = collectionView.numberOfItems(inSection: section)
+        
+        for index in 0..<numberOfItems {
+            let itemIndexPath = IndexPath(item: index, section: section)
+            __layoutWaterFlowAttributesForItem(at: itemIndexPath)
+        }
+    }
+    
+    private func __layoutWaterFlowAttributesForItem(at indexPath: IndexPath) {
         guard let collectionView = collectionView else { return }
         guard let sectionModel = sectionModels[indexPath.section] as? WaterFlowSectionModel else { return }
         
         let cellAttr = UICollectionViewLayoutAttributes(forCellWith: indexPath)
         
-        let itemSize = mDelegate?.collectionView?(collectionView, layout: self, sizeForItemAt: indexPath) ?? .zero
+        let sizeMode = mDelegate?.collectionView(collectionView,
+                                                 layout: self,
+                                                 itemSizeModeAt: indexPath) ?? Default.sizeMode
+        
+        var itemSize: CGSize = .zero
+        switch sizeMode.width {
+            case .static(let length):
+                itemSize.width = length
+        }
+        switch sizeMode.height {
+            case .static(let length):
+                itemSize.height = length
+        }
         
         let numberOfColumns = sectionModel.bodyColumnLengths.count
         

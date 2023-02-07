@@ -12,9 +12,9 @@ import SnapKit
 private let heights: [CGFloat] = [40, 50, 80, 110, 140]
 private let widths: [CGFloat] = [40, 80, 110, 140, 150]
 private let sectionTypes: [SwiftyCollectionViewSectionType] = [.waterFlow(numberOfColumns: 2),
-                                                               .system,
                                                                .tagList(direction: .left, alignment: .top)]
 
+/// 自动布局，暂未完成
 public final class AutoSizeViewController: UIViewController {
     
     private var dataSource: [AutoSizeSectionModel] = []

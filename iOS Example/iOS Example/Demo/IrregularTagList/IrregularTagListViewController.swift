@@ -17,12 +17,12 @@ public final class IrregularTagListViewController: UIViewController {
     
     private var dataSource: [[IrregularTagListModel]] = []
     
-    private var direction: SwiftyCollectionViewDirection = .left {
+    private var direction: SwiftyCollectionViewTagDirection = .left {
         didSet {
             updateUI()
         }
     }
-    private var alignment: SwiftyCollectionViewAlignment = .top {
+    private var alignment: SwiftyCollectionViewTagAlignment = .top {
         didSet {
             updateUI()
         }

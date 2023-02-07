@@ -8,11 +8,41 @@
 import Foundation
 import UIKit
 
-public protocol SwiftyCollectionViewDelegateFlowLayout: UICollectionViewDelegateFlowLayout {
+public protocol SwiftyCollectionViewDelegateFlowLayout: UICollectionViewDelegate {
     /// Current section type.
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
                         sectionType section: Int) -> SwiftyCollectionViewSectionType
+    
+    /// ItemSize Mode
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                        itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewFlowLayoutSizeMode
+    
+    /// SectionInset
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets
+    
+    /// MinimumLineSpacing
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat
+    
+    /// MinimumInteritemSpacing
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat
+    
+    /// VisibilityMode for Header
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                        visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode
+    
+    /// VisibilityMode for Footer
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                        visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode
     
     /// Whether SectionInset contains Header, the default system SectionInset does not contain Header. Default false.
     func collectionView(_ collectionView: UICollectionView,
@@ -24,15 +54,10 @@ public protocol SwiftyCollectionViewDelegateFlowLayout: UICollectionViewDelegate
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
                         sectionInsetContainFooter section: Int) -> Bool
     
-    /// Whether to display decoration view. Default false.
+    /// VisibilityMode for Decoration.
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                        decorationViewDisplay section: Int) -> Bool
-    
-    /// Decoration view extra attributes. Default nil.
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                        decorationExtraAttributes section: Int) -> SwiftyCollectionViewLayoutDecorationExtraAttributes?
+                        visibilityModeForDecorationInSection section: Int) -> SwiftyCollectionViewFlowLayoutDecorationVisibilityMode
     
     /// Decoration view extra inset. Default UIEdgeInsets.zero.
     func collectionView(_ collectionView: UICollectionView,
@@ -48,6 +73,42 @@ public protocol SwiftyCollectionViewDelegateFlowLayout: UICollectionViewDelegate
 extension SwiftyCollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                               itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewFlowLayoutSizeMode {
+        return Default.sizeMode
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                               insetForSectionAt section: Int) -> UIEdgeInsets {
+        return Default.sectionInset
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                               minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return Default.minimumLineSpacing
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                               minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return Default.minimumInteritemSpacing
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                               visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
+        return Default.headerVisibilityMode
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                               visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
+        return Default.footerVisibilityMode
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
                                sectionInsetContainHeader section: Int) -> Bool {
         return false
     }
@@ -60,14 +121,8 @@ extension SwiftyCollectionViewDelegateFlowLayout {
     
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                               decorationViewDisplay section: Int) -> Bool {
-        return false
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView,
-                               layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                               decorationExtraAttributes section: Int) -> SwiftyCollectionViewLayoutDecorationExtraAttributes? {
-        return nil
+                               visibilityModeForDecorationInSection section: Int) -> SwiftyCollectionViewFlowLayoutDecorationVisibilityMode {
+        return Default.decorationVisibilityMode
     }
     
     public func collectionView(_ collectionView: UICollectionView,

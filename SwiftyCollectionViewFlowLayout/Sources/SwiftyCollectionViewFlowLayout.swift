@@ -8,12 +8,17 @@
 import Foundation
 import UIKit
 
-/// `SwiftyCollectionViewFlowLayout`
-/// Inherit `UICollectionViewFlowLayout`
-open class SwiftyCollectionViewFlowLayout: UICollectionViewFlowLayout {
+/// `SwiftyCollectionViewFlowLayout`, Inherit `UICollectionViewLayout`
+open class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
     
     internal var mDelegate: SwiftyCollectionViewDelegateFlowLayout? {
         return collectionView?.delegate as? SwiftyCollectionViewDelegateFlowLayout
+    }
+    
+    public var scrollDirection: UICollectionView.ScrollDirection = .vertical {
+        didSet {
+            invalidateLayout()
+        }
     }
     
     internal var decorationElementKind: String?
@@ -33,257 +38,25 @@ extension SwiftyCollectionViewFlowLayout {
     open override func register(_ viewClass: AnyClass?, forDecorationViewOfKind elementKind: String) {
         super.register(viewClass, forDecorationViewOfKind: elementKind)
         decorationElementKind = elementKind
-        invalidateLayout()
     }
     
     open override func register(_ nib: UINib?, forDecorationViewOfKind elementKind: String) {
         super.register(nib, forDecorationViewOfKind: elementKind)
         decorationElementKind = elementKind
-        invalidateLayout()
     }
     
     open override func prepare() {
         super.prepare()
-        //
         guard let collectionView = collectionView else { return }
         //
         sectionModels.removeAll()
         //
-        let numberOfSections = collectionView.numberOfSections
-        
-        // Basic Info
-        for section in 0..<numberOfSections {
-            let indexPath = IndexPath(item: 0, section: section)
-            
-            let sectionInset = mDelegate?.collectionView?(collectionView,
-                                                          layout: self,
-                                                          insetForSectionAt: section) ?? .zero
-            
-            let sectionInsetContainHeader = mDelegate?.collectionView(collectionView,
-                                                                      layout: self,
-                                                                      sectionInsetContainHeader: indexPath.section) ?? false
-            
-            let sectionInsetContainFooter = mDelegate?.collectionView(collectionView,
-                                                                      layout: self,
-                                                                      sectionInsetContainFooter: indexPath.section) ?? false
-            
-            let lineSpacing = mDelegate?.collectionView?(collectionView,
-                                                         layout: self,
-                                                         minimumLineSpacingForSectionAt: section) ?? .zero
-            
-            let interitemSpacing = mDelegate?.collectionView?(collectionView,
-                                                              layout: self,
-                                                              minimumInteritemSpacingForSectionAt: section) ?? .zero
-            
-            let sectionType = mDelegate?.collectionView(collectionView,
-                                                        layout: self,
-                                                        sectionType: section) ?? .system
-            
-            switch sectionType {
-                case .waterFlow(let numberOfColumns):
-                    var bodyColumnLengths: [CGFloat] = []
-                    for _ in 0..<numberOfColumns {
-                        bodyColumnLengths.append(.zero)
-                    }
-                    let waterFlowSectionModel = WaterFlowSectionModel()
-                    waterFlowSectionModel.sectionInset = sectionInset
-                    waterFlowSectionModel.sectionInsetContainHeader = sectionInsetContainHeader
-                    waterFlowSectionModel.sectionInsetContainFooter = sectionInsetContainFooter
-                    waterFlowSectionModel.lineSpacing = lineSpacing
-                    waterFlowSectionModel.interitemSpacing = interitemSpacing
-                    waterFlowSectionModel.sectionType = sectionType
-                    
-                    waterFlowSectionModel.bodyColumnLengths = bodyColumnLengths
-                    
-                    sectionModels[section] = waterFlowSectionModel
-                case .system:
-                    let systemSectionModel = SystemSectionModel()
-                    systemSectionModel.sectionInset = sectionInset
-                    systemSectionModel.sectionInsetContainHeader = sectionInsetContainHeader
-                    systemSectionModel.sectionInsetContainFooter = sectionInsetContainFooter
-                    systemSectionModel.lineSpacing = lineSpacing
-                    systemSectionModel.interitemSpacing = interitemSpacing
-                    systemSectionModel.sectionType = sectionType
-                    sectionModels[section] = systemSectionModel
-                case .tagList:
-                    let tagListSectionModel = TagListSectionModel()
-                    tagListSectionModel.sectionInset = sectionInset
-                    tagListSectionModel.sectionInsetContainHeader = sectionInsetContainHeader
-                    tagListSectionModel.sectionInsetContainFooter = sectionInsetContainFooter
-                    tagListSectionModel.lineSpacing = lineSpacing
-                    tagListSectionModel.interitemSpacing = interitemSpacing
-                    tagListSectionModel.sectionType = sectionType
-                    sectionModels[section] = tagListSectionModel
-            }
-        }
-        // layout
-        for section in 0..<numberOfSections {
-            let numberOfItems = collectionView.numberOfItems(inSection: section)
-            // header
-            if let sectionModel = sectionModels[section] {
-                let headerSection = IndexPath(item: 0, section: section)
-                _layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: headerSection)
-                if let attr = sectionModel.headerLayoutAttributes {
-                    let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: section)
-                    var frame = attr.frame
-                    if scrollDirection == .vertical {
-                        frame.origin.y = beforeSectionTotalLength
-                        if sectionModel.sectionInsetContainHeader {
-                            frame.origin.x = sectionModel.sectionInset.left
-                            frame.origin.y += sectionModel.sectionInset.top
-                            frame.size.width -= (sectionModel.sectionInset.left + sectionModel.sectionInset.right)
-                        }
-                    } else if scrollDirection == .horizontal {
-                        frame.origin.x = beforeSectionTotalLength
-                        if sectionModel.sectionInsetContainHeader {
-                            frame.origin.x += sectionModel.sectionInset.left
-                            frame.origin.y = sectionModel.sectionInset.top
-                            frame.size.height -= (sectionModel.sectionInset.top + sectionModel.sectionInset.bottom)
-                        }
-                    }
-                    attr.frame = frame // update header frame
-                }
-            }
-            // item
-            if let sectionModel = sectionModels[section] {
-                switch sectionModel.sectionType {
-                    case .system:
-                        for index in 0..<numberOfItems {
-                            let itemIndexPath = IndexPath(item: index, section: section)
-                            _layoutSystemAttributesForItem(at: itemIndexPath)
-                        }
-                    case .waterFlow:
-                        for index in 0..<numberOfItems {
-                            let itemIndexPath = IndexPath(item: index, section: section)
-                            _layoutWaterFlowAttributesForItem(at: itemIndexPath)
-                        }
-                    case .tagList:
-                        for index in 0..<numberOfItems {
-                            let itemIndexPath = IndexPath(item: index, section: section)
-                            _layoutSystemAttributesForItem(at: itemIndexPath)
-                        }
-                        _layoutTagListAttributesForItem(at: section)
-                }
-                if sectionModel.sectionType == .system {
-                    if !sectionModel.itemLayoutAttributes.isEmpty {
-                        // find minY and minX
-                        var minY = sectionModel.itemLayoutAttributes[0].frame.minY
-                        var minX = sectionModel.itemLayoutAttributes[0].frame.minX
-                        for attr in sectionModel.itemLayoutAttributes {
-                            if attr.frame.minY.isLess(than: minY) {
-                                minY = attr.frame.minY
-                            }
-                            if attr.frame.minX.isLess(than: minX) {
-                                minX = attr.frame.minX
-                            }
-                        }
-                        //
-                        let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: section)
-                        for attr in sectionModel.itemLayoutAttributes {
-                            var frame = attr.frame
-                            if scrollDirection == .vertical {
-                                frame.origin.y -= minY
-                                frame.origin.y += (beforeSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection))
-                            } else if scrollDirection == .horizontal {
-                                frame.origin.x -= minX
-                                frame.origin.x += (beforeSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection))
-                            }
-                            attr.frame = frame // update item frame
-                        }
-                    }
-                } else {
-                    let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: section)
-                    for attr in sectionModel.itemLayoutAttributes {
-                        var frame = attr.frame
-                        if scrollDirection == .vertical {
-                            frame.origin.y += (beforeSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection))
-                        } else if scrollDirection == .horizontal {
-                            frame.origin.x += (beforeSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection))
-                        }
-                        attr.frame = frame // update item frame
-                    }
-                }
-            }
-            // footer
-            if let sectionModel = sectionModels[section] {
-                let footerSection = IndexPath(item: 0, section: section)
-                _layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, at: footerSection)
-                if let attr = sectionModel.footerLayoutAttributes {
-                    let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: section)
-                    var frame = attr.frame
-                    if scrollDirection == .vertical {
-                        frame.origin.y = beforeSectionTotalLength + sectionModel.footerBeforeLength(scrollDirection: scrollDirection)
-                        if sectionModel.sectionInsetContainFooter {
-                            frame.origin.x = sectionModel.sectionInset.left
-                            frame.origin.y -= sectionModel.sectionInset.bottom
-                            frame.size.width -= (sectionModel.sectionInset.left + sectionModel.sectionInset.right)
-                        }
-                    } else if scrollDirection == .horizontal {
-                        frame.origin.x = beforeSectionTotalLength + sectionModel.footerBeforeLength(scrollDirection: scrollDirection)
-                        if sectionModel.sectionInsetContainFooter {
-                            frame.origin.x -= sectionModel.sectionInset.right
-                            frame.origin.y = sectionModel.sectionInset.top
-                            frame.size.height -= (sectionModel.sectionInset.top + sectionModel.sectionInset.bottom)
-                        }
-                    }
-                    attr.frame = frame // update footer frame
-                }
-            }
-            // decoration
-            if let sectionModel = sectionModels[section] {
-                let decorationViewDisplay = mDelegate?.collectionView(collectionView, layout: self, decorationViewDisplay: section) ?? false
-                if decorationViewDisplay {
-                    let decorationSection = IndexPath(item: 0, section: section)
-                    _layoutGroupDecorationAttributesForItem(at: decorationSection)
-                    if let attr = sectionModel.groupDecorationAttributes {
-                        let decorationExtraInset = mDelegate?.collectionView(collectionView, layout: self, decorationExtraInset: section) ?? .zero
-                        
-                        let beforeSectionTotalLength = getBeforeSectionTotalLength(currentSection: section)
-                        
-                        var frame = attr.frame
-                        
-                        if scrollDirection == .vertical {
-                            if let headerAttr = sectionModel.headerLayoutAttributes, sectionModel.sectionInsetContainHeader {
-                                frame.origin.y = headerAttr.frame.origin.y
-                                frame.size.height += headerAttr.frame.height
-                            } else {
-                                frame.origin.y += (beforeSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection))
-                            }
-                            
-                            if let footerAttr = sectionModel.footerLayoutAttributes, sectionModel.sectionInsetContainFooter {
-                                frame.size.height += footerAttr.frame.height
-                            }
-                            
-                            frame.origin.x -= decorationExtraInset.left
-                            frame.origin.y -= decorationExtraInset.top
-                            frame.size.width += (decorationExtraInset.left + decorationExtraInset.right)
-                            frame.size.height += (decorationExtraInset.top + decorationExtraInset.bottom)
-                            
-                        } else if scrollDirection == .horizontal {
-                            if let headerAttr = sectionModel.headerLayoutAttributes, sectionModel.sectionInsetContainHeader {
-                                frame.origin.x = headerAttr.frame.origin.x
-                                frame.size.width += headerAttr.frame.width
-                            } else {
-                                frame.origin.x += (beforeSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection))
-                            }
-                            
-                            if let footerAttr = sectionModel.footerLayoutAttributes, sectionModel.sectionInsetContainFooter {
-                                frame.size.width += footerAttr.frame.width
-                            }
-                            
-                            frame.origin.x -= decorationExtraInset.left
-                            frame.origin.y -= decorationExtraInset.top
-                            frame.size.width += (decorationExtraInset.left + decorationExtraInset.right)
-                            frame.size.height += (decorationExtraInset.top + decorationExtraInset.bottom)
-                        }
-                        attr.zIndex = -999
-                        attr.frame = frame // update decoration frame
-                    }
-                }
-            }
-        }
-        
+        _prepare()
+        //
+        _layout()
+        //
         mDelegate?.collectionView(collectionView, layout: self, contentSizeDidChange: collectionViewContentSize)
+        print("prepare")
     }
     
     open override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
@@ -347,7 +120,7 @@ extension SwiftyCollectionViewFlowLayout {
 }
 
 extension SwiftyCollectionViewFlowLayout {
-    private func getBeforeSectionTotalLength(currentSection: Int) -> CGFloat {
+    internal func getBeforeSectionTotalLength(currentSection: Int) -> CGFloat {
         var totalLength: CGFloat = .zero
         for (_, element) in sectionModels.enumerated() {
             let section = element.key

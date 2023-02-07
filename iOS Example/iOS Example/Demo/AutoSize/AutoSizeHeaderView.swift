@@ -44,8 +44,6 @@ public final class AutoSizeHeaderView: UICollectionReusableView {
     
     public override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         
-        
-        
         let layoutAttributes = super.preferredLayoutAttributesFitting(layoutAttributes)
         
         var size = layoutAttributes.frame.size

@@ -16,10 +16,30 @@ extension SwiftyCollectionViewFlowLayout {
         let supplementaryViewAttr = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, with: indexPath)
         
         if elementKind == UICollectionView.elementKindSectionHeader {
+            sectionModel.headerLayoutAttributes = nil
             // Header
-            let headerSize = mDelegate?.collectionView?(collectionView,
-                                                        layout: self,
-                                                        referenceSizeForHeaderInSection: indexPath.section) ?? .zero
+            let headerVisibilityMode = mDelegate?.collectionView(collectionView,
+                                                                 layout: self,
+                                                                 visibilityModeForHeaderInSection: indexPath.section) ?? Default.headerVisibilityMode
+            
+            var sizeMode: SwiftyCollectionViewFlowLayoutSizeMode = .zero
+            switch headerVisibilityMode {
+                case .hidden:
+                    return
+                case .visible(let _sizeMode):
+                    sizeMode = _sizeMode
+            }
+            
+            var headerSize: CGSize = .zero
+            switch sizeMode.width {
+                case .static(let length):
+                    headerSize.width = length
+            }
+            switch sizeMode.height {
+                case .static(let length):
+                    headerSize.height = length
+            }
+            
             var header_x: CGFloat = .zero
             var header_y: CGFloat = .zero
             var header_width: CGFloat = .zero
@@ -44,10 +64,30 @@ extension SwiftyCollectionViewFlowLayout {
             sectionModel.headerLayoutAttributes = supplementaryViewAttr
             
         } else if elementKind == UICollectionView.elementKindSectionFooter {
+            sectionModel.footerLayoutAttributes = nil
             // Footer
-            let footerSize = mDelegate?.collectionView?(collectionView,
-                                                        layout: self,
-                                                        referenceSizeForFooterInSection: indexPath.section) ?? .zero
+            let footerVisibilityMode = mDelegate?.collectionView(collectionView,
+                                                                 layout: self,
+                                                                 visibilityModeForFooterInSection: indexPath.section) ?? Default.footerVisibilityMode
+            
+            var sizeMode: SwiftyCollectionViewFlowLayoutSizeMode = .zero
+            switch footerVisibilityMode {
+                case .hidden:
+                    return
+                case .visible(let _sizeMode):
+                    sizeMode = _sizeMode
+            }
+            
+            var footerSize: CGSize = .zero
+            switch sizeMode.width {
+                case .static(let length):
+                    footerSize.width = length
+            }
+            switch sizeMode.height {
+                case .static(let length):
+                    footerSize.height = length
+            }
+            
             var footer_x: CGFloat = .zero
             var footer_y: CGFloat = .zero
             var footer_width: CGFloat = .zero

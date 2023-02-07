@@ -15,13 +15,13 @@ internal class BaseSectionModel {
     
     var groupDecorationAttributes: UICollectionViewLayoutAttributes?
     
-    var sectionInset: UIEdgeInsets = .zero
-    var lineSpacing: CGFloat = .zero
-    var interitemSpacing: CGFloat = .zero
-    var sectionInsetContainHeader: Bool = false
-    var sectionInsetContainFooter: Bool = false
+    var sectionInset: UIEdgeInsets = Default.sectionInset
+    var lineSpacing: CGFloat = Default.minimumLineSpacing
+    var interitemSpacing: CGFloat = Default.minimumInteritemSpacing
+    var sectionInsetContainHeader: Bool = Default.sectionInsetContainHeader
+    var sectionInsetContainFooter: Bool = Default.sectionInsetContainFooter
     
-    var sectionType: SwiftyCollectionViewSectionType = .system
+    var sectionType: SwiftyCollectionViewSectionType = Default.sectionType
 }
 
 extension BaseSectionModel {
@@ -134,10 +134,6 @@ extension BaseSectionModel {
     }
 }
 
-
-internal class SystemSectionModel: BaseSectionModel {
-    
-}
 
 internal class WaterFlowSectionModel: BaseSectionModel {
     var bodyColumnLengths: [CGFloat] = []

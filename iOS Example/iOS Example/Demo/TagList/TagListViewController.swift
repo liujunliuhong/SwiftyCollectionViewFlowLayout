@@ -53,7 +53,7 @@ public final class TagListViewController: UIViewController {
         return collectionView
     }()
     
-    private var direction: SwiftyCollectionViewDirection = .left {
+    private var direction: SwiftyCollectionViewTagDirection = .left {
         didSet {
             updateDirectionButtonText()
         }

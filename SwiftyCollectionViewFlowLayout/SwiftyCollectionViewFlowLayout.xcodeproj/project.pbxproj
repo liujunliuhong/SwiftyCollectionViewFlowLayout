@@ -17,8 +17,13 @@
 		8565A861298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Supplementary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A859298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Supplementary.swift */; };
 		8565A862298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */; };
 		85DC920E298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DC920D298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift */; };
+		D1431640299224BA00669451 /* SwiftyCollectionViewFlowLayout+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D143163F299224BA00669451 /* SwiftyCollectionViewFlowLayout+Setup.swift */; };
+		D14316472992332600669451 /* Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14316462992332600669451 /* Default.swift */; };
+		D1431649299233C200669451 /* SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1431648299233C200669451 /* SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode.swift */; };
+		D143164B2992341500669451 /* SwiftyCollectionViewFlowLayoutSizeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D143164A2992341500669451 /* SwiftyCollectionViewFlowLayoutSizeMode.swift */; };
+		D143164D2992343D00669451 /* SwiftyCollectionViewFlowLayoutLengthMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D143164C2992343D00669451 /* SwiftyCollectionViewFlowLayoutLengthMode.swift */; };
+		D143164F299240C100669451 /* SwiftyCollectionViewFlowLayoutDecorationVisibilityMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D143164E299240C000669451 /* SwiftyCollectionViewFlowLayoutDecorationVisibilityMode.swift */; };
 		D1C717672990934000697629 /* SwiftyCollectionViewFlowLayout+GroupDecoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C717662990934000697629 /* SwiftyCollectionViewFlowLayout+GroupDecoration.swift */; };
-		D1C717692990A0F200697629 /* SwiftyCollectionViewFlowLayout+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C717682990A0F200697629 /* SwiftyCollectionViewFlowLayout+System.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,8 +38,13 @@
 		8565A859298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Supplementary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+Supplementary.swift"; sourceTree = "<group>"; };
 		8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewSectionType.swift; sourceTree = "<group>"; };
 		85DC920D298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewLayoutDecorationAttributes.swift; sourceTree = "<group>"; };
+		D143163F299224BA00669451 /* SwiftyCollectionViewFlowLayout+Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+Setup.swift"; sourceTree = "<group>"; };
+		D14316462992332600669451 /* Default.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Default.swift; sourceTree = "<group>"; };
+		D1431648299233C200669451 /* SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode.swift; sourceTree = "<group>"; };
+		D143164A2992341500669451 /* SwiftyCollectionViewFlowLayoutSizeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewFlowLayoutSizeMode.swift; sourceTree = "<group>"; };
+		D143164C2992343D00669451 /* SwiftyCollectionViewFlowLayoutLengthMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewFlowLayoutLengthMode.swift; sourceTree = "<group>"; };
+		D143164E299240C000669451 /* SwiftyCollectionViewFlowLayoutDecorationVisibilityMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewFlowLayoutDecorationVisibilityMode.swift; sourceTree = "<group>"; };
 		D1C717662990934000697629 /* SwiftyCollectionViewFlowLayout+GroupDecoration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+GroupDecoration.swift"; sourceTree = "<group>"; };
-		D1C717682990A0F200697629 /* SwiftyCollectionViewFlowLayout+System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+System.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,16 +87,21 @@
 		8565A852298BF5A400FFE2FD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				8565A857298BF5C300FFE2FD /* SwiftyCollectionViewDelegateFlowLayout.swift */,
 				8565A856298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout.swift */,
-				D1C717682990A0F200697629 /* SwiftyCollectionViewFlowLayout+System.swift */,
+				D143163F299224BA00669451 /* SwiftyCollectionViewFlowLayout+Setup.swift */,
 				8565A859298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Supplementary.swift */,
 				8565A855298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout+TagList.swift */,
 				8565A858298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout+WaterFlow.swift */,
 				D1C717662990934000697629 /* SwiftyCollectionViewFlowLayout+GroupDecoration.swift */,
 				85DC920D298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift */,
-				8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */,
 				8565A853298BF5C300FFE2FD /* Model.swift */,
+				D14316462992332600669451 /* Default.swift */,
+				8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */,
+				8565A857298BF5C300FFE2FD /* SwiftyCollectionViewDelegateFlowLayout.swift */,
+				D143164A2992341500669451 /* SwiftyCollectionViewFlowLayoutSizeMode.swift */,
+				D1431648299233C200669451 /* SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode.swift */,
+				D143164C2992343D00669451 /* SwiftyCollectionViewFlowLayoutLengthMode.swift */,
+				D143164E299240C000669451 /* SwiftyCollectionViewFlowLayoutDecorationVisibilityMode.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -170,17 +185,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1431640299224BA00669451 /* SwiftyCollectionViewFlowLayout+Setup.swift in Sources */,
 				85DC920E298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift in Sources */,
 				8565A862298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift in Sources */,
+				D143164D2992343D00669451 /* SwiftyCollectionViewFlowLayoutLengthMode.swift in Sources */,
 				8565A85D298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+TagList.swift in Sources */,
 				8565A824298BF50B00FFE2FD /* SwiftyCollectionViewFlowLayout.docc in Sources */,
-				D1C717692990A0F200697629 /* SwiftyCollectionViewFlowLayout+System.swift in Sources */,
+				D14316472992332600669451 /* Default.swift in Sources */,
+				D143164B2992341500669451 /* SwiftyCollectionViewFlowLayoutSizeMode.swift in Sources */,
+				D1431649299233C200669451 /* SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode.swift in Sources */,
 				8565A860298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+WaterFlow.swift in Sources */,
 				D1C717672990934000697629 /* SwiftyCollectionViewFlowLayout+GroupDecoration.swift in Sources */,
 				8565A861298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Supplementary.swift in Sources */,
 				8565A85F298BF5C400FFE2FD /* SwiftyCollectionViewDelegateFlowLayout.swift in Sources */,
 				8565A85B298BF5C400FFE2FD /* Model.swift in Sources */,
 				8565A85E298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout.swift in Sources */,
+				D143164F299240C100669451 /* SwiftyCollectionViewFlowLayoutDecorationVisibilityMode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

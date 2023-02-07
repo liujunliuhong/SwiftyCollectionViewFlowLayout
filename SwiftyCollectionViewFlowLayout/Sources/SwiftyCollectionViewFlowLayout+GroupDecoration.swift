@@ -15,9 +15,22 @@ extension SwiftyCollectionViewFlowLayout {
         guard let decorationElementKind = decorationElementKind else { return }
         guard let sectionModel = sectionModels[indexPath.section] else { return }
         
-        let decorationAttr = SwiftyCollectionViewLayoutDecorationAttributes(forDecorationViewOfKind: decorationElementKind, with: indexPath)
+        sectionModel.groupDecorationAttributes = nil
         
-        guard let decorationExtraAttributes = mDelegate?.collectionView(collectionView, layout: self, decorationExtraAttributes: indexPath.section) else { return }
+        let decorationVisibilityMode = mDelegate?.collectionView(collectionView,
+                                                                 layout: self,
+                                                                 visibilityModeForDecorationInSection: indexPath.section) ?? Default.decorationVisibilityMode
+        
+        var extraAttributes: SwiftyCollectionViewLayoutDecorationExtraAttributes?
+        switch decorationVisibilityMode {
+            case .hidden:
+                return
+            case .visible(let _extraAttributes):
+                extraAttributes = _extraAttributes
+        }
+        
+        
+        let decorationAttr = SwiftyCollectionViewLayoutDecorationAttributes(forDecorationViewOfKind: decorationElementKind, with: indexPath)
         
         var x: CGFloat = .zero
         var y: CGFloat = .zero
@@ -30,7 +43,7 @@ extension SwiftyCollectionViewFlowLayout {
             width = collectionView.bounds.width - sectionModel.sectionInset.left - sectionModel.sectionInset.right
             height = sectionModel.allItemsLength(scrollDirection: scrollDirection)
             
-            decorationAttr.extraAttributes = decorationExtraAttributes
+            decorationAttr.extraAttributes = extraAttributes
             
             decorationAttr.frame = CGRect(x: x,
                                           y: y,
@@ -44,7 +57,7 @@ extension SwiftyCollectionViewFlowLayout {
             width = sectionModel.allItemsLength(scrollDirection: scrollDirection)
             height = collectionView.bounds.height - sectionModel.sectionInset.top - sectionModel.sectionInset.bottom
             
-            decorationAttr.extraAttributes = decorationExtraAttributes
+            decorationAttr.extraAttributes = extraAttributes
             
             decorationAttr.frame = CGRect(x: x,
                                           y: y,

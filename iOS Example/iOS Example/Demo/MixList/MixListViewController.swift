@@ -14,8 +14,6 @@ private let widths: [CGFloat] = [40, 80, 110, 140, 150]
 private let sectionTypes: [SwiftyCollectionViewSectionType] = [.waterFlow(numberOfColumns: 2),
                                                                .waterFlow(numberOfColumns: 3),
                                                                .waterFlow(numberOfColumns: 4),
-                                                               .system,
-                                                               .system,
                                                                .tagList(direction: .left, alignment: .top),
                                                                .tagList(direction: .left, alignment: .center),
                                                                .tagList(direction: .left, alignment: .bottom)]
@@ -109,8 +107,6 @@ extension MixListViewController: UICollectionViewDataSource {
             }
             let sectionType = dataSource[indexPath.section].sectionType
             switch sectionType {
-                case .system:
-                    headerView.label.text = "Header\nSection-\(indexPath.section)\nSectionType:\nsystem"
                 case .waterFlow(let numberOfColumns):
                     headerView.label.text = "Header\nSection-\(indexPath.section)\nSectionType:\nwaterFlow(numberOfColumns: \(numberOfColumns))"
                 case .tagList(let direction, let alignment):
@@ -127,49 +123,80 @@ extension MixListViewController: UICollectionViewDataSource {
     }
 }
 
-extension MixListViewController: UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//extension MixListViewController: UICollectionViewDelegateFlowLayout {
+//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+//    }
+//
+//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let model = dataSource[indexPath.section].models[indexPath.item]
+//        // 当scrollDirection = .horizontal，高度无效
+//        // 当scrollDirection = .vertical，宽度无效
+//        return CGSize(width: model.width, height: model.height)
+//    }
+//
+//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return 10
+//    }
+//
+//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//        return 15
+//    }
+//
+//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+//        // 当scrollDirection = .horizontal，高度无效
+//        // 当scrollDirection = .vertical，宽度无效
+//        return CGSize(width: 80, height: 120)
+//    }
+//
+//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+//        // 当scrollDirection = .horizontal，高度无效
+//        // 当scrollDirection = .vertical，宽度无效
+//        return CGSize(width: 80, height: 80)
+//    }
+//}
+
+extension MixListViewController: SwiftyCollectionViewDelegateFlowLayout {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionType section: Int) -> SwiftyCollectionViewSectionType {
+        return dataSource[section].sectionType
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let model = dataSource[indexPath.section].models[indexPath.item]
-        // 当scrollDirection = .horizontal，高度无效
-        // 当scrollDirection = .vertical，宽度无效
-        return CGSize(width: model.width, height: model.height)
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 15
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
         // 当scrollDirection = .horizontal，高度无效
         // 当scrollDirection = .vertical，宽度无效
-        return CGSize(width: 80, height: 120)
+        return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
         // 当scrollDirection = .horizontal，高度无效
         // 当scrollDirection = .vertical，宽度无效
-        return CGSize(width: 80, height: 80)
+        return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
     }
-}
-
-extension MixListViewController: SwiftyCollectionViewDelegateFlowLayout {
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewFlowLayoutSizeMode {
+        let model = dataSource[indexPath.section].models[indexPath.item]
+        // 当scrollDirection = .horizontal，高度无效
+        // 当scrollDirection = .vertical，宽度无效
+        return .init(width: .static(length: model.width), height: .static(length: model.height))
+    }
+    
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionInsetContainHeader section: Int) -> Bool {
         return false
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionInsetContainFooter section: Int) -> Bool {
         return false
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionType section: Int) -> SwiftyCollectionViewSectionType {
-        return dataSource[section].sectionType
     }
 }

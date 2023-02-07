@@ -12,8 +12,38 @@ import UIKit
 extension SwiftyCollectionViewFlowLayout {
     internal func _layoutTagListAttributesForItem(at section: Int) {
         guard let sectionModel = sectionModels[section] else { return }
+        guard let collectionView = collectionView else { return }
         
-        var direction: SwiftyCollectionViewDirection = .left
+        sectionModel.itemLayoutAttributes.removeAll()
+        
+        let numberOfItems = collectionView.numberOfItems(inSection: section)
+        
+        for index in 0..<numberOfItems {
+            let itemIndexPath = IndexPath(item: index, section: section)
+            
+            let cellAttr = UICollectionViewLayoutAttributes(forCellWith: itemIndexPath)
+            
+            let sizeMode = mDelegate?.collectionView(collectionView,
+                                                     layout: self,
+                                                     itemSizeModeAt: itemIndexPath) ?? Default.sizeMode
+            
+            var itemSize: CGSize = .zero
+            switch sizeMode.width {
+                case .static(let length):
+                    itemSize.width = length
+            }
+            switch sizeMode.height {
+                case .static(let length):
+                    itemSize.height = length
+            }
+            
+            cellAttr.size = itemSize
+            
+            sectionModel.itemLayoutAttributes.append(cellAttr)
+        }
+        
+        
+        var direction: SwiftyCollectionViewTagDirection = .left
         switch sectionModel.sectionType {
             case .tagList(let _direction, _):
                 direction = _direction
@@ -30,7 +60,7 @@ extension SwiftyCollectionViewFlowLayout {
 }
 
 extension SwiftyCollectionViewFlowLayout {
-    private func verticalLayout(sectionModel: BaseSectionModel, direction: SwiftyCollectionViewDirection) {
+    private func verticalLayout(sectionModel: BaseSectionModel, direction: SwiftyCollectionViewTagDirection) {
         guard let collectionView = collectionView else { return }
         
         var preAttr: UICollectionViewLayoutAttributes?
@@ -154,7 +184,7 @@ extension SwiftyCollectionViewFlowLayout {
         layoutAlignment(sectionType: sectionModel.sectionType, groupAttributes: groupAttributes)
     }
     
-    private func horizontalLayout(sectionModel: BaseSectionModel, direction: SwiftyCollectionViewDirection) {
+    private func horizontalLayout(sectionModel: BaseSectionModel, direction: SwiftyCollectionViewTagDirection) {
         guard let collectionView = collectionView else { return }
         
         var preAttr: UICollectionViewLayoutAttributes?
@@ -282,7 +312,7 @@ extension SwiftyCollectionViewFlowLayout {
         //
         if groupAttributes.isEmpty { return }
         //
-        var alignment: SwiftyCollectionViewAlignment = .top
+        var alignment: SwiftyCollectionViewTagAlignment = .top
         switch sectionType {
             case .tagList(_, let _alignment):
                 alignment = _alignment
