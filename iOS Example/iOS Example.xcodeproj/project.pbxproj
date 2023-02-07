@@ -39,6 +39,11 @@
 		D11DCE26298CD4EF0036B5DD /* MixListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11DCE25298CD4EF0036B5DD /* MixListHeaderView.swift */; };
 		D11DCE28298CD4F90036B5DD /* MixListFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11DCE27298CD4F90036B5DD /* MixListFooterView.swift */; };
 		D11DCE2A298CD5090036B5DD /* MixListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11DCE29298CD5090036B5DD /* MixListCell.swift */; };
+		D14316362992122500669451 /* AutoSizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14316352992122500669451 /* AutoSizeViewController.swift */; };
+		D14316382992123C00669451 /* AutoSizeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14316372992123B00669451 /* AutoSizeHeaderView.swift */; };
+		D143163A2992124A00669451 /* AutoSizeFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14316392992124A00669451 /* AutoSizeFooterView.swift */; };
+		D143163C2992125400669451 /* AutoSizeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D143163B2992125400669451 /* AutoSizeModel.swift */; };
+		D143163E2992126900669451 /* AutoSizeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D143163D2992126900669451 /* AutoSizeCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +94,11 @@
 		D11DCE25298CD4EF0036B5DD /* MixListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixListHeaderView.swift; sourceTree = "<group>"; };
 		D11DCE27298CD4F90036B5DD /* MixListFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixListFooterView.swift; sourceTree = "<group>"; };
 		D11DCE29298CD5090036B5DD /* MixListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixListCell.swift; sourceTree = "<group>"; };
+		D14316352992122500669451 /* AutoSizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizeViewController.swift; sourceTree = "<group>"; };
+		D14316372992123B00669451 /* AutoSizeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizeHeaderView.swift; sourceTree = "<group>"; };
+		D14316392992124A00669451 /* AutoSizeFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizeFooterView.swift; sourceTree = "<group>"; };
+		D143163B2992125400669451 /* AutoSizeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizeModel.swift; sourceTree = "<group>"; };
+		D143163D2992126900669451 /* AutoSizeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizeCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +167,7 @@
 		8565A867298BF6A800FFE2FD /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				D14316332992121000669451 /* AutoSize */,
 				85DC920F298FEA1100F0170D /* Decoration */,
 				D11DCE1F298CD4880036B5DD /* MixList */,
 				D11DCE12298CBDA00036B5DD /* WaterFlowList */,
@@ -224,6 +235,18 @@
 				D11DCE29298CD5090036B5DD /* MixListCell.swift */,
 			);
 			path = MixList;
+			sourceTree = "<group>";
+		};
+		D14316332992121000669451 /* AutoSize */ = {
+			isa = PBXGroup;
+			children = (
+				D14316352992122500669451 /* AutoSizeViewController.swift */,
+				D143163D2992126900669451 /* AutoSizeCell.swift */,
+				D14316372992123B00669451 /* AutoSizeHeaderView.swift */,
+				D14316392992124A00669451 /* AutoSizeFooterView.swift */,
+				D143163B2992125400669451 /* AutoSizeModel.swift */,
+			);
+			path = AutoSize;
 			sourceTree = "<group>";
 		};
 		D22885B3094F01A3F4CF85E0 /* Frameworks */ = {
@@ -366,6 +389,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8565A872298BF6A800FFE2FD /* IrregularTagListModel.swift in Sources */,
+				D14316382992123C00669451 /* AutoSizeHeaderView.swift in Sources */,
 				D11DCE22298CD4B00036B5DD /* MixListViewController.swift in Sources */,
 				8565A871298BF6A800FFE2FD /* IrregularTagListViewController.swift in Sources */,
 				85DC9214298FEBEF00F0170D /* DecorationExtraAttributes.swift in Sources */,
@@ -376,6 +400,7 @@
 				85DC9212298FEA2B00F0170D /* DecorationViewController.swift in Sources */,
 				8565A875298BF6A800FFE2FD /* TagListModel.swift in Sources */,
 				D11DCE17298CBDF40036B5DD /* WaterFlowModel.swift in Sources */,
+				D143163E2992126900669451 /* AutoSizeCell.swift in Sources */,
 				8565A878298BF7DB00FFE2FD /* NavigationController.swift in Sources */,
 				8565A873298BF6A800FFE2FD /* IrregularTagListCell.swift in Sources */,
 				D11DCE24298CD4CA0036B5DD /* MixListModel.swift in Sources */,
@@ -383,10 +408,13 @@
 				8565A876298BF6A800FFE2FD /* TagListViewController.swift in Sources */,
 				85DC9218298FECEC00F0170D /* DecorationHeaderView.swift in Sources */,
 				85DC9216298FECB700F0170D /* DecorationCell.swift in Sources */,
+				D143163C2992125400669451 /* AutoSizeModel.swift in Sources */,
 				8565A87C298BFBF300FFE2FD /* IrregularTagListFooterView.swift in Sources */,
+				D143163A2992124A00669451 /* AutoSizeFooterView.swift in Sources */,
 				D11DCE1D298CBE290036B5DD /* WaterFlowListFooterView.swift in Sources */,
 				85DC921A298FECF700F0170D /* DecorationFooterView.swift in Sources */,
 				8565A83C298BF57300FFE2FD /* ViewController.swift in Sources */,
+				D14316362992122500669451 /* AutoSizeViewController.swift in Sources */,
 				8565A87A298BFBDF00FFE2FD /* IrregularTagListHeaderView.swift in Sources */,
 				D11DCE15298CBDDC0036B5DD /* WaterFlowListViewController.swift in Sources */,
 				8565A838298BF57300FFE2FD /* AppDelegate.swift in Sources */,
