@@ -155,6 +155,10 @@ extension ModeState {
         return sectionModel(at: section)?.footerModel
     }
     
+    internal func decorationModel(at section: Int) -> DecorationModel? {
+        return sectionModel(at: section)?.decorationModel
+    }
+    
     internal func previousSectionTotalLength(currentSection: Int) -> CGFloat {
         let scrollDirection = layout().scrollDirection
         var totalLength: CGFloat = .zero
@@ -386,6 +390,38 @@ extension ModeState {
                 break
         }
         return shouldInvalidateLayout
+    }
+    
+    internal func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes] {
+        for section in 0..<currentSectionModels.count {
+            layoutHeaderModel(at: section)
+            layoutItemModels(at: section)
+            layoutFooterModel(at: section)
+            layoutDecorationModel(at: section)
+        }
+        var attrs: [UICollectionViewLayoutAttributes] = []
+        for (section, sectionModel) in currentSectionModels.enumerated() {
+            if let headerModel = sectionModel.headerModel, rect.contains(headerModel.frame) || rect.intersects(headerModel.frame) {
+                let attr = headerLayoutAttributes(at: section, frame: headerModel.frame)
+                attrs.append(attr)
+            }
+            for (index, itemModel) in sectionModel.itemModels.enumerated() {
+                if rect.contains(itemModel.frame) || rect.intersects(itemModel.frame) {
+                    let indexPath = IndexPath(item: index, section: section)
+                    let attr = itemLayoutAttributes(at: indexPath, frame: itemModel.frame)
+                    attrs.append(attr)
+                }
+            }
+            if let footerModel = sectionModel.footerModel, rect.contains(footerModel.frame) || rect.intersects(footerModel.frame) {
+                let attr = footerLayoutAttributes(at: section, frame: footerModel.frame)
+                attrs.append(attr)
+            }
+            if let decorationModel = sectionModel.decorationModel, rect.contains(decorationModel.frame) || rect.intersects(decorationModel.frame) {
+                let attr = decorationLayoutAttributes(at: section, frame: decorationModel.frame)
+                attrs.append(attr)
+            }
+        }
+        return attrs
     }
 }
 

@@ -9,11 +9,11 @@ import Foundation
 import UIKit
 
 internal final class SectionModel {
-    
     internal let sectionType: SwiftyCollectionViewSectionType
     internal let headerModel: HeaderModel?
     internal let footerModel: FooterModel?
     internal let itemModels: [ItemModel]
+    internal let decorationModel: DecorationModel?
     
     internal let sectionInset: UIEdgeInsets
     internal let lineSpacing: CGFloat
@@ -25,6 +25,7 @@ internal final class SectionModel {
                   headerModel: HeaderModel?,
                   footerModel: FooterModel?,
                   itemModels: [ItemModel],
+                  decorationModel: DecorationModel?,
                   sectionInset: UIEdgeInsets,
                   lineSpacing: CGFloat,
                   interitemSpacing: CGFloat,
@@ -34,6 +35,7 @@ internal final class SectionModel {
         self.headerModel = headerModel
         self.footerModel = footerModel
         self.itemModels = itemModels
+        self.decorationModel = decorationModel
         self.sectionInset = sectionInset
         self.lineSpacing = lineSpacing
         self.interitemSpacing = interitemSpacing

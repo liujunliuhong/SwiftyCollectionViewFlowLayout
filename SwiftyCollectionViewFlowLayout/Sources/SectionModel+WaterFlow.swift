@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ObjectiveC
 
 private var key: String = "com.galaxy.SwiftyCollectionViewFlowLayout.waterFlow"
 

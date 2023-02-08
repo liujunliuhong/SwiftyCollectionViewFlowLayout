@@ -11,6 +11,8 @@ import UIKit
 /// `SwiftyCollectionViewFlowLayout`, Inherit `UICollectionViewLayout`
 open class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
     
+    public static let decorationElementKind = "SwiftyCollectionViewFlowLayout.DecorationElementKind"
+    
     internal var mDelegate: SwiftyCollectionViewDelegateFlowLayout? {
         return collectionView?.delegate as? SwiftyCollectionViewDelegateFlowLayout
     }
@@ -36,13 +38,11 @@ open class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
     }()
     
     
-//    private var scale: CGFloat {
-//        collectionView?.traitCollection.nonZeroDisplayScale ?? 1
-//    }
+    //    private var scale: CGFloat {
+    //        collectionView?.traitCollection.nonZeroDisplayScale ?? 1
+    //    }
     
-    internal var decorationElementKind: String?
-    
-    internal var sectionModels: [Int: BaseSectionModel] = [:]
+//    internal var sectionModels: [Int: BaseSectionModel] = [:]
     
     public override init() {
         super.init()
@@ -54,27 +54,18 @@ open class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
 }
 
 extension SwiftyCollectionViewFlowLayout {
-    open override func register(_ viewClass: AnyClass?, forDecorationViewOfKind elementKind: String) {
-        super.register(viewClass, forDecorationViewOfKind: elementKind)
-        decorationElementKind = elementKind
-    }
-    
-    open override func register(_ nib: UINib?, forDecorationViewOfKind elementKind: String) {
-        super.register(nib, forDecorationViewOfKind: elementKind)
-        decorationElementKind = elementKind
-    }
     
     open override func prepare() {
         super.prepare()
-        guard let collectionView = collectionView else { return }
-        //
-        sectionModels.removeAll()
-        //
-        _prepare()
-        //
-        _layout()
-        //
-        mDelegate?.collectionView(collectionView, layout: self, contentSizeDidChange: collectionViewContentSize)
+//        guard let collectionView = collectionView else { return }
+//        //
+//        sectionModels.removeAll()
+//        //
+//        _prepare()
+//        //
+//        _layout()
+//        //
+//        mDelegate?.collectionView(collectionView, layout: self, contentSizeDidChange: collectionViewContentSize)
         print("prepare")
         
         
@@ -102,25 +93,27 @@ extension SwiftyCollectionViewFlowLayout {
     }
     
     open override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        var elements: [UICollectionViewLayoutAttributes] = []
-        for (_, v) in sectionModels.enumerated() {
-            let section = v.value
-            // header
-            if let attr = section.headerLayoutAttributes {
-                elements.append(attr)
-            }
-            // items
-            elements.append(contentsOf: section.itemLayoutAttributes)
-            // footer
-            if let attr = section.footerLayoutAttributes {
-                elements.append(attr)
-            }
-            // group decoration
-            if let attr = section.groupDecorationAttributes {
-                elements.append(attr)
-            }
-        }
-        return elements
+        let attrs = modeState.layoutAttributesForElements(in: rect)
+        return attrs
+        //        var elements: [UICollectionViewLayoutAttributes] = []
+        //        for (_, v) in sectionModels.enumerated() {
+        //            let section = v.value
+        //            // header
+        //            if let attr = section.headerLayoutAttributes {
+        //                elements.append(attr)
+        //            }
+        //            // items
+        //            elements.append(contentsOf: section.itemLayoutAttributes)
+        //            // footer
+        //            if let attr = section.footerLayoutAttributes {
+        //                elements.append(attr)
+        //            }
+        //            // group decoration
+        //            if let attr = section.groupDecorationAttributes {
+        //                elements.append(attr)
+        //            }
+        //        }
+        //        return elements
     }
     
     open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
@@ -166,19 +159,19 @@ extension SwiftyCollectionViewFlowLayout {
     }
 }
 
-extension SwiftyCollectionViewFlowLayout {
-    internal func getBeforeSectionTotalLength(currentSection: Int) -> CGFloat {
-        var totalLength: CGFloat = .zero
-        for (_, element) in sectionModels.enumerated() {
-            let section = element.key
-            let model = element.value
-            if section < currentSection {
-                totalLength += model.totalLength(scrollDirection: scrollDirection)
-            }
-        }
-        return totalLength
-    }
-}
+//extension SwiftyCollectionViewFlowLayout {
+//    internal func getBeforeSectionTotalLength(currentSection: Int) -> CGFloat {
+//        var totalLength: CGFloat = .zero
+//        for (_, element) in sectionModels.enumerated() {
+//            let section = element.key
+//            let model = element.value
+//            if section < currentSection {
+//                totalLength += model.totalLength(scrollDirection: scrollDirection)
+//            }
+//        }
+//        return totalLength
+//    }
+//}
 
 
 extension SwiftyCollectionViewFlowLayout {
@@ -194,6 +187,7 @@ extension SwiftyCollectionViewFlowLayout {
                             headerModel: headerModelForHeader(at: section),
                             footerModel: footerModelForFooter(at: section),
                             itemModels: itemModels,
+                            decorationModel: decorationModel(at: section),
                             sectionInset: sectionInsetForSection(at: section),
                             lineSpacing: lineSpacingForSection(at: section),
                             interitemSpacing: interitemSpacingForSection(at: section),
@@ -226,6 +220,16 @@ extension SwiftyCollectionViewFlowLayout {
         }
     }
     
+    private func decorationModel(at section: Int) -> DecorationModel? {
+        let decorationVisibilityMode = visibilityModeForDecoration(at: section)
+        switch decorationVisibilityMode {
+            case .hidden:
+                return nil
+            case .visible(let extraAttributes):
+                return DecorationModel(extraAttributes: extraAttributes, extraInset: decorationExtraInset(at: section))
+        }
+    }
+    
     private func sizeModeForItem(at indexPath: IndexPath) -> SwiftyCollectionViewFlowLayoutSizeMode {
         guard let mDelegate = mDelegate else { return Default.sizeMode }
         return mDelegate.collectionView(mCollectionView, layout: self, itemSizeModeAt: indexPath)
@@ -239,6 +243,16 @@ extension SwiftyCollectionViewFlowLayout {
     private func visibilityModeForFooter(at section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
         guard let mDelegate = mDelegate else { return Default.footerVisibilityMode }
         return mDelegate.collectionView(mCollectionView, layout: self, visibilityModeForFooterInSection: section)
+    }
+    
+    private func visibilityModeForDecoration(at section: Int) -> SwiftyCollectionViewFlowLayoutDecorationVisibilityMode {
+        guard let mDelegate = mDelegate else { return Default.decorationVisibilityMode }
+        return mDelegate.collectionView(mCollectionView, layout: self, visibilityModeForDecorationInSection: section)
+    }
+    
+    private func decorationExtraInset(at section: Int) -> UIEdgeInsets {
+        guard let mDelegate = mDelegate else { return Default.decorationExtraInset }
+        return mDelegate.collectionView(mCollectionView, layout: self, decorationExtraInset: section)
     }
     
     private func sectionTypeForSection(at section: Int) -> SwiftyCollectionViewSectionType {

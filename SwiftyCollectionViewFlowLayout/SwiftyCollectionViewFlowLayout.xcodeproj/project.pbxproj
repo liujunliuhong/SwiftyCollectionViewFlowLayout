@@ -16,6 +16,8 @@
 		8565A860298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+WaterFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A858298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout+WaterFlow.swift */; };
 		8565A861298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Supplementary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A859298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Supplementary.swift */; };
 		8565A862298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */; };
+		858C42EB2993F395001F5DF1 /* DecorationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C42EA2993F395001F5DF1 /* DecorationModel.swift */; };
+		858C42ED2993F820001F5DF1 /* ModeState+Decoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C42EC2993F820001F5DF1 /* ModeState+Decoration.swift */; };
 		85DC920E298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DC920D298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift */; };
 		D1431640299224BA00669451 /* SwiftyCollectionViewFlowLayout+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D143163F299224BA00669451 /* SwiftyCollectionViewFlowLayout+Setup.swift */; };
 		D14316472992332600669451 /* Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14316462992332600669451 /* Default.swift */; };
@@ -49,6 +51,8 @@
 		8565A858298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout+WaterFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+WaterFlow.swift"; sourceTree = "<group>"; };
 		8565A859298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Supplementary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+Supplementary.swift"; sourceTree = "<group>"; };
 		8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewSectionType.swift; sourceTree = "<group>"; };
+		858C42EA2993F395001F5DF1 /* DecorationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorationModel.swift; sourceTree = "<group>"; };
+		858C42EC2993F820001F5DF1 /* ModeState+Decoration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModeState+Decoration.swift"; sourceTree = "<group>"; };
 		85DC920D298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewLayoutDecorationAttributes.swift; sourceTree = "<group>"; };
 		D143163F299224BA00669451 /* SwiftyCollectionViewFlowLayout+Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+Setup.swift"; sourceTree = "<group>"; };
 		D14316462992332600669451 /* Default.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Default.swift; sourceTree = "<group>"; };
@@ -117,7 +121,6 @@
 				8565A855298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout+TagList.swift */,
 				8565A858298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout+WaterFlow.swift */,
 				D1C717662990934000697629 /* SwiftyCollectionViewFlowLayout+GroupDecoration.swift */,
-				85DC920D298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift */,
 				8565A853298BF5C300FFE2FD /* Model.swift */,
 				D14316462992332600669451 /* Default.swift */,
 				8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */,
@@ -132,12 +135,15 @@
 				D14D300D29939CB300E31E7E /* ModeState+Item.swift */,
 				D14D3007299396EB00E31E7E /* ModeState+Header.swift */,
 				D14D300B29939C5000E31E7E /* ModeState+Footer.swift */,
+				858C42EC2993F820001F5DF1 /* ModeState+Decoration.swift */,
 				D14D300329936DA800E31E7E /* SectionModel.swift */,
 				D14D300F2993A4FD00E31E7E /* SectionModel+WaterFlow.swift */,
 				D14D2FFD29936B9B00E31E7E /* ItemModel.swift */,
 				D14D2FFF29936D1E00E31E7E /* HeaderModel.swift */,
 				D14D300129936D8F00E31E7E /* FooterModel.swift */,
+				858C42EA2993F395001F5DF1 /* DecorationModel.swift */,
 				D14D3009299397CA00E31E7E /* SwiftyCollectionViewLayoutAttributes.swift */,
+				85DC920D298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -242,12 +248,14 @@
 				8565A860298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+WaterFlow.swift in Sources */,
 				D1C717672990934000697629 /* SwiftyCollectionViewFlowLayout+GroupDecoration.swift in Sources */,
 				D14D300029936D1E00E31E7E /* HeaderModel.swift in Sources */,
+				858C42EB2993F395001F5DF1 /* DecorationModel.swift in Sources */,
 				8565A861298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Supplementary.swift in Sources */,
 				8565A85F298BF5C400FFE2FD /* SwiftyCollectionViewDelegateFlowLayout.swift in Sources */,
 				D14D3008299396EB00E31E7E /* ModeState+Header.swift in Sources */,
 				8565A85B298BF5C400FFE2FD /* Model.swift in Sources */,
 				D14D300429936DA800E31E7E /* SectionModel.swift in Sources */,
 				8565A85E298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout.swift in Sources */,
+				858C42ED2993F820001F5DF1 /* ModeState+Decoration.swift in Sources */,
 				D143164F299240C100669451 /* SwiftyCollectionViewFlowLayoutDecorationVisibilityMode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
