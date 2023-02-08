@@ -15,11 +15,30 @@ open class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
         return collectionView?.delegate as? SwiftyCollectionViewDelegateFlowLayout
     }
     
+    internal var mCollectionView: UICollectionView {
+        guard let mCollectionView = collectionView else {
+            preconditionFailure("`collectionView` should not be `nil`")
+        }
+        return mCollectionView
+    }
+    
     public var scrollDirection: UICollectionView.ScrollDirection = .vertical {
         didSet {
             invalidateLayout()
         }
     }
+    
+    internal lazy var modeState: ModeState = {
+        let modeState = ModeState {
+            return self
+        }
+        return modeState
+    }()
+    
+    
+//    private var scale: CGFloat {
+//        collectionView?.traitCollection.nonZeroDisplayScale ?? 1
+//    }
     
     internal var decorationElementKind: String?
     
@@ -57,6 +76,17 @@ extension SwiftyCollectionViewFlowLayout {
         //
         mDelegate?.collectionView(collectionView, layout: self, contentSizeDidChange: collectionViewContentSize)
         print("prepare")
+        
+        
+        modeState.clear()
+        
+        let numberOfSections = mCollectionView.numberOfSections
+        var sectionModels: [SectionModel] = []
+        for section in 0..<numberOfSections {
+            let sectionModel = sectionModelForSection(at: section)
+            sectionModels.append(sectionModel)
+        }
+        modeState.setSections(sectionModels)
     }
     
     open override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
@@ -94,8 +124,25 @@ extension SwiftyCollectionViewFlowLayout {
     }
     
     open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        return false
+        return modeState.shouldInvalidateLayout(forBoundsChange: newBounds)
     }
+    
+    open override func shouldInvalidateLayout(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> Bool {
+        if preferredAttributes.indexPath.isEmpty {
+            return super.shouldInvalidateLayout(forPreferredLayoutAttributes: preferredAttributes, withOriginalAttributes: originalAttributes)
+        }
+        return modeState.shouldInvalidateLayout(forPreferredLayoutAttributes: preferredAttributes, withOriginalAttributes: originalAttributes)
+    }
+    
+    open override func invalidationContext(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutInvalidationContext {
+        
+        modeState.updatePreferredLayoutAttributesSize(preferredAttributes: preferredAttributes)
+        
+        let invalidationContext = super.invalidationContext(forPreferredLayoutAttributes: preferredAttributes, withOriginalAttributes: originalAttributes)
+        
+        return invalidationContext
+    }
+    
     
     open override var collectionViewContentSize: CGSize {
         guard let collectionView = collectionView else { return super.collectionViewContentSize }
@@ -130,5 +177,97 @@ extension SwiftyCollectionViewFlowLayout {
             }
         }
         return totalLength
+    }
+}
+
+
+extension SwiftyCollectionViewFlowLayout {
+    private func sectionModelForSection(at section: Int) -> SectionModel {
+        var itemModels: [ItemModel] = []
+        let numberOfItems = mCollectionView.numberOfItems(inSection: section)
+        for index in 0..<numberOfItems {
+            let itemModel = itemModelForItem(at: IndexPath(item: index, section: section))
+            itemModels.append(itemModel)
+        }
+        
+        return SectionModel(sectionType: sectionTypeForSection(at: section),
+                            headerModel: headerModelForHeader(at: section),
+                            footerModel: footerModelForFooter(at: section),
+                            itemModels: itemModels,
+                            sectionInset: sectionInsetForSection(at: section),
+                            lineSpacing: lineSpacingForSection(at: section),
+                            interitemSpacing: interitemSpacingForSection(at: section),
+                            sectionInsetContainHeader: sectionInsetContainHeaderForSection(at: section),
+                            sectionInsetContainFooter: sectionInsetContainFooterForSection(at: section))
+    }
+    
+    private func itemModelForItem(at indexPath: IndexPath) -> ItemModel {
+        let itemSizeMode = sizeModeForItem(at: indexPath)
+        return ItemModel(sizeMode: itemSizeMode)
+    }
+    
+    private func headerModelForHeader(at section: Int) -> HeaderModel? {
+        let headerVisibilityMode = visibilityModeForHeader(at: section)
+        switch headerVisibilityMode {
+            case .hidden:
+                return nil
+            case .visible(let sizeMode):
+                return HeaderModel(sizeMode: sizeMode)
+        }
+    }
+    
+    private func footerModelForFooter(at section: Int) -> FooterModel? {
+        let footerVisibilityMode = visibilityModeForFooter(at: section)
+        switch footerVisibilityMode {
+            case .hidden:
+                return nil
+            case .visible(let sizeMode):
+                return FooterModel(sizeMode: sizeMode)
+        }
+    }
+    
+    private func sizeModeForItem(at indexPath: IndexPath) -> SwiftyCollectionViewFlowLayoutSizeMode {
+        guard let mDelegate = mDelegate else { return Default.sizeMode }
+        return mDelegate.collectionView(mCollectionView, layout: self, itemSizeModeAt: indexPath)
+    }
+    
+    private func visibilityModeForHeader(at section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
+        guard let mDelegate = mDelegate else { return Default.headerVisibilityMode }
+        return mDelegate.collectionView(mCollectionView, layout: self, visibilityModeForHeaderInSection: section)
+    }
+    
+    private func visibilityModeForFooter(at section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
+        guard let mDelegate = mDelegate else { return Default.footerVisibilityMode }
+        return mDelegate.collectionView(mCollectionView, layout: self, visibilityModeForFooterInSection: section)
+    }
+    
+    private func sectionTypeForSection(at section: Int) -> SwiftyCollectionViewSectionType {
+        guard let mDelegate = mDelegate else { return Default.sectionType }
+        return mDelegate.collectionView(mCollectionView, layout: self, sectionType: section)
+    }
+    
+    private func sectionInsetForSection(at section: Int) -> UIEdgeInsets {
+        guard let mDelegate = mDelegate else { return Default.sectionInset }
+        return mDelegate.collectionView(mCollectionView, layout: self, insetForSectionAt: section)
+    }
+    
+    private func lineSpacingForSection(at section: Int) -> CGFloat {
+        guard let mDelegate = mDelegate else { return Default.lineSpacing }
+        return mDelegate.collectionView(mCollectionView, layout: self, lineSpacingForSectionAt: section)
+    }
+    
+    private func interitemSpacingForSection(at section: Int) -> CGFloat {
+        guard let mDelegate = mDelegate else { return Default.interitemSpacing }
+        return mDelegate.collectionView(mCollectionView, layout: self, interitemSpacingForSectionAt: section)
+    }
+    
+    private func sectionInsetContainHeaderForSection(at section: Int) -> Bool {
+        guard let mDelegate = mDelegate else { return Default.sectionInsetContainHeader }
+        return mDelegate.collectionView(mCollectionView, layout: self, sectionInsetContainHeader: section)
+    }
+    
+    private func sectionInsetContainFooterForSection(at section: Int) -> Bool {
+        guard let mDelegate = mDelegate else { return Default.sectionInsetContainFooter }
+        return mDelegate.collectionView(mCollectionView, layout: self, sectionInsetContainFooter: section)
     }
 }

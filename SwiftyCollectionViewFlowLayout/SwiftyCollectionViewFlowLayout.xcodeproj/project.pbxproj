@@ -23,6 +23,18 @@
 		D143164B2992341500669451 /* SwiftyCollectionViewFlowLayoutSizeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D143164A2992341500669451 /* SwiftyCollectionViewFlowLayoutSizeMode.swift */; };
 		D143164D2992343D00669451 /* SwiftyCollectionViewFlowLayoutLengthMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D143164C2992343D00669451 /* SwiftyCollectionViewFlowLayoutLengthMode.swift */; };
 		D143164F299240C100669451 /* SwiftyCollectionViewFlowLayoutDecorationVisibilityMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D143164E299240C000669451 /* SwiftyCollectionViewFlowLayoutDecorationVisibilityMode.swift */; };
+		D14D2FFA2993626200E31E7E /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D2FF92993626200E31E7E /* CGFloat+Extension.swift */; };
+		D14D2FFC299362F000E31E7E /* UITraitCollection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D2FFB299362F000E31E7E /* UITraitCollection+Extension.swift */; };
+		D14D2FFE29936B9B00E31E7E /* ItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D2FFD29936B9B00E31E7E /* ItemModel.swift */; };
+		D14D300029936D1E00E31E7E /* HeaderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D2FFF29936D1E00E31E7E /* HeaderModel.swift */; };
+		D14D300229936D8F00E31E7E /* FooterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D300129936D8F00E31E7E /* FooterModel.swift */; };
+		D14D300429936DA800E31E7E /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D300329936DA800E31E7E /* SectionModel.swift */; };
+		D14D3006299372D700E31E7E /* ModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D3005299372D700E31E7E /* ModeState.swift */; };
+		D14D3008299396EB00E31E7E /* ModeState+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D3007299396EB00E31E7E /* ModeState+Header.swift */; };
+		D14D300A299397CA00E31E7E /* SwiftyCollectionViewLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D3009299397CA00E31E7E /* SwiftyCollectionViewLayoutAttributes.swift */; };
+		D14D300C29939C5000E31E7E /* ModeState+Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D300B29939C5000E31E7E /* ModeState+Footer.swift */; };
+		D14D300E29939CB300E31E7E /* ModeState+Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D300D29939CB300E31E7E /* ModeState+Item.swift */; };
+		D14D30102993A4FD00E31E7E /* SectionModel+WaterFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D300F2993A4FD00E31E7E /* SectionModel+WaterFlow.swift */; };
 		D1C717672990934000697629 /* SwiftyCollectionViewFlowLayout+GroupDecoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C717662990934000697629 /* SwiftyCollectionViewFlowLayout+GroupDecoration.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +56,18 @@
 		D143164A2992341500669451 /* SwiftyCollectionViewFlowLayoutSizeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewFlowLayoutSizeMode.swift; sourceTree = "<group>"; };
 		D143164C2992343D00669451 /* SwiftyCollectionViewFlowLayoutLengthMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewFlowLayoutLengthMode.swift; sourceTree = "<group>"; };
 		D143164E299240C000669451 /* SwiftyCollectionViewFlowLayoutDecorationVisibilityMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewFlowLayoutDecorationVisibilityMode.swift; sourceTree = "<group>"; };
+		D14D2FF92993626200E31E7E /* CGFloat+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
+		D14D2FFB299362F000E31E7E /* UITraitCollection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITraitCollection+Extension.swift"; sourceTree = "<group>"; };
+		D14D2FFD29936B9B00E31E7E /* ItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModel.swift; sourceTree = "<group>"; };
+		D14D2FFF29936D1E00E31E7E /* HeaderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderModel.swift; sourceTree = "<group>"; };
+		D14D300129936D8F00E31E7E /* FooterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterModel.swift; sourceTree = "<group>"; };
+		D14D300329936DA800E31E7E /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
+		D14D3005299372D700E31E7E /* ModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeState.swift; sourceTree = "<group>"; };
+		D14D3007299396EB00E31E7E /* ModeState+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModeState+Header.swift"; sourceTree = "<group>"; };
+		D14D3009299397CA00E31E7E /* SwiftyCollectionViewLayoutAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewLayoutAttributes.swift; sourceTree = "<group>"; };
+		D14D300B29939C5000E31E7E /* ModeState+Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModeState+Footer.swift"; sourceTree = "<group>"; };
+		D14D300D29939CB300E31E7E /* ModeState+Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModeState+Item.swift"; sourceTree = "<group>"; };
+		D14D300F2993A4FD00E31E7E /* SectionModel+WaterFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionModel+WaterFlow.swift"; sourceTree = "<group>"; };
 		D1C717662990934000697629 /* SwiftyCollectionViewFlowLayout+GroupDecoration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftyCollectionViewFlowLayout+GroupDecoration.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -102,6 +126,18 @@
 				D1431648299233C200669451 /* SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode.swift */,
 				D143164C2992343D00669451 /* SwiftyCollectionViewFlowLayoutLengthMode.swift */,
 				D143164E299240C000669451 /* SwiftyCollectionViewFlowLayoutDecorationVisibilityMode.swift */,
+				D14D2FF92993626200E31E7E /* CGFloat+Extension.swift */,
+				D14D2FFB299362F000E31E7E /* UITraitCollection+Extension.swift */,
+				D14D3005299372D700E31E7E /* ModeState.swift */,
+				D14D300D29939CB300E31E7E /* ModeState+Item.swift */,
+				D14D3007299396EB00E31E7E /* ModeState+Header.swift */,
+				D14D300B29939C5000E31E7E /* ModeState+Footer.swift */,
+				D14D300329936DA800E31E7E /* SectionModel.swift */,
+				D14D300F2993A4FD00E31E7E /* SectionModel+WaterFlow.swift */,
+				D14D2FFD29936B9B00E31E7E /* ItemModel.swift */,
+				D14D2FFF29936D1E00E31E7E /* HeaderModel.swift */,
+				D14D300129936D8F00E31E7E /* FooterModel.swift */,
+				D14D3009299397CA00E31E7E /* SwiftyCollectionViewLayoutAttributes.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -186,19 +222,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1431640299224BA00669451 /* SwiftyCollectionViewFlowLayout+Setup.swift in Sources */,
+				D14D300A299397CA00E31E7E /* SwiftyCollectionViewLayoutAttributes.swift in Sources */,
+				D14D300229936D8F00E31E7E /* FooterModel.swift in Sources */,
 				85DC920E298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift in Sources */,
+				D14D2FFE29936B9B00E31E7E /* ItemModel.swift in Sources */,
+				D14D300C29939C5000E31E7E /* ModeState+Footer.swift in Sources */,
+				D14D300E29939CB300E31E7E /* ModeState+Item.swift in Sources */,
+				D14D30102993A4FD00E31E7E /* SectionModel+WaterFlow.swift in Sources */,
 				8565A862298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift in Sources */,
 				D143164D2992343D00669451 /* SwiftyCollectionViewFlowLayoutLengthMode.swift in Sources */,
+				D14D2FFC299362F000E31E7E /* UITraitCollection+Extension.swift in Sources */,
 				8565A85D298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+TagList.swift in Sources */,
 				8565A824298BF50B00FFE2FD /* SwiftyCollectionViewFlowLayout.docc in Sources */,
 				D14316472992332600669451 /* Default.swift in Sources */,
+				D14D2FFA2993626200E31E7E /* CGFloat+Extension.swift in Sources */,
+				D14D3006299372D700E31E7E /* ModeState.swift in Sources */,
 				D143164B2992341500669451 /* SwiftyCollectionViewFlowLayoutSizeMode.swift in Sources */,
 				D1431649299233C200669451 /* SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode.swift in Sources */,
 				8565A860298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+WaterFlow.swift in Sources */,
 				D1C717672990934000697629 /* SwiftyCollectionViewFlowLayout+GroupDecoration.swift in Sources */,
+				D14D300029936D1E00E31E7E /* HeaderModel.swift in Sources */,
 				8565A861298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout+Supplementary.swift in Sources */,
 				8565A85F298BF5C400FFE2FD /* SwiftyCollectionViewDelegateFlowLayout.swift in Sources */,
+				D14D3008299396EB00E31E7E /* ModeState+Header.swift in Sources */,
 				8565A85B298BF5C400FFE2FD /* Model.swift in Sources */,
+				D14D300429936DA800E31E7E /* SectionModel.swift in Sources */,
 				8565A85E298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout.swift in Sources */,
 				D143164F299240C100669451 /* SwiftyCollectionViewFlowLayoutDecorationVisibilityMode.swift in Sources */,
 			);

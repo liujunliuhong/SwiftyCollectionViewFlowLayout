@@ -17,6 +17,6 @@ public struct SwiftyCollectionViewFlowLayoutSizeMode: Equatable {
         self.height = height
     }
     
-    public static let zero = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: .zero),
-                                                                    height: .static(length: .zero))
+    public static let `default` = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: Default.size.width),
+                                                                         height: .static(length: Default.size.height))
 }

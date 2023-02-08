@@ -22,7 +22,7 @@ extension SwiftyCollectionViewFlowLayout {
                                                                  layout: self,
                                                                  visibilityModeForHeaderInSection: indexPath.section) ?? Default.headerVisibilityMode
             
-            var sizeMode: SwiftyCollectionViewFlowLayoutSizeMode = .zero
+            var sizeMode: SwiftyCollectionViewFlowLayoutSizeMode = .default
             switch headerVisibilityMode {
                 case .hidden:
                     return

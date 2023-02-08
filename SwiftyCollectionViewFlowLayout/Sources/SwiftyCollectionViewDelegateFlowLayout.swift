@@ -24,15 +24,15 @@ public protocol SwiftyCollectionViewDelegateFlowLayout: UICollectionViewDelegate
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets
     
-    /// MinimumLineSpacing
+    /// LineSpacing
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat
+                        lineSpacingForSectionAt section: Int) -> CGFloat
     
-    /// MinimumInteritemSpacing
+    /// InteritemSpacing
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat
+                        interitemSpacingForSectionAt section: Int) -> CGFloat
     
     /// VisibilityMode for Header
     func collectionView(_ collectionView: UICollectionView,
@@ -85,14 +85,14 @@ extension SwiftyCollectionViewDelegateFlowLayout {
     
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                               minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return Default.minimumLineSpacing
+                               lineSpacingForSectionAt section: Int) -> CGFloat {
+        return Default.lineSpacing
     }
     
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                               minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return Default.minimumInteritemSpacing
+                               interitemSpacingForSectionAt section: Int) -> CGFloat {
+        return Default.interitemSpacing
     }
     
     public func collectionView(_ collectionView: UICollectionView,

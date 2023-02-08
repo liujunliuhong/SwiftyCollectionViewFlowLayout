@@ -13,11 +13,12 @@ internal struct Default {
     static let sectionInset: UIEdgeInsets = .zero
     static let sectionInsetContainHeader: Bool = false
     static let sectionInsetContainFooter: Bool = false
-    static let minimumLineSpacing: CGFloat = 15.0
-    static let minimumInteritemSpacing: CGFloat = 15.0
+    static let lineSpacing: CGFloat = 15.0
+    static let interitemSpacing: CGFloat = 15.0
     static let decorationVisibilityMode: SwiftyCollectionViewFlowLayoutDecorationVisibilityMode = .hidden
     static let decorationExtraInset: UIEdgeInsets = .zero
-    static let sizeMode: SwiftyCollectionViewFlowLayoutSizeMode = .zero
+    static let sizeMode: SwiftyCollectionViewFlowLayoutSizeMode = .default
+    static let size: CGSize = CGSize(width: 50, height: 50)
     static let headerVisibilityMode: SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode = .hidden
     static let footerVisibilityMode: SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode = .hidden
 }
