@@ -11,17 +11,22 @@ import SnapKit
 
 private let heights: [CGFloat] = [40, 50, 80, 110, 140]
 private let widths: [CGFloat] = [40, 80, 110, 140, 150]
-private let sectionTypes: [SwiftyCollectionViewSectionType] = [.waterFlow(numberOfColumns: 2),
-                                                               .tagList(direction: .left, alignment: .top)]
+private let sectionTypes: [SwiftyCollectionViewSectionType] = [
+//    .waterFlow(numberOfColumns: 2),
+                                                               .tagList(direction: .left, alignment: .top)
+]
 
 /// 自动布局，暂未完成
 public final class AutoSizeViewController: UIViewController {
-    
+    deinit {
+        print("111")
+    }
     private var dataSource: [AutoSizeSectionModel] = []
     
     private lazy var layout: SwiftyCollectionViewFlowLayout = {
         let layout = SwiftyCollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.register(DecorationView.classForCoder(), forDecorationViewOfKind: SwiftyCollectionViewFlowLayout.DecorationElementKind)
         return layout
     }()
     
@@ -62,11 +67,17 @@ extension AutoSizeViewController {
     private func loadData() {
         dataSource.removeAll()
         
-        let itemTitles: [String] = ["dasda", "dasdasdasdas", "dasdasdasddsadsad", "dsadsadsadadsdadsa", "dasdasdasdsadasdasdasddasd"]
+        let itemTitles: [String] = [
+//            "dasda",
+//            "dasdasdasdas",
+//            "dasdasdasddsadsad", "dsadsadsadadsdadsa", "dasdasdasdsadasdasdasddasd",
+            "dasdasdasdsadasdasdasddasddasdasdasdsadasdasdasddasddasdasdasdsadasdasdasddasddasdasdasdsadasdasdasddasd"
+        ]
         let headerTitles: [String] = ["This is Header", "This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header", "This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header"]
         let footerTitles: [String] = ["This is Footer", "This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer", "This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer"]
         
         let counts: [Int] = [10, 15, 20, 25]
+//        let counts: [Int] = [5]
         
         for _ in 0..<sectionTypes.count {
             var array: [AutoSizeItemModel] = []
@@ -126,49 +137,48 @@ extension AutoSizeViewController: UICollectionViewDataSource {
     }
 }
 
-extension AutoSizeViewController: UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let model = dataSource[indexPath.section].items[indexPath.item]
-        // 当scrollDirection = .horizontal，高度无效
-        // 当scrollDirection = .vertical，宽度无效
-        return CGSize(width: model.width, height: model.height)
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 15
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        // 当scrollDirection = .horizontal，高度无效
-        // 当scrollDirection = .vertical，宽度无效
-        return CGSize(width: 80, height: 80)
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        // 当scrollDirection = .horizontal，高度无效
-        // 当scrollDirection = .vertical，宽度无效
-        return CGSize(width: 80, height: 80)
-    }
-}
-
 extension AutoSizeViewController: SwiftyCollectionViewDelegateFlowLayout {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewFlowLayoutSizeMode {
+        let model = dataSource[indexPath.section].items[indexPath.item]
+        //return .init(width: .static(length: model.width), height: .static(length: model.height))
+        return .init(width: .dynamic, height: .dynamic)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
+//        return .visible(sizeMode: .init(width: .dynamic, height: .dynamic))
+        return .hidden
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
+//        return .visible(sizeMode: .init(width: .dynamic, height: .dynamic))
+        return .hidden
+    }
+    
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionInsetContainHeader section: Int) -> Bool {
-        return false
+        return true
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionInsetContainFooter section: Int) -> Bool {
-        return false
+        return true
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionType section: Int) -> SwiftyCollectionViewSectionType {
         return dataSource[section].sectionType
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForDecorationInSection section: Int) -> SwiftyCollectionViewFlowLayoutDecorationVisibilityMode {
+        let extraAttributes = DecorationExtraAttributes()
+        extraAttributes.cornerRadius = 10.0
+        extraAttributes.backgroundColor = .purple
+//        return .visible(extraAttributes: extraAttributes)
+        return .hidden
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, decorationExtraInset section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
     }
 }

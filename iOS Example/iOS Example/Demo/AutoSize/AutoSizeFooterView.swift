@@ -7,8 +7,9 @@
 
 import UIKit
 import SnapKit
+import SwiftyCollectionViewFlowLayout
 
-public final class AutoSizeFooterView: UICollectionReusableView {
+public final class AutoSizeFooterView: SwiftyCollectionReusableView {
     
     private lazy var label: UILabel = {
         let label = UILabel()
@@ -21,11 +22,12 @@ public final class AutoSizeFooterView: UICollectionReusableView {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .purple
+        backgroundColor = .brown
         
         addSubview(label)
         label.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.left.right.top.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
     

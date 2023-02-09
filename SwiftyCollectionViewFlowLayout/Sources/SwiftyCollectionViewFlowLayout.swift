@@ -8,14 +8,23 @@
 import Foundation
 import UIKit
 
+private struct PrepareActions: OptionSet {
+    let rawValue: UInt
+    static let recreateSectionModels = PrepareActions(rawValue: 1 << 0)
+}
+
 /// `SwiftyCollectionViewFlowLayout`, Inherit `UICollectionViewLayout`
-open class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
-    
-    public static let decorationElementKind = "SwiftyCollectionViewFlowLayout.DecorationElementKind"
+public final class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
+    deinit {
+        print("☁️☁️☁️☁️☁️☁️☁️☁️☁️")
+    }
+    public static let DecorationElementKind = "SwiftyCollectionViewFlowLayout.DecorationElementKind"
     
     internal var mDelegate: SwiftyCollectionViewDelegateFlowLayout? {
         return collectionView?.delegate as? SwiftyCollectionViewDelegateFlowLayout
     }
+    
+    private var cacheContentSize: CGSize?
     
     internal var mCollectionView: UICollectionView {
         guard let mCollectionView = collectionView else {
@@ -30,19 +39,12 @@ open class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
         }
     }
     
+    private var prepareActions: PrepareActions = []
+    
     internal lazy var modeState: ModeState = {
-        let modeState = ModeState {
-            return self
-        }
+        let modeState = ModeState(layout: self)
         return modeState
     }()
-    
-    
-    //    private var scale: CGFloat {
-    //        collectionView?.traitCollection.nonZeroDisplayScale ?? 1
-    //    }
-    
-//    internal var sectionModels: [Int: BaseSectionModel] = [:]
     
     public override init() {
         super.init()
@@ -55,124 +57,102 @@ open class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
 
 extension SwiftyCollectionViewFlowLayout {
     
-    open override func prepare() {
+    public override func prepare() {
         super.prepare()
-//        guard let collectionView = collectionView else { return }
-//        //
-//        sectionModels.removeAll()
-//        //
-//        _prepare()
-//        //
-//        _layout()
-//        //
-//        mDelegate?.collectionView(collectionView, layout: self, contentSizeDidChange: collectionViewContentSize)
-        print("prepare")
+        print(#function)
         
-        
-        modeState.clear()
-        
-        let numberOfSections = mCollectionView.numberOfSections
-        var sectionModels: [SectionModel] = []
-        for section in 0..<numberOfSections {
-            let sectionModel = sectionModelForSection(at: section)
-            sectionModels.append(sectionModel)
+        if prepareActions.isEmpty {
+            return
         }
-        modeState.setSections(sectionModels)
+        
+        if prepareActions.contains(.recreateSectionModels) {
+            modeState.clear()
+            let numberOfSections = mCollectionView.numberOfSections
+            var sectionModels: [SectionModel] = []
+            for section in 0..<numberOfSections {
+                let sectionModel = sectionModelForSection(at: section)
+                sectionModels.append(sectionModel)
+            }
+            modeState.setSections(sectionModels)
+        }
+        
+        prepareActions = []
     }
     
-    open override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    public override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return super.layoutAttributesForItem(at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
     }
     
-    open override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    public override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
     }
     
-    open override func layoutAttributesForDecorationView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    public override func layoutAttributesForDecorationView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return super.layoutAttributesForDecorationView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
     }
     
-    open override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+    public override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        print(#function)
         let attrs = modeState.layoutAttributesForElements(in: rect)
         return attrs
-        //        var elements: [UICollectionViewLayoutAttributes] = []
-        //        for (_, v) in sectionModels.enumerated() {
-        //            let section = v.value
-        //            // header
-        //            if let attr = section.headerLayoutAttributes {
-        //                elements.append(attr)
-        //            }
-        //            // items
-        //            elements.append(contentsOf: section.itemLayoutAttributes)
-        //            // footer
-        //            if let attr = section.footerLayoutAttributes {
-        //                elements.append(attr)
-        //            }
-        //            // group decoration
-        //            if let attr = section.groupDecorationAttributes {
-        //                elements.append(attr)
-        //            }
-        //        }
-        //        return elements
     }
     
-    open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+    public override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+        print(#function)
         return modeState.shouldInvalidateLayout(forBoundsChange: newBounds)
     }
     
-    open override func shouldInvalidateLayout(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> Bool {
+    public override func shouldInvalidateLayout(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> Bool {
+        print(#function)
         if preferredAttributes.indexPath.isEmpty {
             return super.shouldInvalidateLayout(forPreferredLayoutAttributes: preferredAttributes, withOriginalAttributes: originalAttributes)
         }
         return modeState.shouldInvalidateLayout(forPreferredLayoutAttributes: preferredAttributes, withOriginalAttributes: originalAttributes)
     }
     
-    open override func invalidationContext(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutInvalidationContext {
+    public override func invalidationContext(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutInvalidationContext {
+        print("\(#function), \(preferredAttributes.indexPath), \(preferredAttributes.size.height)")
+        
         
         modeState.updatePreferredLayoutAttributesSize(preferredAttributes: preferredAttributes)
         
         let invalidationContext = super.invalidationContext(forPreferredLayoutAttributes: preferredAttributes, withOriginalAttributes: originalAttributes)
         
+        
+        
         return invalidationContext
     }
     
     
-    open override var collectionViewContentSize: CGSize {
-        guard let collectionView = collectionView else { return super.collectionViewContentSize }
-        //
-        var totalLength: CGFloat = .zero
-        for (_, v) in sectionModels.enumerated() {
-            let section = v.value
-            totalLength += section.totalLength(scrollDirection: scrollDirection)
+    public override func invalidateLayout(with context: UICollectionViewLayoutInvalidationContext) {
+        
+        print("\(#function), \(context.invalidateEverything), \(context.invalidateDataSourceCounts)")
+        
+        if context.invalidateEverything {
+            prepareActions.formUnion([.recreateSectionModels])
         }
-        //
-        var size = super.collectionViewContentSize
-        switch scrollDirection {
-            case .vertical:
-                size = CGSize(width: collectionView.bounds.width, height: totalLength)
-            case .horizontal:
-                size = CGSize(width: totalLength, height: collectionView.bounds.height)
-            @unknown default:
-                break
+        
+        super.invalidateLayout(with: context)
+        
+    }
+    
+    
+    public override var collectionViewContentSize: CGSize {
+        print(#function)
+        let size = modeState.collectionViewContentSize()
+        
+        if cacheContentSize == nil {
+            mDelegate?.collectionView(mCollectionView, layout: self, contentSizeDidChange: size)
+        } else {
+            if !cacheContentSize!.equalTo(size) {
+                mDelegate?.collectionView(mCollectionView, layout: self, contentSizeDidChange: size)
+            }
         }
+        cacheContentSize = size
+        
         return size
     }
 }
-
-//extension SwiftyCollectionViewFlowLayout {
-//    internal func getBeforeSectionTotalLength(currentSection: Int) -> CGFloat {
-//        var totalLength: CGFloat = .zero
-//        for (_, element) in sectionModels.enumerated() {
-//            let section = element.key
-//            let model = element.value
-//            if section < currentSection {
-//                totalLength += model.totalLength(scrollDirection: scrollDirection)
-//            }
-//        }
-//        return totalLength
-//    }
-//}
-
 
 extension SwiftyCollectionViewFlowLayout {
     private func sectionModelForSection(at section: Int) -> SectionModel {

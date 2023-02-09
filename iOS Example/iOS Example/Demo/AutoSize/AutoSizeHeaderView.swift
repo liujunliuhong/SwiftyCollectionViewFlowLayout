@@ -7,8 +7,9 @@
 
 import UIKit
 import SnapKit
+import SwiftyCollectionViewFlowLayout
 
-public final class AutoSizeHeaderView: UICollectionReusableView {
+public final class AutoSizeHeaderView: SwiftyCollectionReusableView {
     
     private lazy var label: UILabel = {
         let label = UILabel()
@@ -39,23 +40,7 @@ public final class AutoSizeHeaderView: UICollectionReusableView {
     }
     
     public override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
-//        print("+++\(layoutAttributes.frame)")
-    }
-    
-    public override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         
-        let layoutAttributes = super.preferredLayoutAttributesFitting(layoutAttributes)
-        
-        var size = layoutAttributes.frame.size
-        
-        let height = super.systemLayoutSizeFitting(size, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel).height
-        size.height = height
-        
-        layoutAttributes.frame = CGRect(origin: layoutAttributes.frame.origin, size: size)
-        
-        
-        
-        return layoutAttributes
     }
     
     public func bind(to model: AutoSizeSectionModel) {

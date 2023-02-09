@@ -8,16 +8,17 @@
 import UIKit
 
 public final class SwiftyCollectionViewLayoutAttributes: UICollectionViewLayoutAttributes {
-    public private(set) var sizeMode: SwiftyCollectionViewFlowLayoutSizeMode = Default.sizeMode
+    
+    internal var sectionModel: SectionModel?
+    internal weak var layout: SwiftyCollectionViewFlowLayout?
+    
+    public internal(set) var sizeMode: SwiftyCollectionViewFlowLayoutSizeMode = Default.sizeMode
     
     public override func copy(with zone: NSZone? = nil) -> Any {
         let copy = super.copy(with: zone) as! SwiftyCollectionViewLayoutAttributes
         copy.sizeMode = sizeMode
+        copy.sectionModel = sectionModel
+        copy.layout = layout
         return copy
-    }
-    
-    public override func isEqual(_ object: Any?) -> Bool {
-        return super.isEqual(object) &&
-        sizeMode == (object as? SwiftyCollectionViewLayoutAttributes)?.sizeMode
     }
 }

@@ -10,10 +10,11 @@ import UIKit
 
 extension ModeState {
     internal func layoutDecorationModel(at section: Int) {
+        guard let layout = layout else { return }
         guard let sectionModel = sectionModel(at: section) else { return }
         guard let decorationModel = decorationModel(at: section) else { return }
         
-        let scrollDirection = layout().scrollDirection
+        let scrollDirection = layout.scrollDirection
         
         let previousSectionTotalLength = previousSectionTotalLength(currentSection: section)
         
@@ -23,7 +24,7 @@ extension ModeState {
             case .vertical:
                 frame.origin.x = sectionModel.sectionInset.left
                 frame.origin.y = .zero
-                frame.size.width = layout().mCollectionView.bounds.width - sectionModel.sectionInset.left - sectionModel.sectionInset.right
+                frame.size.width = layout.mCollectionView.bounds.width - sectionModel.sectionInset.left - sectionModel.sectionInset.right
                 frame.size.height = sectionModel.allItemsLength(scrollDirection: scrollDirection)
                 
                 if let headerModel = sectionModel.headerModel, sectionModel.sectionInsetContainHeader {
@@ -46,7 +47,7 @@ extension ModeState {
                 frame.origin.x = .zero
                 frame.origin.y = sectionModel.sectionInset.top
                 frame.size.width = sectionModel.allItemsLength(scrollDirection: scrollDirection)
-                frame.size.height = layout().mCollectionView.bounds.height - sectionModel.sectionInset.top - sectionModel.sectionInset.bottom
+                frame.size.height = layout.mCollectionView.bounds.height - sectionModel.sectionInset.top - sectionModel.sectionInset.bottom
                 
                 if let headerModel = sectionModel.headerModel, sectionModel.sectionInsetContainHeader {
                     frame.origin.x = headerModel.frame.origin.x
@@ -70,8 +71,11 @@ extension ModeState {
     }
     
     internal func decorationLayoutAttributes(at section: Int, frame: CGRect) -> UICollectionViewLayoutAttributes {
+        let extraAttributes = decorationModel(at: section)?.extraAttributes
+        
         let indexPath = IndexPath(item: 0, section: section)
-        let attr = SwiftyCollectionViewLayoutDecorationAttributes(forDecorationViewOfKind: SwiftyCollectionViewFlowLayout.decorationElementKind, with: indexPath)
+        let attr = SwiftyCollectionViewLayoutDecorationAttributes(forDecorationViewOfKind: SwiftyCollectionViewFlowLayout.DecorationElementKind, with: indexPath)
+        attr.extraAttributes = extraAttributes
         attr.frame = frame
         attr.zIndex = -999
         return attr

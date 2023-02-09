@@ -11,10 +11,10 @@ import UIKit
 internal final class ModeState {
     private var currentSectionModels: [SectionModel] = []
     
-    internal let layout: () -> SwiftyCollectionViewFlowLayout
+    internal weak var layout: SwiftyCollectionViewFlowLayout?
     
     
-    internal init(layout: @escaping () -> SwiftyCollectionViewFlowLayout) {
+    internal init(layout: SwiftyCollectionViewFlowLayout) {
         self.layout = layout
     }
 }
@@ -37,94 +37,116 @@ extension ModeState {
 
 extension ModeState {
     private func updateInitialHeaderSize(sectionModel: SectionModel) {
-        guard let headerModel = sectionModel.headerModel else { return }
-        let scrollDirection = layout().scrollDirection
-        switch scrollDirection {
-            case .vertical:
-                var width = layout().mCollectionView.bounds.width
-                if sectionModel.sectionInsetContainHeader {
-                    width -= (sectionModel.sectionInset.left + sectionModel.sectionInset.right)
-                }
-                
-                var frame = headerModel.frame
-                frame.size.width = width
-                headerModel.frame = frame
-            case .horizontal:
-                var height = layout().mCollectionView.bounds.height
-                if sectionModel.sectionInsetContainHeader {
-                    height -= (sectionModel.sectionInset.top + sectionModel.sectionInset.bottom)
-                }
-                
-                var frame = headerModel.frame
-                frame.size.height = height
-                headerModel.frame = frame
-            default:
-                break
-        }
+//        guard let headerModel = sectionModel.headerModel else { return }
+//        let scrollDirection = layout().scrollDirection
+//        switch scrollDirection {
+//            case .vertical:
+//                var width = layout().mCollectionView.bounds.width
+//                if sectionModel.sectionInsetContainHeader {
+//                    width -= (sectionModel.sectionInset.left + sectionModel.sectionInset.right)
+//                }
+//                var frame = headerModel.frame
+//                frame.size.width = width
+//                headerModel.frame = frame
+//
+//                // reset sizeMode.width
+////                headerModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: width), height: headerModel.sizeMode.height)
+//
+//            case .horizontal:
+//                var height = layout().mCollectionView.bounds.height
+//                if sectionModel.sectionInsetContainHeader {
+//                    height -= (sectionModel.sectionInset.top + sectionModel.sectionInset.bottom)
+//                }
+//
+//                var frame = headerModel.frame
+//                frame.size.height = height
+//                headerModel.frame = frame
+//
+//                // reset sizeMode.height
+//                headerModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: headerModel.sizeMode.width, height: .static(length: height))
+//            default:
+//                break
+//        }
     }
     
     private func updateInitialFooterSize(sectionModel: SectionModel) {
-        guard let footerModel = sectionModel.footerModel else { return }
-        let scrollDirection = layout().scrollDirection
-        switch scrollDirection {
-            case .vertical:
-                var width = layout().mCollectionView.bounds.width
-                if sectionModel.sectionInsetContainFooter {
-                    width -= (sectionModel.sectionInset.left + sectionModel.sectionInset.right)
-                }
-                
-                var frame = footerModel.frame
-                frame.size.width = width
-                footerModel.frame = frame
-            case .horizontal:
-                var height = layout().mCollectionView.bounds.height
-                if sectionModel.sectionInsetContainFooter {
-                    height -= (sectionModel.sectionInset.top + sectionModel.sectionInset.bottom)
-                }
-                
-                var frame = footerModel.frame
-                frame.size.height = height
-                footerModel.frame = frame
-            default:
-                break
-        }
+//        guard let footerModel = sectionModel.footerModel else { return }
+//        let scrollDirection = layout().scrollDirection
+//        switch scrollDirection {
+//            case .vertical:
+//                var width = layout().mCollectionView.bounds.width
+//                if sectionModel.sectionInsetContainFooter {
+//                    width -= (sectionModel.sectionInset.left + sectionModel.sectionInset.right)
+//                }
+//
+//                var frame = footerModel.frame
+//                frame.size.width = width
+//                footerModel.frame = frame
+//
+//                // reset sizeMode.width
+//                footerModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: width), height: footerModel.sizeMode.height)
+//
+//            case .horizontal:
+//                var height = layout().mCollectionView.bounds.height
+//                if sectionModel.sectionInsetContainFooter {
+//                    height -= (sectionModel.sectionInset.top + sectionModel.sectionInset.bottom)
+//                }
+//
+//                var frame = footerModel.frame
+//                frame.size.height = height
+//                footerModel.frame = frame
+//
+//                // reset sizeMode.height
+//                footerModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: footerModel.sizeMode.width, height: .static(length: height))
+//            default:
+//                break
+//        }
     }
     
     private func updateInitialItemSize(sectionModel: SectionModel) {
-        switch sectionModel.sectionType {
-            case .waterFlow(let numberOfColumns):
-                let itemModels = sectionModel.itemModels
-                let scrollDirection = layout().scrollDirection
-                switch scrollDirection {
-                    case .vertical:
-                        let columnWidth = (layout().mCollectionView.frame.width - sectionModel.sectionInset.left - sectionModel.sectionInset.right - CGFloat(numberOfColumns - 1) * sectionModel.interitemSpacing) / CGFloat(numberOfColumns)
-                        
-                        for itemModel in itemModels {
-                            var frame = itemModel.frame
-                            frame.size.width = columnWidth
-                            itemModel.frame = frame
-                        }
-                        
-                    case .horizontal:
-                        let columnHeight = (layout().mCollectionView.frame.height - sectionModel.sectionInset.top - sectionModel.sectionInset.bottom - CGFloat(numberOfColumns - 1) * sectionModel.interitemSpacing) / CGFloat(numberOfColumns)
-                        for itemModel in itemModels {
-                            var frame = itemModel.frame
-                            frame.size.height = columnHeight
-                            itemModel.frame = frame
-                        }
-                    default:
-                        break
-                }
-                
-                var bodyColumnLengths: [CGFloat] = []
-                for _ in 0..<numberOfColumns {
-                    bodyColumnLengths.append(.zero)
-                }
-                sectionModel.waterFlowBodyColumnLengths = bodyColumnLengths
-                
-            default:
-                break
-        }
+//        guard let layout = layout else { return }
+//        switch sectionModel.sectionType {
+//            case .waterFlow(let numberOfColumns):
+//                let itemModels = sectionModel.itemModels
+//                let scrollDirection = layout.scrollDirection
+//                switch scrollDirection {
+//                    case .vertical:
+//                        let columnWidth = (layout.mCollectionView.frame.width - sectionModel.sectionInset.left - sectionModel.sectionInset.right - CGFloat(numberOfColumns - 1) * sectionModel.interitemSpacing) / CGFloat(numberOfColumns)
+//
+//                        for itemModel in itemModels {
+//                            var frame = itemModel.frame
+//                            frame.size.width = columnWidth
+//                            itemModel.frame = frame
+//
+//                            // reset sizeMode.width
+//                            itemModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: columnWidth), height: itemModel.sizeMode.height)
+//                        }
+//
+//                    case .horizontal:
+//                        let columnHeight = (layout.mCollectionView.frame.height - sectionModel.sectionInset.top - sectionModel.sectionInset.bottom - CGFloat(numberOfColumns - 1) * sectionModel.interitemSpacing) / CGFloat(numberOfColumns)
+//                        for itemModel in itemModels {
+//                            var frame = itemModel.frame
+//                            frame.size.height = columnHeight
+//                            itemModel.frame = frame
+//
+//                            // reset sizeMode.height
+//                            itemModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: itemModel.sizeMode.width, height: .static(length: columnHeight))
+//                        }
+//                    default:
+//                        break
+//                }
+//
+//                var bodyColumnLengths: [CGFloat] = []
+//                for _ in 0..<numberOfColumns {
+//                    bodyColumnLengths.append(.zero)
+//                }
+//                sectionModel.waterFlowBodyColumnLengths = bodyColumnLengths
+//
+//            case .tagList:
+//                break
+//            default:
+//                break
+//        }
     }
     
     internal func itemModel(at indexPath: IndexPath) -> ItemModel? {
@@ -160,7 +182,8 @@ extension ModeState {
     }
     
     internal func previousSectionTotalLength(currentSection: Int) -> CGFloat {
-        let scrollDirection = layout().scrollDirection
+        guard let layout = layout else { return .zero }
+        let scrollDirection = layout.scrollDirection
         var totalLength: CGFloat = .zero
         for (i, sectionModel) in currentSectionModels.enumerated() {
             if i < currentSection {
@@ -173,15 +196,18 @@ extension ModeState {
 
 extension ModeState {
     private func updateItemSize(preferredSize: CGSize, indexPath: IndexPath) {
+        guard let layout = layout else { return }
         guard let sectionModel = sectionModel(at: indexPath.section) else {
             return
         }
         guard let itemModel = itemModel(at: indexPath) else {
             return
         }
+        
+        let scrollDirection = layout.scrollDirection
+        
         switch sectionModel.sectionType {
             case .waterFlow:
-                let scrollDirection = layout().scrollDirection
                 switch scrollDirection {
                     case .vertical:
                         var frame = itemModel.frame
@@ -203,10 +229,11 @@ extension ModeState {
     }
     
     private func updateHeaderSize(preferredSize: CGSize, section: Int) {
+        guard let layout = layout else { return }
         guard let headerModel = headerModel(at: section) else {
             return
         }
-        let scrollDirection = layout().scrollDirection
+        let scrollDirection = layout.scrollDirection
         switch scrollDirection {
             case .vertical:
                 var frame = headerModel.frame
@@ -222,10 +249,11 @@ extension ModeState {
     }
     
     private func updateFooterSize(preferredSize: CGSize, section: Int) {
+        guard let layout = layout else { return }
         guard let footerModel = footerModel(at: section) else {
             return
         }
-        let scrollDirection = layout().scrollDirection
+        let scrollDirection = layout.scrollDirection
         switch scrollDirection {
             case .vertical:
                 var frame = footerModel.frame
@@ -244,15 +272,15 @@ extension ModeState {
 extension ModeState {
     internal func shouldInvalidateLayout(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes,
                                          withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> Bool {
+        guard let layout = layout else { return false }
         guard let sectionModel = sectionModel(at: preferredAttributes.indexPath.section) else {
             return false
         }
         
-        let scrollDirection = layout().scrollDirection
+        let scrollDirection = layout.scrollDirection
         
         let isSameWidth = preferredAttributes.size.width.isEqual(to: originalAttributes.size.width)
         let isSameHeight = preferredAttributes.size.height.isEqual(to: originalAttributes.size.height)
-        
         
         switch preferredAttributes.representedElementCategory {
             case .cell:
@@ -363,6 +391,7 @@ extension ModeState {
                 switch preferredAttributes.representedElementKind {
                     case UICollectionView.elementKindSectionHeader:
                         updateHeaderSize(preferredSize: preferredAttributes.size, section: preferredAttributes.indexPath.section)
+                        print("\(#function), \(preferredAttributes.indexPath), \(preferredAttributes.size.height)")
                     case UICollectionView.elementKindSectionFooter:
                         updateFooterSize(preferredSize: preferredAttributes.size, section: preferredAttributes.indexPath.section)
                     default:
@@ -374,12 +403,13 @@ extension ModeState {
     }
     
     internal func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+        guard let layout = layout else { return false }
         var shouldInvalidateLayout: Bool = false
         
-        let scrollDirection = layout().scrollDirection
+        let scrollDirection = layout.scrollDirection
         
-        let isSameWidth = layout().mCollectionView.bounds.width.isEqual(to: newBounds.size.width)
-        let isSameHeight = layout().mCollectionView.bounds.height.isEqual(to: newBounds.size.height)
+        let isSameWidth = layout.mCollectionView.bounds.width.isEqual(to: newBounds.size.width)
+        let isSameHeight = layout.mCollectionView.bounds.height.isEqual(to: newBounds.size.height)
         
         switch scrollDirection {
             case .vertical:
@@ -389,6 +419,7 @@ extension ModeState {
             default:
                 break
         }
+        print("shouldInvalidateLayout: \(shouldInvalidateLayout)")
         return shouldInvalidateLayout
     }
     
@@ -401,30 +432,56 @@ extension ModeState {
         }
         var attrs: [UICollectionViewLayoutAttributes] = []
         for (section, sectionModel) in currentSectionModels.enumerated() {
-            if let headerModel = sectionModel.headerModel, rect.contains(headerModel.frame) || rect.intersects(headerModel.frame) {
+            if let headerModel = sectionModel.headerModel {
+                                if rect.contains(headerModel.frame) || rect.intersects(headerModel.frame) {
                 let attr = headerLayoutAttributes(at: section, frame: headerModel.frame)
                 attrs.append(attr)
+                                }
             }
             for (index, itemModel) in sectionModel.itemModels.enumerated() {
-                if rect.contains(itemModel.frame) || rect.intersects(itemModel.frame) {
-                    let indexPath = IndexPath(item: index, section: section)
-                    let attr = itemLayoutAttributes(at: indexPath, frame: itemModel.frame)
-                    attrs.append(attr)
-                }
+                                if rect.contains(itemModel.frame) || rect.intersects(itemModel.frame) {
+                let indexPath = IndexPath(item: index, section: section)
+                let attr = itemLayoutAttributes(at: indexPath, sectionModel: sectionModel, itemModel: itemModel)
+                attrs.append(attr)
+                                }
             }
-            if let footerModel = sectionModel.footerModel, rect.contains(footerModel.frame) || rect.intersects(footerModel.frame) {
+            if let footerModel = sectionModel.footerModel {
+                                if rect.contains(footerModel.frame) || rect.intersects(footerModel.frame) {
                 let attr = footerLayoutAttributes(at: section, frame: footerModel.frame)
                 attrs.append(attr)
+                                }
             }
-            if let decorationModel = sectionModel.decorationModel, rect.contains(decorationModel.frame) || rect.intersects(decorationModel.frame) {
+            if let decorationModel = sectionModel.decorationModel {
+                                if rect.contains(decorationModel.frame) || rect.intersects(decorationModel.frame) {
                 let attr = decorationLayoutAttributes(at: section, frame: decorationModel.frame)
                 attrs.append(attr)
+                                }
             }
         }
         return attrs
     }
+    
+    internal func collectionViewContentSize() -> CGSize {
+        guard let layout = layout else { return .zero }
+        let scrollDirection = layout.scrollDirection
+        //
+        var totalLength: CGFloat = .zero
+        for sectionModel in currentSectionModels {
+            totalLength += sectionModel.totalLength(scrollDirection: scrollDirection)
+        }
+        //
+        var size: CGSize = .zero
+        switch scrollDirection {
+            case .vertical:
+                size = CGSize(width: layout.mCollectionView.bounds.width, height: totalLength)
+            case .horizontal:
+                size = CGSize(width: totalLength, height: layout.mCollectionView.bounds.height)
+            @unknown default:
+                break
+        }
+        return size
+    }
 }
-
 extension ModeState {
     
 }

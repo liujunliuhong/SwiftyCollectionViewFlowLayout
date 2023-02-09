@@ -12,6 +12,15 @@ open class SwiftyCollectionViewLayoutDecorationExtraAttributes {
     public init() {}
 }
 
-open class SwiftyCollectionViewLayoutDecorationAttributes: UICollectionViewLayoutAttributes {
-    public var extraAttributes: SwiftyCollectionViewLayoutDecorationExtraAttributes?
+
+/// Decoration attributes
+public final class SwiftyCollectionViewLayoutDecorationAttributes: UICollectionViewLayoutAttributes {
+    
+    public internal(set) var extraAttributes: SwiftyCollectionViewLayoutDecorationExtraAttributes?
+    
+    public override func copy(with zone: NSZone? = nil) -> Any {
+        let copy = super.copy(with: zone) as! SwiftyCollectionViewLayoutDecorationAttributes
+        copy.extraAttributes = extraAttributes
+        return copy
+    }
 }

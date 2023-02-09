@@ -9,7 +9,7 @@ import Foundation
 
 internal final class ItemModel {
     
-    internal let sizeMode: SwiftyCollectionViewFlowLayoutSizeMode
+    internal var sizeMode: SwiftyCollectionViewFlowLayoutSizeMode
     
     internal var frame: CGRect = .zero
     

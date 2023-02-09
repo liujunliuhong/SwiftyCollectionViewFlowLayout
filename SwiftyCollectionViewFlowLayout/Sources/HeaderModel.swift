@@ -10,7 +10,7 @@ import Foundation
 
 internal final class HeaderModel {
     
-    internal let sizeMode: SwiftyCollectionViewFlowLayoutSizeMode
+    internal var sizeMode: SwiftyCollectionViewFlowLayoutSizeMode
     
     internal var frame: CGRect = .zero
     

@@ -10,13 +10,14 @@ import UIKit
 
 extension ModeState {
     internal func layoutItemModels(at section: Int) {
+        guard let layout = layout else { return }
         guard let sectionModel = sectionModel(at: section) else { return }
         
-        let scrollDirection = layout().scrollDirection
+        let scrollDirection = layout.scrollDirection
         
         switch sectionModel.sectionType {
-            case .waterFlow:
-                waterFlowLayout(sectionModel: sectionModel)
+            case .waterFlow(let numberOfColumns):
+                waterFlowLayout(sectionModel: sectionModel, numberOfColumns: numberOfColumns)
             case .tagList(let direction, let alignment):
                 tagListLayout(sectionModel: sectionModel, direction: direction, alignment: alignment)
         }
@@ -35,31 +36,41 @@ extension ModeState {
         }
     }
     
-    internal func itemLayoutAttributes(at indexPath: IndexPath, frame: CGRect) -> UICollectionViewLayoutAttributes {
+    internal func itemLayoutAttributes(at indexPath: IndexPath, sectionModel: SectionModel, itemModel: ItemModel) -> UICollectionViewLayoutAttributes {
         let attr = SwiftyCollectionViewLayoutAttributes(forCellWith: indexPath)
-        attr.frame = frame
+        attr.sizeMode = itemModel.sizeMode
+        attr.sectionModel = sectionModel
+        attr.layout = layout
+        attr.frame = itemModel.frame
         return attr
     }
 }
 
 extension ModeState {
-    private func waterFlowLayout(sectionModel: SectionModel) {
+    private func waterFlowLayout(sectionModel: SectionModel, numberOfColumns: Int) {
+        var bodyColumnLengths: [CGFloat] = []
+        for _ in 0..<numberOfColumns {
+            bodyColumnLengths.append(.zero)
+        }
+        sectionModel.waterFlowBodyColumnLengths = bodyColumnLengths
+        
         for itemModel in sectionModel.itemModels {
             waterFlowLayoutForItem(sectionModel: sectionModel, itemModel: itemModel)
         }
     }
     
     private func waterFlowLayoutForItem(sectionModel: SectionModel, itemModel: ItemModel) {
+        guard let layout = layout else { return }
         
-        let collectionView = layout().mCollectionView
-        
-        if sectionModel.waterFlowBodyColumnLengths.isEmpty {
-            return
-        }
+        let collectionView = layout.mCollectionView
         
         let numberOfColumns = sectionModel.waterFlowBodyColumnLengths.count
         
-        let scrollDirection = layout().scrollDirection
+        if sectionModel.waterFlowBodyColumnLengths.isEmpty {
+            return // ensure not empty
+        }
+        
+        let scrollDirection = layout.scrollDirection
         
         let sectionInset = sectionModel.sectionInset
         
@@ -87,6 +98,10 @@ extension ModeState {
                     frame.origin.y = .zero
                     sectionModel.waterFlowBodyColumnLengths[minGoup.index] = frame.size.height
                 }
+                
+                // reset sizeMode.width
+                itemModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: columnWidth), height: itemModel.sizeMode.height)
+                
             case .horizontal:
                 let columnHeight = (collectionView.frame.height - sectionInset.top - sectionInset.bottom - CGFloat(numberOfColumns - 1) * sectionModel.interitemSpacing) / CGFloat(numberOfColumns)
                 
@@ -101,6 +116,10 @@ extension ModeState {
                     frame.origin.x = .zero
                     sectionModel.waterFlowBodyColumnLengths[minGoup.index] = frame.size.width
                 }
+                
+                // reset sizeMode.height
+                itemModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: itemModel.sizeMode.width, height: .static(length: columnHeight))
+                
             default:
                 break
         }
@@ -112,7 +131,8 @@ extension ModeState {
     private func tagListLayout(sectionModel: SectionModel,
                                direction: SwiftyCollectionViewTagDirection,
                                alignment: SwiftyCollectionViewTagAlignment) {
-        let scrollDirection = layout().scrollDirection
+        guard let layout = layout else { return }
+        let scrollDirection = layout.scrollDirection
         switch scrollDirection {
             case .vertical:
                 tagListVerticalLayout(sectionModel: sectionModel, direction: direction, alignment: alignment)
@@ -126,7 +146,8 @@ extension ModeState {
     private func tagListVerticalLayout(sectionModel: SectionModel,
                                        direction: SwiftyCollectionViewTagDirection,
                                        alignment: SwiftyCollectionViewTagAlignment) {
-        let collectionView = layout().mCollectionView
+        guard let layout = layout else { return }
+        let collectionView = layout.mCollectionView
         
         var preItemModel: ItemModel?
         var x: CGFloat = .zero
@@ -246,13 +267,14 @@ extension ModeState {
                 }
                 subItems.removeAll()
         }
-        tagListAlignment(alignment: alignment, groupItems: groupItems)
+        tagListAlignment(alignment: alignment, groupItems: groupItems, scrollDirection: layout.scrollDirection)
     }
     
     private func tagListHorizontalLayout(sectionModel: SectionModel,
                                          direction: SwiftyCollectionViewTagDirection,
                                          alignment: SwiftyCollectionViewTagAlignment) {
-        let collectionView = layout().mCollectionView
+        guard let layout = layout else { return }
+        let collectionView = layout.mCollectionView
         
         var preItemModel: ItemModel?
         var x: CGFloat = .zero
@@ -370,14 +392,12 @@ extension ModeState {
                 }
                 subItems.removeAll()
         }
-        tagListAlignment(alignment: alignment, groupItems: groupItems)
+        tagListAlignment(alignment: alignment, groupItems: groupItems, scrollDirection: layout.scrollDirection)
     }
     
-    private func tagListAlignment(alignment: SwiftyCollectionViewTagAlignment, groupItems: [[ItemModel]]) {
+    private func tagListAlignment(alignment: SwiftyCollectionViewTagAlignment, groupItems: [[ItemModel]], scrollDirection: UICollectionView.ScrollDirection) {
         //
         if groupItems.isEmpty { return }
-        //
-        let scrollDirection = layout().scrollDirection
         //
         for items in groupItems {
             if items.isEmpty { continue }

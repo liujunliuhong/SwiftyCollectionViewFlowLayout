@@ -7,8 +7,9 @@
 
 import UIKit
 import SnapKit
+import SwiftyCollectionViewFlowLayout
 
-public final class AutoSizeCell: UICollectionViewCell {
+public final class AutoSizeCell: SwiftyCollectionViewCell {
     public private(set) lazy var label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -16,6 +17,7 @@ public final class AutoSizeCell: UICollectionViewCell {
         label.textColor = .white
         label.font = .systemFont(ofSize: 15)
         label.numberOfLines = 0
+        label.lineBreakMode = .byCharWrapping
         return label
     }()
     
@@ -24,7 +26,8 @@ public final class AutoSizeCell: UICollectionViewCell {
         
         contentView.addSubview(label)
         label.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.left.right.top.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
     
@@ -34,7 +37,7 @@ public final class AutoSizeCell: UICollectionViewCell {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        label.frame = bounds
+//        label.frame = bounds
     }
     
     public func bind(to model: AutoSizeItemModel) {
