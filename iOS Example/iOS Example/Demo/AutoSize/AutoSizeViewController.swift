@@ -52,7 +52,7 @@ public final class AutoSizeViewController: UIViewController {
         collectionView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(120)
             make.left.right.equalToSuperview().inset(25)
-            make.bottom.equalToSuperview().offset(-80)
+            make.bottom.equalToSuperview().offset(-280)
         }
         
         loadData()
@@ -68,16 +68,17 @@ extension AutoSizeViewController {
         dataSource.removeAll()
         
         let itemTitles: [String] = [
-//            "dasda",
-//            "dasdasdasdas",
-//            "dasdasdasddsadsad", "dsadsadsadadsdadsa", "dasdasdasdsadasdasdasddasd",
+            "dasda",
+            "dasdasdasdas",
+            "dasdasdasddsadsad", "dsadsadsadadsdadsa", "dasdasdasdsadasdasdasddasd",
             "dasdasdasdsadasdasdasddasddasdasdasdsadasdasdasddasddasdasdasdsadasdasdasddasddasdasdasdsadasdasdasddasd"
         ]
         let headerTitles: [String] = ["This is Header", "This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header", "This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header"]
         let footerTitles: [String] = ["This is Footer", "This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer", "This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer"]
         
-        let counts: [Int] = [10, 15, 20, 25]
-//        let counts: [Int] = [5]
+        let counts: [Int] = [30, 15, 20, 25]
+//        let counts: [Int] = [30]
+//        let counts: [Int] = [1]
         
         for _ in 0..<sectionTypes.count {
             var array: [AutoSizeItemModel] = []
@@ -96,6 +97,7 @@ extension AutoSizeViewController {
     
     @objc private func refreshAction() {
         loadData()
+        //collectionView.reloadData()
     }
 }
 

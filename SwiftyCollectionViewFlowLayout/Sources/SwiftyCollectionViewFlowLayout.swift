@@ -64,7 +64,7 @@ extension SwiftyCollectionViewFlowLayout {
         if prepareActions.isEmpty {
             return
         }
-        
+
         if prepareActions.contains(.recreateSectionModels) {
             modeState.clear()
             let numberOfSections = mCollectionView.numberOfSections
@@ -98,42 +98,47 @@ extension SwiftyCollectionViewFlowLayout {
     }
     
     public override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        print(#function)
-        return modeState.shouldInvalidateLayout(forBoundsChange: newBounds)
+//        let shouldInvalidateLayout = modeState.shouldInvalidateLayout(forBoundsChange: newBounds)
+//        print("\(#function) \(shouldInvalidateLayout)")
+//        return shouldInvalidateLayout
+        return true
     }
     
     public override func shouldInvalidateLayout(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> Bool {
-        print(#function)
         if preferredAttributes.indexPath.isEmpty {
             return super.shouldInvalidateLayout(forPreferredLayoutAttributes: preferredAttributes, withOriginalAttributes: originalAttributes)
         }
-        return modeState.shouldInvalidateLayout(forPreferredLayoutAttributes: preferredAttributes, withOriginalAttributes: originalAttributes)
+        let shouldInvalidateLayout = modeState.shouldInvalidateLayout(forPreferredLayoutAttributes: preferredAttributes, withOriginalAttributes: originalAttributes)
+        
+        print("\(#function), \(shouldInvalidateLayout)")
+        
+        return shouldInvalidateLayout
     }
     
     public override func invalidationContext(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutInvalidationContext {
-        print("\(#function), \(preferredAttributes.indexPath), \(preferredAttributes.size.height)")
-        
-        
-        modeState.updatePreferredLayoutAttributesSize(preferredAttributes: preferredAttributes)
         
         let invalidationContext = super.invalidationContext(forPreferredLayoutAttributes: preferredAttributes, withOriginalAttributes: originalAttributes)
         
+        print("\(#function), \(preferredAttributes.indexPath), \(preferredAttributes.size.height)")
         
+        modeState.updatePreferredLayoutAttributesSize(preferredAttributes: preferredAttributes)
+        
+        print("\(#function), \(invalidationContext.invalidateEverything), \(invalidationContext.invalidateDataSourceCounts)")
+        
+//        invalidationContext.invalidateItems(at: [preferredAttributes.indexPath])
         
         return invalidationContext
     }
     
     
     public override func invalidateLayout(with context: UICollectionViewLayoutInvalidationContext) {
+        super.invalidateLayout(with: context)
         
         print("\(#function), \(context.invalidateEverything), \(context.invalidateDataSourceCounts)")
         
         if context.invalidateEverything {
             prepareActions.formUnion([.recreateSectionModels])
         }
-        
-        super.invalidateLayout(with: context)
-        
     }
     
     

@@ -221,9 +221,30 @@ extension ModeState {
                         break
                 }
             case .tagList:
+//                var frame = itemModel.frame
+//                frame.size.width = preferredSize.width // update width
+//                frame.size.height = preferredSize.height // update height
+//                itemModel.frame = frame
+                
                 var frame = itemModel.frame
-                frame.size.width = preferredSize.width // update width
-                frame.size.height = preferredSize.height // update height
+                switch scrollDirection {
+                    case .vertical:
+                        let containerWidth = layout.mCollectionView.bounds.width - sectionModel.sectionInset.left - sectionModel.sectionInset.right
+
+                        if !preferredSize.width.isLessThanOrEqualTo(containerWidth) {
+                            frame.size.width = containerWidth
+                            itemModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: containerWidth), height: itemModel.sizeMode.height)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                layout.invalidateLayout()
+                            }
+//                            layout.invalidateLayout()
+                        } else {
+                            frame.size.width = preferredSize.width
+                        }
+                        frame.size.height = preferredSize.height
+                    default:
+                        break
+                }
                 itemModel.frame = frame
         }
     }
@@ -439,11 +460,11 @@ extension ModeState {
                                 }
             }
             for (index, itemModel) in sectionModel.itemModels.enumerated() {
-                                if rect.contains(itemModel.frame) || rect.intersects(itemModel.frame) {
+//                                if rect.contains(itemModel.frame) || rect.intersects(itemModel.frame) {
                 let indexPath = IndexPath(item: index, section: section)
                 let attr = itemLayoutAttributes(at: indexPath, sectionModel: sectionModel, itemModel: itemModel)
                 attrs.append(attr)
-                                }
+//                                }
             }
             if let footerModel = sectionModel.footerModel {
                                 if rect.contains(footerModel.frame) || rect.intersects(footerModel.frame) {

@@ -191,6 +191,10 @@ extension ModeState {
                             x += itemModel.frame.width
                             y += itemModel.frame.height
                             subItems.append(itemModel)
+                            
+//                            if itemModel.frame.width.isEqual(to: containerWidth) {
+//                                itemModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: containerWidth), height: itemModel.sizeMode.height)
+//                            }
                         }
                     } else {
                         // first
@@ -205,6 +209,10 @@ extension ModeState {
                         x += itemModel.frame.width
                         y = itemModel.frame.height
                         subItems.append(itemModel)
+                        
+//                        if itemModel.frame.width.isEqual(to: containerWidth) {
+//                            itemModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: containerWidth), height: itemModel.sizeMode.height)
+//                        }
                     }
                     preItemModel = itemModel
                 }
