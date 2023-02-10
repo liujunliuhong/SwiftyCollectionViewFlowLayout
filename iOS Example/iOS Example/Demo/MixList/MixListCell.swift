@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import SwiftyCollectionViewFlowLayout
 
-public final class MixListCell: UICollectionViewCell {
+public final class MixListCell: SwiftyCollectionViewCell {
     public private(set) lazy var label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center

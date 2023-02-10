@@ -62,11 +62,12 @@ extension ModeState {
         footerModel.frame = frame
     }
     
-    internal func footerLayoutAttributes(at section: Int, frame: CGRect) -> UICollectionViewLayoutAttributes {
-        let sizeMode = footerModel(at: section)?.sizeMode ?? Default.sizeMode
+    internal func footerLayoutAttributes(at section: Int, frame: CGRect, sectionModel: SectionModel, sizeMode: SwiftyCollectionViewFlowLayoutSizeMode) -> UICollectionViewLayoutAttributes {
         let indexPath = IndexPath(item: 0, section: section)
         let attr = SwiftyCollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, with: indexPath)
         attr.sizeMode = sizeMode
+        attr.layout = layout
+        attr.sectionModel = sectionModel
         attr.frame = frame
         return attr
     }

@@ -124,39 +124,6 @@ extension MixListViewController: UICollectionViewDataSource {
     }
 }
 
-//extension MixListViewController: UICollectionViewDelegateFlowLayout {
-//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-//    }
-//
-//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let model = dataSource[indexPath.section].models[indexPath.item]
-//        // 当scrollDirection = .horizontal，高度无效
-//        // 当scrollDirection = .vertical，宽度无效
-//        return CGSize(width: model.width, height: model.height)
-//    }
-//
-//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 10
-//    }
-//
-//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 15
-//    }
-//
-//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        // 当scrollDirection = .horizontal，高度无效
-//        // 当scrollDirection = .vertical，宽度无效
-//        return CGSize(width: 80, height: 120)
-//    }
-//
-//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-//        // 当scrollDirection = .horizontal，高度无效
-//        // 当scrollDirection = .vertical，宽度无效
-//        return CGSize(width: 80, height: 80)
-//    }
-//}
-
 extension MixListViewController: SwiftyCollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionType section: Int) -> SwiftyCollectionViewSectionType {
         return dataSource[section].sectionType

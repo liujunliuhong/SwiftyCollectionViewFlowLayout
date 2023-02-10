@@ -19,12 +19,4 @@ extension SectionModel {
             (objc_getAssociatedObject(self, &key) as? [CGFloat]) ?? []
         }
     }
-    
-    internal func resetWaterFlowBodyColumnLengths() {
-        var bodyColumnLengths = waterFlowBodyColumnLengths
-        for i in 0..<bodyColumnLengths.count {
-            bodyColumnLengths[i] = .zero
-        }
-        waterFlowBodyColumnLengths = bodyColumnLengths
-    }
 }

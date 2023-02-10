@@ -11,16 +11,11 @@ import SnapKit
 
 private let heights: [CGFloat] = [40, 50, 80, 110, 140]
 private let widths: [CGFloat] = [40, 80, 110, 140, 150]
-private let sectionTypes: [SwiftyCollectionViewSectionType] = [
-//    .waterFlow(numberOfColumns: 2),
-                                                               .tagList(direction: .left, alignment: .top)
-]
+private let sectionTypes: [SwiftyCollectionViewSectionType] = [.waterFlow(numberOfColumns: 2),
+                                                               .tagList(direction: .left, alignment: .top)]
 
-/// 自动布局，暂未完成
+/// 自动布局
 public final class AutoSizeViewController: UIViewController {
-    deinit {
-        print("111")
-    }
     private var dataSource: [AutoSizeSectionModel] = []
     
     private lazy var layout: SwiftyCollectionViewFlowLayout = {
@@ -52,14 +47,10 @@ public final class AutoSizeViewController: UIViewController {
         collectionView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(120)
             make.left.right.equalToSuperview().inset(25)
-            make.bottom.equalToSuperview().offset(-280)
+            make.bottom.equalToSuperview().offset(-90)
         }
         
         loadData()
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//            self.layout.invalidateLayout()
-//        }
     }
 }
 
@@ -73,12 +64,10 @@ extension AutoSizeViewController {
             "dasdasdasddsadsad", "dsadsadsadadsdadsa", "dasdasdasdsadasdasdasddasd",
             "dasdasdasdsadasdasdasddasddasdasdasdsadasdasdasddasddasdasdasdsadasdasdasddasddasdasdasdsadasdasdasddasd"
         ]
-        let headerTitles: [String] = ["This is Header", "This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header", "This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header, This is Header"]
-        let footerTitles: [String] = ["This is Footer", "This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer", "This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer, This is Footer"]
+        let headerTitles: [String] = ["This is dynamic Header", "This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header", "This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header"]
+        let footerTitles: [String] = ["This is dynamic Footer", "This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer", "This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer"]
         
-        let counts: [Int] = [30, 15, 20, 25]
-//        let counts: [Int] = [30]
-//        let counts: [Int] = [1]
+        let counts: [Int] = [15, 20, 25, 30]
         
         for _ in 0..<sectionTypes.count {
             var array: [AutoSizeItemModel] = []
@@ -96,8 +85,8 @@ extension AutoSizeViewController {
     }
     
     @objc private func refreshAction() {
+        //layout.scrollDirection = layout.scrollDirection == .vertical ? .horizontal : .vertical
         loadData()
-        //collectionView.reloadData()
     }
 }
 
@@ -142,18 +131,16 @@ extension AutoSizeViewController: UICollectionViewDataSource {
 extension AutoSizeViewController: SwiftyCollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewFlowLayoutSizeMode {
         let model = dataSource[indexPath.section].items[indexPath.item]
-        //return .init(width: .static(length: model.width), height: .static(length: model.height))
-        return .init(width: .dynamic, height: .dynamic)
+        //return .init(width: .dynamic, height: .static(length: 30))
+        return .init(width: .dynamic(increment: 15), height: .dynamic(increment: 15))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
-//        return .visible(sizeMode: .init(width: .dynamic, height: .dynamic))
-        return .hidden
+        return .visible(sizeMode: .init(width: .dynamic(), height: .dynamic()))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
-//        return .visible(sizeMode: .init(width: .dynamic, height: .dynamic))
-        return .hidden
+        return .visible(sizeMode: .init(width: .dynamic(), height: .dynamic()))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionInsetContainHeader section: Int) -> Bool {
@@ -172,8 +159,7 @@ extension AutoSizeViewController: SwiftyCollectionViewDelegateFlowLayout {
         let extraAttributes = DecorationExtraAttributes()
         extraAttributes.cornerRadius = 10.0
         extraAttributes.backgroundColor = .purple
-//        return .visible(extraAttributes: extraAttributes)
-        return .hidden
+        return .visible(extraAttributes: extraAttributes)
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, decorationExtraInset section: Int) -> UIEdgeInsets {

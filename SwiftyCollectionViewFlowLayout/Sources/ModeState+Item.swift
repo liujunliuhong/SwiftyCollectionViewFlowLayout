@@ -36,12 +36,12 @@ extension ModeState {
         }
     }
     
-    internal func itemLayoutAttributes(at indexPath: IndexPath, sectionModel: SectionModel, itemModel: ItemModel) -> UICollectionViewLayoutAttributes {
+    internal func itemLayoutAttributes(at indexPath: IndexPath, frame: CGRect, sectionModel: SectionModel, sizeMode: SwiftyCollectionViewFlowLayoutSizeMode) -> UICollectionViewLayoutAttributes {
         let attr = SwiftyCollectionViewLayoutAttributes(forCellWith: indexPath)
-        attr.sizeMode = itemModel.sizeMode
+        attr.sizeMode = sizeMode
         attr.sectionModel = sectionModel
         attr.layout = layout
-        attr.frame = itemModel.frame
+        attr.frame = frame
         return attr
     }
 }
@@ -191,10 +191,6 @@ extension ModeState {
                             x += itemModel.frame.width
                             y += itemModel.frame.height
                             subItems.append(itemModel)
-                            
-//                            if itemModel.frame.width.isEqual(to: containerWidth) {
-//                                itemModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: containerWidth), height: itemModel.sizeMode.height)
-//                            }
                         }
                     } else {
                         // first
@@ -209,10 +205,6 @@ extension ModeState {
                         x += itemModel.frame.width
                         y = itemModel.frame.height
                         subItems.append(itemModel)
-                        
-//                        if itemModel.frame.width.isEqual(to: containerWidth) {
-//                            itemModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: containerWidth), height: itemModel.sizeMode.height)
-//                        }
                     }
                     preItemModel = itemModel
                 }

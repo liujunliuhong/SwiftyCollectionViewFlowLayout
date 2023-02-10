@@ -10,10 +10,10 @@ import UIKit
 
 internal final class SectionModel {
     internal let sectionType: SwiftyCollectionViewSectionType
-    internal let headerModel: HeaderModel?
-    internal let footerModel: FooterModel?
-    internal let itemModels: [ItemModel]
-    internal let decorationModel: DecorationModel?
+    internal var headerModel: HeaderModel?
+    internal var footerModel: FooterModel?
+    internal var itemModels: [ItemModel]
+    internal var decorationModel: DecorationModel?
     
     internal let sectionInset: UIEdgeInsets
     internal let lineSpacing: CGFloat
@@ -152,5 +152,16 @@ extension SectionModel {
             length += sectionInset.right
         }
         return length
+    }
+}
+
+extension SectionModel {
+    @discardableResult
+    internal func deleteItemModel(atIndex indexOfDeletion: Int) -> ItemModel {
+        return itemModels.remove(at: indexOfDeletion)
+    }
+    
+    internal func insert(_ itemModel: ItemModel, atIndex indexOfInsertion: Int) {
+        itemModels.insert(itemModel, at: indexOfInsertion)
     }
 }

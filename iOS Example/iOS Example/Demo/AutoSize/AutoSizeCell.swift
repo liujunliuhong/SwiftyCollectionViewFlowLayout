@@ -17,7 +17,6 @@ public final class AutoSizeCell: SwiftyCollectionViewCell {
         label.textColor = .white
         label.font = .systemFont(ofSize: 15)
         label.numberOfLines = 0
-        label.lineBreakMode = .byCharWrapping
         return label
     }()
     
@@ -33,11 +32,6 @@ public final class AutoSizeCell: SwiftyCollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-//        label.frame = bounds
     }
     
     public func bind(to model: AutoSizeItemModel) {

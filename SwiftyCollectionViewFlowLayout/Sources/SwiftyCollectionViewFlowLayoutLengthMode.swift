@@ -7,7 +7,8 @@
 
 import Foundation
 
+/// Length Mode
 public enum SwiftyCollectionViewFlowLayoutLengthMode: Equatable {
     case `static`(length: CGFloat)
-    case dynamic
+    case dynamic(increment: CGFloat = .zero)
 }

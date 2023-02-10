@@ -47,7 +47,7 @@ public final class ViewController: UIViewController {
                       Model(title: "不规则标签列表", vc: NSStringFromClass(IrregularTagListViewController.classForCoder())),
                       Model(title: "混合显示", vc: NSStringFromClass(MixListViewController.classForCoder())),
                       Model(title: "装饰视图", vc: NSStringFromClass(DecorationViewController.classForCoder())),
-                      Model(title: "Auto-Size", vc: NSStringFromClass(AutoSizeViewController.classForCoder()))]
+                      Model(title: "Auto-Size(动态宽、高)", vc: NSStringFromClass(AutoSizeViewController.classForCoder()))]
         tableView.reloadData()
     }
 }

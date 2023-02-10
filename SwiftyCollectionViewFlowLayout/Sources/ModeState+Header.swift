@@ -63,11 +63,12 @@ extension ModeState {
         headerModel.frame = frame
     }
     
-    internal func headerLayoutAttributes(at section: Int, frame: CGRect) -> UICollectionViewLayoutAttributes {
-        let sizeMode = headerModel(at: section)?.sizeMode ?? Default.sizeMode
+    internal func headerLayoutAttributes(at section: Int, frame: CGRect, sectionModel: SectionModel, sizeMode: SwiftyCollectionViewFlowLayoutSizeMode) -> UICollectionViewLayoutAttributes {
         let indexPath = IndexPath(item: 0, section: section)
         let attr = SwiftyCollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, with: indexPath)
         attr.sizeMode = sizeMode
+        attr.sectionModel = sectionModel
+        attr.layout = layout
         attr.frame = frame
         return attr
     }

@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import SwiftyCollectionViewFlowLayout
+import SnapKit
 
-public final class TagListCell: UICollectionViewCell {
+public final class TagListCell: SwiftyCollectionViewCell {
     private lazy var label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -19,15 +21,14 @@ public final class TagListCell: UICollectionViewCell {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(label)
+        label.snp.makeConstraints { make in
+            make.left.top.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        label.frame = bounds
     }
     
     public func bind(to model: TagListModel) {

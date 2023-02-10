@@ -9,10 +9,11 @@ import Foundation
 import UIKit
 
 internal final class ModeState {
+    
     private var currentSectionModels: [SectionModel] = []
+    private var sectionModelsBeforeBatchUpdates = [SectionModel]()
     
     internal weak var layout: SwiftyCollectionViewFlowLayout?
-    
     
     internal init(layout: SwiftyCollectionViewFlowLayout) {
         self.layout = layout
@@ -25,128 +26,13 @@ extension ModeState {
     }
     
     internal func setSections(_ sectionModels: [SectionModel]) {
-        let sectionModels = sectionModels
-        for sectionModel in sectionModels {
-            updateInitialHeaderSize(sectionModel: sectionModel)
-            updateInitialItemSize(sectionModel: sectionModel)
-            updateInitialFooterSize(sectionModel: sectionModel)
-        }
         currentSectionModels = sectionModels
     }
 }
 
 extension ModeState {
-    private func updateInitialHeaderSize(sectionModel: SectionModel) {
-//        guard let headerModel = sectionModel.headerModel else { return }
-//        let scrollDirection = layout().scrollDirection
-//        switch scrollDirection {
-//            case .vertical:
-//                var width = layout().mCollectionView.bounds.width
-//                if sectionModel.sectionInsetContainHeader {
-//                    width -= (sectionModel.sectionInset.left + sectionModel.sectionInset.right)
-//                }
-//                var frame = headerModel.frame
-//                frame.size.width = width
-//                headerModel.frame = frame
-//
-//                // reset sizeMode.width
-////                headerModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: width), height: headerModel.sizeMode.height)
-//
-//            case .horizontal:
-//                var height = layout().mCollectionView.bounds.height
-//                if sectionModel.sectionInsetContainHeader {
-//                    height -= (sectionModel.sectionInset.top + sectionModel.sectionInset.bottom)
-//                }
-//
-//                var frame = headerModel.frame
-//                frame.size.height = height
-//                headerModel.frame = frame
-//
-//                // reset sizeMode.height
-//                headerModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: headerModel.sizeMode.width, height: .static(length: height))
-//            default:
-//                break
-//        }
-    }
-    
-    private func updateInitialFooterSize(sectionModel: SectionModel) {
-//        guard let footerModel = sectionModel.footerModel else { return }
-//        let scrollDirection = layout().scrollDirection
-//        switch scrollDirection {
-//            case .vertical:
-//                var width = layout().mCollectionView.bounds.width
-//                if sectionModel.sectionInsetContainFooter {
-//                    width -= (sectionModel.sectionInset.left + sectionModel.sectionInset.right)
-//                }
-//
-//                var frame = footerModel.frame
-//                frame.size.width = width
-//                footerModel.frame = frame
-//
-//                // reset sizeMode.width
-//                footerModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: width), height: footerModel.sizeMode.height)
-//
-//            case .horizontal:
-//                var height = layout().mCollectionView.bounds.height
-//                if sectionModel.sectionInsetContainFooter {
-//                    height -= (sectionModel.sectionInset.top + sectionModel.sectionInset.bottom)
-//                }
-//
-//                var frame = footerModel.frame
-//                frame.size.height = height
-//                footerModel.frame = frame
-//
-//                // reset sizeMode.height
-//                footerModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: footerModel.sizeMode.width, height: .static(length: height))
-//            default:
-//                break
-//        }
-    }
-    
-    private func updateInitialItemSize(sectionModel: SectionModel) {
-//        guard let layout = layout else { return }
-//        switch sectionModel.sectionType {
-//            case .waterFlow(let numberOfColumns):
-//                let itemModels = sectionModel.itemModels
-//                let scrollDirection = layout.scrollDirection
-//                switch scrollDirection {
-//                    case .vertical:
-//                        let columnWidth = (layout.mCollectionView.frame.width - sectionModel.sectionInset.left - sectionModel.sectionInset.right - CGFloat(numberOfColumns - 1) * sectionModel.interitemSpacing) / CGFloat(numberOfColumns)
-//
-//                        for itemModel in itemModels {
-//                            var frame = itemModel.frame
-//                            frame.size.width = columnWidth
-//                            itemModel.frame = frame
-//
-//                            // reset sizeMode.width
-//                            itemModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: columnWidth), height: itemModel.sizeMode.height)
-//                        }
-//
-//                    case .horizontal:
-//                        let columnHeight = (layout.mCollectionView.frame.height - sectionModel.sectionInset.top - sectionModel.sectionInset.bottom - CGFloat(numberOfColumns - 1) * sectionModel.interitemSpacing) / CGFloat(numberOfColumns)
-//                        for itemModel in itemModels {
-//                            var frame = itemModel.frame
-//                            frame.size.height = columnHeight
-//                            itemModel.frame = frame
-//
-//                            // reset sizeMode.height
-//                            itemModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: itemModel.sizeMode.width, height: .static(length: columnHeight))
-//                        }
-//                    default:
-//                        break
-//                }
-//
-//                var bodyColumnLengths: [CGFloat] = []
-//                for _ in 0..<numberOfColumns {
-//                    bodyColumnLengths.append(.zero)
-//                }
-//                sectionModel.waterFlowBodyColumnLengths = bodyColumnLengths
-//
-//            case .tagList:
-//                break
-//            default:
-//                break
-//        }
+    internal func numberOfSections() -> Int {
+        return currentSectionModels.count
     }
     
     internal func itemModel(at indexPath: IndexPath) -> ItemModel? {
@@ -192,6 +78,79 @@ extension ModeState {
         }
         return totalLength
     }
+    
+    internal func applyUpdates(_ updates: [CollectionViewUpdate<SectionModel, ItemModel>]) {
+        
+        sectionModelsBeforeBatchUpdates = currentSectionModels
+        
+        var sectionModelReloadIndexPairs = [(sectionModel: SectionModel, reloadIndex: Int)]()
+        var itemModelReloadIndexPathPairs = [(itemModel: ItemModel, reloadIndexPath: IndexPath)]()
+        
+        var sectionIndicesToDelete = [Int]()
+        var itemIndexPathsToDelete = [IndexPath]()
+        
+        var sectionModelInsertIndexPairs = [(sectionModel: SectionModel, insertIndex: Int)]()
+        var itemModelInsertIndexPathPairs = [(itemModel: ItemModel, insertIndexPath: IndexPath)]()
+        
+        for update in updates {
+            switch update {
+                case let .sectionReload(sectionIndex, newSection):
+                    sectionModelReloadIndexPairs.append((newSection, sectionIndex))
+                case let .itemReload(itemIndexPath, newItem):
+                    itemModelReloadIndexPathPairs.append((newItem, itemIndexPath))
+                case let .sectionDelete(sectionIndex):
+                    sectionIndicesToDelete.append(sectionIndex)
+                case let .itemDelete(itemIndexPath):
+                    itemIndexPathsToDelete.append(itemIndexPath)
+                case let .sectionMove(initialSectionIndex, finalSectionIndex):
+                    sectionIndicesToDelete.append(initialSectionIndex)
+                    let sectionModelToMove = sectionModelsBeforeBatchUpdates[initialSectionIndex]
+                    sectionModelInsertIndexPairs.append((sectionModelToMove, finalSectionIndex))
+                case let .itemMove(initialItemIndexPath, finalItemIndexPath):
+                    itemIndexPathsToDelete.append(initialItemIndexPath)
+                    if let itemModelToMove = itemModel(at: initialItemIndexPath) {
+                        itemModelInsertIndexPathPairs.append((itemModelToMove, finalItemIndexPath))
+                    }
+                case let .sectionInsert(sectionIndex, newSection):
+                    sectionModelInsertIndexPairs.append((newSection, sectionIndex))
+                case let .itemInsert(itemIndexPath, newItem):
+                    itemModelInsertIndexPathPairs.append((newItem, itemIndexPath))
+            }
+        }
+        
+        reloadItemModels(itemModelReloadIndexPathPairs: itemModelReloadIndexPathPairs)
+        reloadSectionModels(sectionModelReloadIndexPairs: sectionModelReloadIndexPairs)
+        
+        deleteItemModels(atIndexPaths: itemIndexPathsToDelete)
+        deleteSectionModels(atIndices: sectionIndicesToDelete)
+        
+        insertSectionModels(sectionModelInsertIndexPairs: sectionModelInsertIndexPairs)
+        insertItemModels(itemModelInsertIndexPathPairs: itemModelInsertIndexPathPairs)
+    }
+    
+    internal func clearInProgressBatchUpdateState() {
+        sectionModelsBeforeBatchUpdates.removeAll()
+    }
+    
+    internal func setHeader(headerModel: HeaderModel, at section: Int) {
+        sectionModel(at: section)?.headerModel = headerModel
+    }
+    
+    internal func removeHeader(at section: Int) {
+        sectionModel(at: section)?.headerModel = nil
+    }
+    
+    internal func setFooter(footerModel: FooterModel, at section: Int) {
+        sectionModel(at: section)?.footerModel = footerModel
+    }
+    
+    internal func removeFooter(at section: Int) {
+        sectionModel(at: section)?.footerModel = nil
+    }
+    
+    internal func updateItemSizeMode(sizeMode: SwiftyCollectionViewFlowLayoutSizeMode, at indexPath: IndexPath) {
+        itemModel(at: indexPath)?.sizeMode = sizeMode
+    }
 }
 
 extension ModeState {
@@ -221,30 +180,9 @@ extension ModeState {
                         break
                 }
             case .tagList:
-//                var frame = itemModel.frame
-//                frame.size.width = preferredSize.width // update width
-//                frame.size.height = preferredSize.height // update height
-//                itemModel.frame = frame
-                
                 var frame = itemModel.frame
-                switch scrollDirection {
-                    case .vertical:
-                        let containerWidth = layout.mCollectionView.bounds.width - sectionModel.sectionInset.left - sectionModel.sectionInset.right
-
-                        if !preferredSize.width.isLessThanOrEqualTo(containerWidth) {
-                            frame.size.width = containerWidth
-                            itemModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: containerWidth), height: itemModel.sizeMode.height)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                layout.invalidateLayout()
-                            }
-//                            layout.invalidateLayout()
-                        } else {
-                            frame.size.width = preferredSize.width
-                        }
-                        frame.size.height = preferredSize.height
-                    default:
-                        break
-                }
+                frame.size.width = preferredSize.width // update width
+                frame.size.height = preferredSize.height // update height
                 itemModel.frame = frame
         }
     }
@@ -286,6 +224,48 @@ extension ModeState {
                 footerModel.frame = frame
             default:
                 break
+        }
+    }
+    
+    private func reloadSectionModels(sectionModelReloadIndexPairs: [(sectionModel: SectionModel, reloadIndex: Int)]) {
+        for (sectionModel, reloadIndex) in sectionModelReloadIndexPairs {
+            currentSectionModels.remove(at: reloadIndex)
+            currentSectionModels.insert(sectionModel, at: reloadIndex)
+        }
+    }
+    
+    private func reloadItemModels(itemModelReloadIndexPathPairs: [(itemModel: ItemModel, reloadIndexPath: IndexPath)]) {
+        for (itemModel, reloadIndexPath) in itemModelReloadIndexPathPairs {
+            currentSectionModels[reloadIndexPath.section].deleteItemModel(atIndex: reloadIndexPath.item)
+            currentSectionModels[reloadIndexPath.section].insert(itemModel, atIndex: reloadIndexPath.item)
+        }
+    }
+    
+    private func deleteSectionModels(atIndices indicesOfSectionModelsToDelete: [Int]) {
+        // Always delete in descending order
+        for indexOfSectionModelToDelete in (indicesOfSectionModelsToDelete.sorted { $0 > $1 }) {
+            currentSectionModels.remove(at: indexOfSectionModelToDelete)
+        }
+    }
+    
+    private func deleteItemModels(atIndexPaths indexPathsOfItemModelsToDelete: [IndexPath]) {
+        // Always delete in descending order
+        for indexPathOfItemModelToDelete in (indexPathsOfItemModelsToDelete.sorted { $0 > $1 }) {
+            currentSectionModels[indexPathOfItemModelToDelete.section].deleteItemModel(atIndex: indexPathOfItemModelToDelete.item)
+        }
+    }
+    
+    private func insertSectionModels(sectionModelInsertIndexPairs: [(sectionModel: SectionModel, insertIndex: Int)]) {
+        // Always insert in ascending order
+        for (sectionModel, insertIndex) in (sectionModelInsertIndexPairs.sorted { $0.insertIndex < $1.insertIndex }) {
+            currentSectionModels.insert(sectionModel, at: insertIndex)
+        }
+    }
+    
+    private func insertItemModels(itemModelInsertIndexPathPairs: [(itemModel: ItemModel, insertIndexPath: IndexPath)]) {
+        // Always insert in ascending order
+        for (itemModel, insertIndexPath) in (itemModelInsertIndexPathPairs.sorted { $0.insertIndexPath < $1.insertIndexPath }) {
+            currentSectionModels[insertIndexPath.section].insert(itemModel, atIndex: insertIndexPath.item)
         }
     }
 }
@@ -412,7 +392,6 @@ extension ModeState {
                 switch preferredAttributes.representedElementKind {
                     case UICollectionView.elementKindSectionHeader:
                         updateHeaderSize(preferredSize: preferredAttributes.size, section: preferredAttributes.indexPath.section)
-                        print("\(#function), \(preferredAttributes.indexPath), \(preferredAttributes.size.height)")
                     case UICollectionView.elementKindSectionFooter:
                         updateFooterSize(preferredSize: preferredAttributes.size, section: preferredAttributes.indexPath.section)
                     default:
@@ -440,7 +419,6 @@ extension ModeState {
             default:
                 break
         }
-        print("shouldInvalidateLayout: \(shouldInvalidateLayout)")
         return shouldInvalidateLayout
     }
     
@@ -454,29 +432,38 @@ extension ModeState {
         var attrs: [UICollectionViewLayoutAttributes] = []
         for (section, sectionModel) in currentSectionModels.enumerated() {
             if let headerModel = sectionModel.headerModel {
-                                if rect.contains(headerModel.frame) || rect.intersects(headerModel.frame) {
-                let attr = headerLayoutAttributes(at: section, frame: headerModel.frame)
-                attrs.append(attr)
-                                }
+//                if rect.contains(headerModel.frame) || rect.intersects(headerModel.frame) {
+                    let attr = headerLayoutAttributes(at: section,
+                                                      frame: headerModel.frame,
+                                                      sectionModel: sectionModel,
+                                                      sizeMode: headerModel.sizeMode)
+                    attrs.append(attr)
+//                }
             }
             for (index, itemModel) in sectionModel.itemModels.enumerated() {
-//                                if rect.contains(itemModel.frame) || rect.intersects(itemModel.frame) {
-                let indexPath = IndexPath(item: index, section: section)
-                let attr = itemLayoutAttributes(at: indexPath, sectionModel: sectionModel, itemModel: itemModel)
-                attrs.append(attr)
-//                                }
+//                if rect.contains(itemModel.frame) || rect.intersects(itemModel.frame) {
+                    let indexPath = IndexPath(item: index, section: section)
+                    let attr = itemLayoutAttributes(at: indexPath,
+                                                    frame: itemModel.frame,
+                                                    sectionModel: sectionModel,
+                                                    sizeMode: itemModel.sizeMode)
+                    attrs.append(attr)
+//                }
             }
             if let footerModel = sectionModel.footerModel {
-                                if rect.contains(footerModel.frame) || rect.intersects(footerModel.frame) {
-                let attr = footerLayoutAttributes(at: section, frame: footerModel.frame)
-                attrs.append(attr)
-                                }
+//                if rect.contains(footerModel.frame) || rect.intersects(footerModel.frame) {
+                    let attr = footerLayoutAttributes(at: section,
+                                                      frame: footerModel.frame,
+                                                      sectionModel: sectionModel,
+                                                      sizeMode: footerModel.sizeMode)
+                    attrs.append(attr)
+//                }
             }
             if let decorationModel = sectionModel.decorationModel {
-                                if rect.contains(decorationModel.frame) || rect.intersects(decorationModel.frame) {
-                let attr = decorationLayoutAttributes(at: section, frame: decorationModel.frame)
-                attrs.append(attr)
-                                }
+//                if rect.contains(decorationModel.frame) || rect.intersects(decorationModel.frame) {
+                    let attr = decorationLayoutAttributes(at: section, frame: decorationModel.frame)
+                    attrs.append(attr)
+//                }
             }
         }
         return attrs
@@ -502,7 +489,4 @@ extension ModeState {
         }
         return size
     }
-}
-extension ModeState {
-    
 }

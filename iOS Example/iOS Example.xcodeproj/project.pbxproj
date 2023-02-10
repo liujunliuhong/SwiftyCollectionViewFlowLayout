@@ -192,9 +192,9 @@
 		8565A86C298BF6A800FFE2FD /* TagList */ = {
 			isa = PBXGroup;
 			children = (
-				8565A86D298BF6A800FFE2FD /* TagListCell.swift */,
-				8565A86E298BF6A800FFE2FD /* TagListModel.swift */,
 				8565A86F298BF6A800FFE2FD /* TagListViewController.swift */,
+				8565A86E298BF6A800FFE2FD /* TagListModel.swift */,
+				8565A86D298BF6A800FFE2FD /* TagListCell.swift */,
 			);
 			path = TagList;
 			sourceTree = "<group>";

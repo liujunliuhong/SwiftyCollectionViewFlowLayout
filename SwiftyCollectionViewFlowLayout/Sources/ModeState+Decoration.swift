@@ -72,7 +72,6 @@ extension ModeState {
     
     internal func decorationLayoutAttributes(at section: Int, frame: CGRect) -> UICollectionViewLayoutAttributes {
         let extraAttributes = decorationModel(at: section)?.extraAttributes
-        
         let indexPath = IndexPath(item: 0, section: section)
         let attr = SwiftyCollectionViewLayoutDecorationAttributes(forDecorationViewOfKind: SwiftyCollectionViewFlowLayout.DecorationElementKind, with: indexPath)
         attr.extraAttributes = extraAttributes

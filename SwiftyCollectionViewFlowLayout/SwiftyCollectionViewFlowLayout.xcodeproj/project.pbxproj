@@ -30,6 +30,7 @@
 		D14D300C29939C5000E31E7E /* ModeState+Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D300B29939C5000E31E7E /* ModeState+Footer.swift */; };
 		D14D300E29939CB300E31E7E /* ModeState+Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D300D29939CB300E31E7E /* ModeState+Item.swift */; };
 		D14D30102993A4FD00E31E7E /* SectionModel+WaterFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14D300F2993A4FD00E31E7E /* SectionModel+WaterFlow.swift */; };
+		D18A32272996380000E41699 /* CollectionViewUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18A32262996380000E41699 /* CollectionViewUpdate.swift */; };
 		D1FF4B66299491AB005518D6 /* SwiftyCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FF4B65299491AB005518D6 /* SwiftyCollectionReusableView.swift */; };
 		D1FF4B682994A329005518D6 /* SwiftyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FF4B672994A329005518D6 /* SwiftyCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -59,6 +60,7 @@
 		D14D300B29939C5000E31E7E /* ModeState+Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModeState+Footer.swift"; sourceTree = "<group>"; };
 		D14D300D29939CB300E31E7E /* ModeState+Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModeState+Item.swift"; sourceTree = "<group>"; };
 		D14D300F2993A4FD00E31E7E /* SectionModel+WaterFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionModel+WaterFlow.swift"; sourceTree = "<group>"; };
+		D18A32262996380000E41699 /* CollectionViewUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewUpdate.swift; sourceTree = "<group>"; };
 		D1FF4B65299491AB005518D6 /* SwiftyCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionReusableView.swift; sourceTree = "<group>"; };
 		D1FF4B672994A329005518D6 /* SwiftyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,6 +128,7 @@
 				D14D300129936D8F00E31E7E /* FooterModel.swift */,
 				858C42EA2993F395001F5DF1 /* DecorationModel.swift */,
 				D14D300F2993A4FD00E31E7E /* SectionModel+WaterFlow.swift */,
+				D18A32262996380000E41699 /* CollectionViewUpdate.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D18A32272996380000E41699 /* CollectionViewUpdate.swift in Sources */,
 				D14D300A299397CA00E31E7E /* SwiftyCollectionViewLayoutAttributes.swift in Sources */,
 				D14D300229936D8F00E31E7E /* FooterModel.swift in Sources */,
 				85DC920E298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift in Sources */,
