@@ -9,38 +9,23 @@ import Foundation
 import UIKit
 
 internal final class SectionModel {
-    internal let sectionType: SwiftyCollectionViewSectionType
     internal var headerModel: HeaderModel?
     internal var footerModel: FooterModel?
     internal var itemModels: [ItemModel]
     internal var decorationModel: DecorationModel?
     
-    internal let sectionInset: UIEdgeInsets
-    internal let lineSpacing: CGFloat
-    internal let interitemSpacing: CGFloat
-    internal let sectionInsetContainHeader: Bool
-    internal let sectionInsetContainFooter: Bool
+    internal var metrics: SectionMetrics
     
-    internal init(sectionType: SwiftyCollectionViewSectionType,
-                  headerModel: HeaderModel?,
+    internal init(headerModel: HeaderModel?,
                   footerModel: FooterModel?,
                   itemModels: [ItemModel],
                   decorationModel: DecorationModel?,
-                  sectionInset: UIEdgeInsets,
-                  lineSpacing: CGFloat,
-                  interitemSpacing: CGFloat,
-                  sectionInsetContainHeader: Bool,
-                  sectionInsetContainFooter: Bool) {
-        self.sectionType = sectionType
+                  metrics: SectionMetrics) {
         self.headerModel = headerModel
         self.footerModel = footerModel
         self.itemModels = itemModels
         self.decorationModel = decorationModel
-        self.sectionInset = sectionInset
-        self.lineSpacing = lineSpacing
-        self.interitemSpacing = interitemSpacing
-        self.sectionInsetContainHeader = sectionInsetContainHeader
-        self.sectionInsetContainFooter = sectionInsetContainFooter
+        self.metrics = metrics
     }
 }
 
@@ -72,7 +57,7 @@ extension SectionModel {
         var length: CGFloat = .zero
         if scrollDirection == .vertical {
             //
-            length += sectionInset.top
+            length += metrics.sectionInset.top
             // header
             if let headerModel = headerModel {
                 length += headerModel.frame.height
@@ -80,14 +65,14 @@ extension SectionModel {
             // items
             length += allItemsLength(scrollDirection: scrollDirection)
             //
-            length += sectionInset.bottom
+            length += metrics.sectionInset.bottom
             // footer
             if let footerModel = footerModel {
                 length += footerModel.frame.height
             }
         } else if scrollDirection == .horizontal {
             //
-            length += sectionInset.left
+            length += metrics.sectionInset.left
             // header
             if let headerModel = headerModel {
                 length += headerModel.frame.width
@@ -95,7 +80,7 @@ extension SectionModel {
             // items
             length += allItemsLength(scrollDirection: scrollDirection)
             //
-            length += sectionInset.right
+            length += metrics.sectionInset.right
             // footer
             if let footerModel = footerModel {
                 length += footerModel.frame.width
@@ -109,14 +94,14 @@ extension SectionModel {
         var length: CGFloat = .zero
         if scrollDirection == .vertical {
             //
-            length += sectionInset.top
+            length += metrics.sectionInset.top
             // header
             if let headerModel = headerModel {
                 length += headerModel.frame.height
             }
         } else if scrollDirection == .horizontal {
             //
-            length += sectionInset.left
+            length += metrics.sectionInset.left
             // header
             if let headerModel = headerModel {
                 length += headerModel.frame.width
@@ -130,7 +115,7 @@ extension SectionModel {
         var length: CGFloat = .zero
         if scrollDirection == .vertical {
             //
-            length += sectionInset.top
+            length += metrics.sectionInset.top
             // header
             if let headerModel = headerModel {
                 length += headerModel.frame.height
@@ -138,10 +123,10 @@ extension SectionModel {
             // items
             length += allItemsLength(scrollDirection: scrollDirection)
             //
-            length += sectionInset.bottom
+            length += metrics.sectionInset.bottom
         } else if scrollDirection == .horizontal {
             //
-            length += sectionInset.left
+            length += metrics.sectionInset.left
             // header
             if let headerModel = headerModel {
                 length += headerModel.frame.width
@@ -149,7 +134,7 @@ extension SectionModel {
             // items
             length += allItemsLength(scrollDirection: scrollDirection)
             //
-            length += sectionInset.right
+            length += metrics.sectionInset.right
         }
         return length
     }

@@ -14,6 +14,7 @@ private struct PrepareActions: OptionSet {
     static let updateLayoutMetrics = PrepareActions(rawValue: 1 << 1)
 }
 
+
 /// `SwiftyCollectionViewFlowLayout`, Inherit `UICollectionViewLayout`
 public final class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
     deinit {
@@ -69,7 +70,10 @@ extension SwiftyCollectionViewFlowLayout {
         
         if prepareActions.contains(.updateLayoutMetrics) {
             for section in 0..<modeState.numberOfSections() {
-          
+                
+                let metrics = metricsForSection(at: section)
+                modeState.updateMetrics(metrics, at: section)
+                
                 if let headerModel = headerModelForHeader(at: section) {
                     modeState.setHeader(headerModel: headerModel, at: section)
                 } else {
@@ -82,11 +86,15 @@ extension SwiftyCollectionViewFlowLayout {
                     modeState.removeFooter(at: section)
                 }
                 
-                if let sectionModel = modeState.sectionModel(at: section) {
-                    for i in 0..<sectionModel.itemModels.count {
-                        let indexPath = IndexPath(item: i, section: section)
-                        modeState.updateItemSizeMode(sizeMode: sizeModeForItem(at: indexPath), at: indexPath)
-                    }
+                if let decorationModel = decorationModel(at: section) {
+                    modeState.setDecoration(decorationModel: decorationModel, at: section)
+                } else {
+                    modeState.removeDecoration(at: section)
+                }
+                
+                for i in 0..<modeState.numberOfItems(at: section) {
+                    let indexPath = IndexPath(item: i, section: section)
+                    modeState.updateItemSizeMode(sizeMode: sizeModeForItem(at: indexPath), at: indexPath)
                 }
             }
         }
@@ -235,6 +243,8 @@ extension SwiftyCollectionViewFlowLayout {
         if shouldInvalidateLayoutMetrics {
             prepareActions.formUnion(.updateLayoutMetrics)
         }
+        
+        print("invalidateEverything: \(context.invalidateEverything), invalidateDataSourceCounts: \(context.invalidateDataSourceCounts)")
     }
     
     public override var collectionViewContentSize: CGSize {
@@ -262,16 +272,11 @@ extension SwiftyCollectionViewFlowLayout {
             itemModels.append(itemModel)
         }
         
-        return SectionModel(sectionType: sectionTypeForSection(at: section),
-                            headerModel: headerModelForHeader(at: section),
+        return SectionModel(headerModel: headerModelForHeader(at: section),
                             footerModel: footerModelForFooter(at: section),
                             itemModels: itemModels,
                             decorationModel: decorationModel(at: section),
-                            sectionInset: sectionInsetForSection(at: section),
-                            lineSpacing: lineSpacingForSection(at: section),
-                            interitemSpacing: interitemSpacingForSection(at: section),
-                            sectionInsetContainHeader: sectionInsetContainHeaderForSection(at: section),
-                            sectionInsetContainFooter: sectionInsetContainFooterForSection(at: section))
+                            metrics: metricsForSection(at: section))
     }
     
     private func itemModelForItem(at indexPath: IndexPath) -> ItemModel {
@@ -334,33 +339,8 @@ extension SwiftyCollectionViewFlowLayout {
         return mDelegate.collectionView(mCollectionView, layout: self, decorationExtraInset: section)
     }
     
-    private func sectionTypeForSection(at section: Int) -> SwiftyCollectionViewSectionType {
-        guard let mDelegate = mDelegate else { return Default.sectionType }
-        return mDelegate.collectionView(mCollectionView, layout: self, sectionType: section)
-    }
-    
-    private func sectionInsetForSection(at section: Int) -> UIEdgeInsets {
-        guard let mDelegate = mDelegate else { return Default.sectionInset }
-        return mDelegate.collectionView(mCollectionView, layout: self, insetForSectionAt: section)
-    }
-    
-    private func lineSpacingForSection(at section: Int) -> CGFloat {
-        guard let mDelegate = mDelegate else { return Default.lineSpacing }
-        return mDelegate.collectionView(mCollectionView, layout: self, lineSpacingForSectionAt: section)
-    }
-    
-    private func interitemSpacingForSection(at section: Int) -> CGFloat {
-        guard let mDelegate = mDelegate else { return Default.interitemSpacing }
-        return mDelegate.collectionView(mCollectionView, layout: self, interitemSpacingForSectionAt: section)
-    }
-    
-    private func sectionInsetContainHeaderForSection(at section: Int) -> Bool {
-        guard let mDelegate = mDelegate else { return Default.sectionInsetContainHeader }
-        return mDelegate.collectionView(mCollectionView, layout: self, sectionInsetContainHeader: section)
-    }
-    
-    private func sectionInsetContainFooterForSection(at section: Int) -> Bool {
-        guard let mDelegate = mDelegate else { return Default.sectionInsetContainFooter }
-        return mDelegate.collectionView(mCollectionView, layout: self, sectionInsetContainFooter: section)
+    private func metricsForSection(at section: Int) -> SectionMetrics {
+        guard let mDelegate = mDelegate else { return Default.metrics }
+        return SectionMetrics(section: section, collectionView: mCollectionView, layout: self, delegate: mDelegate)
     }
 }

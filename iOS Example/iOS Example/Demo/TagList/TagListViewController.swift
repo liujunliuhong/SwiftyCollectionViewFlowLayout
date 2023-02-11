@@ -53,7 +53,7 @@ public final class TagListViewController: UIViewController {
         return collectionView
     }()
     
-    private var direction: SwiftyCollectionViewTagDirection = .left {
+    private var direction: SwiftyCollectionViewRowDirection = .left {
         didSet {
             updateDirectionButtonText()
         }
@@ -136,7 +136,7 @@ extension TagListViewController: UICollectionViewDataSource {
 
 extension TagListViewController: SwiftyCollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionType section: Int) -> SwiftyCollectionViewSectionType {
-        return .tagList(direction: direction, alignment: .center)
+        return .row(direction: direction, alignment: .center)
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, lineSpacingForSectionAt section: Int) -> CGFloat {

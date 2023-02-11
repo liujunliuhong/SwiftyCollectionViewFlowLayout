@@ -11,4 +11,6 @@ import Foundation
 public enum SwiftyCollectionViewFlowLayoutLengthMode: Equatable {
     case `static`(length: CGFloat)
     case dynamic(increment: CGFloat = .zero)
+    case full
+    case fractionalFull(divisor: UInt)
 }

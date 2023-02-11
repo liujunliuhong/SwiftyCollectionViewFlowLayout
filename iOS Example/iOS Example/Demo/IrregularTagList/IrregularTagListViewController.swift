@@ -17,12 +17,12 @@ public final class IrregularTagListViewController: UIViewController {
     
     private var dataSource: [[IrregularTagListModel]] = []
     
-    private var direction: SwiftyCollectionViewTagDirection = .left {
+    private var direction: SwiftyCollectionViewRowDirection = .left {
         didSet {
             updateUI()
         }
     }
-    private var alignment: SwiftyCollectionViewTagAlignment = .top {
+    private var alignment: SwiftyCollectionViewRowAlignment = .top {
         didSet {
             updateUI()
         }
@@ -250,7 +250,7 @@ extension IrregularTagListViewController: SwiftyCollectionViewDelegateFlowLayout
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionType section: Int) -> SwiftyCollectionViewSectionType {
-        return .tagList(direction: direction, alignment: alignment)
+        return .row(direction: direction, alignment: alignment)
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewFlowLayoutSizeMode {

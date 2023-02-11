@@ -14,9 +14,9 @@ private let widths: [CGFloat] = [40, 80, 110, 140, 150]
 private let sectionTypes: [SwiftyCollectionViewSectionType] = [.waterFlow(numberOfColumns: 2),
                                                                .waterFlow(numberOfColumns: 3),
                                                                .waterFlow(numberOfColumns: 4),
-                                                               .tagList(direction: .left, alignment: .top),
-                                                               .tagList(direction: .left, alignment: .center),
-                                                               .tagList(direction: .left, alignment: .bottom)
+                                                               .row(direction: .left, alignment: .top),
+                                                               .row(direction: .left, alignment: .center),
+                                                               .row(direction: .left, alignment: .bottom)
 ]
 
 public final class MixListViewController: UIViewController {
@@ -110,7 +110,7 @@ extension MixListViewController: UICollectionViewDataSource {
             switch sectionType {
                 case .waterFlow(let numberOfColumns):
                     headerView.label.text = "Header\nSection-\(indexPath.section)\nSectionType:\nwaterFlow(numberOfColumns: \(numberOfColumns))"
-                case .tagList(let direction, let alignment):
+                case .row(let direction, let alignment):
                     headerView.label.text = "Header\nSection-\(indexPath.section)\nSectionType:\ntagList(direction: \(direction), alignment: \(alignment))"
             }
             return headerView
@@ -150,21 +150,15 @@ extension MixListViewController: SwiftyCollectionViewDelegateFlowLayout {
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
-        // 当scrollDirection = .horizontal，高度无效
-        // 当scrollDirection = .vertical，宽度无效
-        return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
+        return .visible(sizeMode: .init(width: .full, height: .dynamic()))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
-        // 当scrollDirection = .horizontal，高度无效
-        // 当scrollDirection = .vertical，宽度无效
-        return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
+        return .visible(sizeMode: .init(width: .full, height: .dynamic()))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewFlowLayoutSizeMode {
         let model = dataSource[indexPath.section].models[indexPath.item]
-        // 当scrollDirection = .horizontal，高度无效
-        // 当scrollDirection = .vertical，宽度无效
         return .init(width: .static(length: model.width), height: .static(length: model.height))
     }
     

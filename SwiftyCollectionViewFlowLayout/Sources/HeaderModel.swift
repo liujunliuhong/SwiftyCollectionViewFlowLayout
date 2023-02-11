@@ -25,20 +25,20 @@ internal final class HeaderModel {
                         frame.size.width = w
                         frame.size.height = h
                         self.frame = frame
-                    case .dynamic:
+                    case .dynamic, .fractionalFull, .full:
                         var frame = frame
                         frame.size.width = w
                         frame.size.height = Default.size.height
                         self.frame = frame
                 }
-            case .dynamic:
+            case .dynamic, .full, .fractionalFull:
                 switch sizeMode.height {
                     case .static(let h):
                         var frame = frame
                         frame.size.width = Default.size.width
                         frame.size.height = h
                         self.frame = frame
-                    case .dynamic:
+                    case .dynamic, .fractionalFull, .full:
                         var frame = frame
                         frame.size.width = Default.size.width
                         frame.size.height = Default.size.height

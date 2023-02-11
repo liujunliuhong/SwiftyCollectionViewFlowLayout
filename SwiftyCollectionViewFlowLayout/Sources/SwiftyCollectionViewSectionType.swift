@@ -10,17 +10,17 @@ import Foundation
 
 public enum SwiftyCollectionViewSectionType: Equatable {
     case waterFlow(numberOfColumns: Int)
-    case tagList(direction: SwiftyCollectionViewTagDirection, alignment: SwiftyCollectionViewTagAlignment)
+    case row(direction: SwiftyCollectionViewRowDirection = .left, alignment: SwiftyCollectionViewRowAlignment = .top)
 }
 
 
-public enum SwiftyCollectionViewTagAlignment: Equatable {
+public enum SwiftyCollectionViewRowAlignment: Equatable {
     case top      /// if scrollDirection == .horizontal, equal left
     case center   /// center
     case bottom   /// if scrollDirection == .horizontal, equal right
 }
 
-public enum SwiftyCollectionViewTagDirection: Equatable {
+public enum SwiftyCollectionViewRowDirection: Equatable {
     case left    /// if scrollDirection == .horizontal, equal top
     case right   /// if scrollDirection == .horizontal, equal bottom
 }

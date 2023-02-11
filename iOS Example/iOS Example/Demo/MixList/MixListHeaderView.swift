@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import SwiftyCollectionViewFlowLayout
+import SnapKit
 
-public final class MixListHeaderView: UICollectionReusableView {
+public final class MixListHeaderView: SwiftyCollectionReusableView {
     
     public private(set) lazy var label: UILabel = {
         let label = UILabel()
@@ -23,16 +25,17 @@ public final class MixListHeaderView: UICollectionReusableView {
         super.init(frame: frame)
         backgroundColor = .orange
         addSubview(label)
+        
+        label.snp.makeConstraints { make in
+            make.left.top.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        label.frame = bounds
-    }
     
     public override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         

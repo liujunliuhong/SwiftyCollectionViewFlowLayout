@@ -15,35 +15,29 @@ open class SwiftyCollectionReusableView: UICollectionReusableView {
             return super.preferredLayoutAttributesFitting(layoutAttributes)
         }
         
-        var size = layoutAttributes.size
-        
-        let widthMode = layoutAttributes.sizeMode.width
-        let heightMode = layoutAttributes.sizeMode.height
-        
-        switch widthMode {
-            case .static(let w):
-                switch heightMode {
-                    case .static:
-                        size = layoutAttributes.size
-                    case .dynamic:
-                        size.width = w
-                        size.height = systemLayoutSizeFitting(layoutAttributes.size,
-                                                              withHorizontalFittingPriority: .required,
-                                                              verticalFittingPriority: .fittingSizeLevel).height
-                }
-            case .dynamic:
-                switch heightMode {
-                    case .static(let h):
-                        size.width = systemLayoutSizeFitting(layoutAttributes.size,
-                                                             withHorizontalFittingPriority: .fittingSizeLevel,
-                                                             verticalFittingPriority: .required).width
-                        size.height = h
-                    case .dynamic:
-                        size = systemLayoutSizeFitting(layoutAttributes.size,
-                                                       withHorizontalFittingPriority: .fittingSizeLevel,
-                                                       verticalFittingPriority: .fittingSizeLevel)
-                }
+        guard let sectionModel = layoutAttributes.sectionModel else {
+            return layoutAttributes
         }
+        
+        guard let layout = layoutAttributes.layout else {
+            return layoutAttributes
+        }
+        
+        var supplementaryElementKind: String?
+        if layoutAttributes.representedElementKind == UICollectionView.elementKindSectionHeader {
+            supplementaryElementKind = UICollectionView.elementKindSectionHeader
+        } else if layoutAttributes.representedElementKind == UICollectionView.elementKindSectionFooter {
+            supplementaryElementKind = UICollectionView.elementKindSectionFooter
+        }
+        
+        
+        let sizeMode = layoutAttributes.sizeMode
+        
+        let size = caculate(layout: layout,
+                            size: layoutAttributes.size,
+                            sectionModel: sectionModel,
+                            sizeMode: sizeMode,
+                            supplementaryElementKind: supplementaryElementKind)
         
         layoutAttributes.size = size
         

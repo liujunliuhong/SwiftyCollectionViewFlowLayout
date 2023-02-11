@@ -27,7 +27,8 @@ open class SwiftyCollectionViewCell: UICollectionViewCell {
         let size = caculate(layout: layout,
                             size: layoutAttributes.size,
                             sectionModel: sectionModel,
-                            sizeMode: sizeMode)
+                            sizeMode: sizeMode,
+                            supplementaryElementKind: nil)
         
         layoutAttributes.size = size
         
@@ -39,138 +40,5 @@ open class SwiftyCollectionViewCell: UICollectionViewCell {
         }
         
         return layoutAttributes
-    }
-}
-
-extension SwiftyCollectionViewCell {
-    private func caculate(layout: SwiftyCollectionViewFlowLayout,
-                          size: CGSize,
-                          sectionModel: SectionModel,
-                          sizeMode: SwiftyCollectionViewFlowLayoutSizeMode) -> CGSize {
-        var size: CGSize = size
-        
-        let widthMode = sizeMode.width
-        let heightMode = sizeMode.height
-        
-        switch layout.scrollDirection {
-            case .vertical:
-                var containerWidth = layout.mCollectionView.bounds.width - sectionModel.sectionInset.left - sectionModel.sectionInset.right
-                containerWidth -= 0.5
-                
-                switch widthMode {
-                    case .static(let w):
-                        var w = w
-                        switch heightMode {
-                            case .static(let h):
-                                // static width and static height
-                                size.width = min(w, containerWidth)
-                                size.height = h
-                            case .dynamic(let heightIncrement):
-                                // static width and dynamic height
-                                w = min(w, containerWidth)
-                                let newSize = CGSize(width: w, height: size.height)
-                                let caculateSize = systemLayoutSizeFitting(newSize,
-                                                                           withHorizontalFittingPriority: .required,
-                                                                           verticalFittingPriority: .fittingSizeLevel)
-                                size.width = w
-                                size.height = caculateSize.height + heightIncrement
-                        }
-                    case .dynamic(let widthIncrement):
-                        switch heightMode {
-                            case .static(let h):
-                                // dynamic width and static height
-                                let newSize = CGSize(width: size.width, height: h)
-                                let caculateSize = systemLayoutSizeFitting(newSize,
-                                                                           withHorizontalFittingPriority: .fittingSizeLevel,
-                                                                           verticalFittingPriority: .required)
-                                var w = min(caculateSize.width, containerWidth)
-                                w += widthIncrement
-                                w = min(w, containerWidth)
-                                size.width = w
-                                size.height = h
-                            case .dynamic(let heightIncrement):
-                                // dynamic width and dynamic height
-                                let newSize = CGSize(width: size.width, height: size.height)
-                                let caculateSize = systemLayoutSizeFitting(newSize,
-                                                                           withHorizontalFittingPriority: .fittingSizeLevel,
-                                                                           verticalFittingPriority: .fittingSizeLevel)
-                                
-                                var w = caculateSize.width
-                                var h = caculateSize.height
-                                
-                                if !w.isLessThanOrEqualTo(containerWidth) {
-                                    let newSize = CGSize(width: containerWidth, height: size.height)
-                                    let caculateSize = systemLayoutSizeFitting(newSize,
-                                                                               withHorizontalFittingPriority: .required,
-                                                                               verticalFittingPriority: .fittingSizeLevel)
-                                    w = containerWidth
-                                    h = caculateSize.height
-                                }
-                                w = w + widthIncrement
-                                size.width = min(w, containerWidth)
-                                size.height = h + heightIncrement
-                        }
-                }
-            case .horizontal:
-                var containerHeight = layout.mCollectionView.bounds.height - sectionModel.sectionInset.top - sectionModel.sectionInset.bottom
-                containerHeight -= 0.5
-                
-                switch widthMode {
-                    case .static(let w):
-                        switch heightMode {
-                            case .static(let h):
-                                // static width and static height
-                                let h = min(h, containerHeight)
-                                size.width = w
-                                size.height = h
-                            case .dynamic(let heightIncrement):
-                                // static width and dynamic height
-                                let newSize = CGSize(width: w, height: size.height)
-                                let caculateSize = systemLayoutSizeFitting(newSize,
-                                                                           withHorizontalFittingPriority: .required,
-                                                                           verticalFittingPriority: .fittingSizeLevel)
-                                var h = min(containerHeight, caculateSize.height)
-                                h = h + heightIncrement
-                                size.width = w
-                                size.height = min(h, containerHeight)
-                        }
-                    case .dynamic(let widthIncrement):
-                        switch heightMode {
-                            case .static(let h):
-                                // dynamic width and static height
-                                let h = min(h, containerHeight)
-                                let newSize = CGSize(width: size.width, height: h)
-                                let caculateSize = systemLayoutSizeFitting(newSize,
-                                                                           withHorizontalFittingPriority: .fittingSizeLevel,
-                                                                           verticalFittingPriority: .required)
-                                size.width = caculateSize.width + widthIncrement
-                                size.height = h
-                            case .dynamic(let heightIncrement):
-                                // dynamic width and dynamic height
-                                let newSize = CGSize(width: size.width, height: size.height)
-                                let caculateSize = systemLayoutSizeFitting(newSize,
-                                                                           withHorizontalFittingPriority: .fittingSizeLevel,
-                                                                           verticalFittingPriority: .fittingSizeLevel)
-                                var w = caculateSize.width
-                                var h = caculateSize.height
-                                
-                                if !h.isLessThanOrEqualTo(containerHeight) {
-                                    let newSize = CGSize(width: size.width, height: containerHeight)
-                                    let caculateSize = systemLayoutSizeFitting(newSize,
-                                                                               withHorizontalFittingPriority: .fittingSizeLevel,
-                                                                               verticalFittingPriority: .required)
-                                    w = caculateSize.width
-                                    h = containerHeight
-                                }
-                                h = h + heightIncrement
-                                size.width = w + widthIncrement
-                                size.height = min(h, containerHeight)
-                        }
-                }
-            default:
-                break
-        }
-        
-        return size
     }
 }

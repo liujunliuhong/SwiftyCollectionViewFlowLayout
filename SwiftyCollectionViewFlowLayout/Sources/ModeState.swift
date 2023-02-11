@@ -35,6 +35,10 @@ extension ModeState {
         return currentSectionModels.count
     }
     
+    internal func numberOfItems(at section: Int) -> Int {
+        return sectionModel(at: section)?.itemModels.count ?? .zero
+    }
+    
     internal func itemModel(at indexPath: IndexPath) -> ItemModel? {
         guard let sectionModel = sectionModel(at: indexPath.section) else {
             return nil
@@ -133,23 +137,49 @@ extension ModeState {
     }
     
     internal func setHeader(headerModel: HeaderModel, at section: Int) {
-        sectionModel(at: section)?.headerModel = headerModel
+        guard let sectionModel = sectionModel(at: section) else { return }
+        if let oldHeaderModel = sectionModel.headerModel {
+            headerModel.frame = oldHeaderModel.frame
+        }
+        sectionModel.headerModel = headerModel
     }
     
     internal func removeHeader(at section: Int) {
-        sectionModel(at: section)?.headerModel = nil
+        guard let sectionModel = sectionModel(at: section) else { return }
+        sectionModel.headerModel = nil
     }
     
     internal func setFooter(footerModel: FooterModel, at section: Int) {
-        sectionModel(at: section)?.footerModel = footerModel
+        guard let sectionModel = sectionModel(at: section) else { return }
+        if let oldFooterModel = sectionModel.footerModel {
+            footerModel.frame = oldFooterModel.frame
+        }
+        sectionModel.footerModel = footerModel
     }
     
     internal func removeFooter(at section: Int) {
-        sectionModel(at: section)?.footerModel = nil
+        guard let sectionModel = sectionModel(at: section) else { return }
+        sectionModel.footerModel = nil
+    }
+    
+    internal func setDecoration(decorationModel: DecorationModel, at section: Int) {
+        guard let sectionModel = sectionModel(at: section) else { return }
+        sectionModel.decorationModel = decorationModel
+    }
+    
+    internal func removeDecoration(at section: Int) {
+        guard let sectionModel = sectionModel(at: section) else { return }
+        sectionModel.decorationModel = nil
     }
     
     internal func updateItemSizeMode(sizeMode: SwiftyCollectionViewFlowLayoutSizeMode, at indexPath: IndexPath) {
-        itemModel(at: indexPath)?.sizeMode = sizeMode
+        guard let itemModel = itemModel(at: indexPath) else { return }
+        itemModel.sizeMode = sizeMode
+    }
+    
+    internal func updateMetrics(_ metrics: SectionMetrics, at section: Int) {
+        guard let sectionModel = sectionModel(at: section) else { return }
+        sectionModel.metrics = metrics
     }
 }
 
@@ -165,7 +195,7 @@ extension ModeState {
         
         let scrollDirection = layout.scrollDirection
         
-        switch sectionModel.sectionType {
+        switch sectionModel.metrics.sectionType {
             case .waterFlow:
                 switch scrollDirection {
                     case .vertical:
@@ -179,7 +209,7 @@ extension ModeState {
                     default:
                         break
                 }
-            case .tagList:
+            case .row:
                 var frame = itemModel.frame
                 frame.size.width = preferredSize.width // update width
                 frame.size.height = preferredSize.height // update height
@@ -188,43 +218,23 @@ extension ModeState {
     }
     
     private func updateHeaderSize(preferredSize: CGSize, section: Int) {
-        guard let layout = layout else { return }
         guard let headerModel = headerModel(at: section) else {
             return
         }
-        let scrollDirection = layout.scrollDirection
-        switch scrollDirection {
-            case .vertical:
-                var frame = headerModel.frame
-                frame.size.height = preferredSize.height // update height
-                headerModel.frame = frame
-            case .horizontal:
-                var frame = headerModel.frame
-                frame.size.width = preferredSize.width // update width
-                headerModel.frame = frame
-            default:
-                break
-        }
+        var frame = headerModel.frame
+        frame.size.width = preferredSize.width // update width
+        frame.size.height = preferredSize.height // update height
+        headerModel.frame = frame
     }
     
     private func updateFooterSize(preferredSize: CGSize, section: Int) {
-        guard let layout = layout else { return }
         guard let footerModel = footerModel(at: section) else {
             return
         }
-        let scrollDirection = layout.scrollDirection
-        switch scrollDirection {
-            case .vertical:
-                var frame = footerModel.frame
-                frame.size.height = preferredSize.height // update height
-                footerModel.frame = frame
-            case .horizontal:
-                var frame = footerModel.frame
-                frame.size.width = preferredSize.width // update width
-                footerModel.frame = frame
-            default:
-                break
-        }
+        var frame = footerModel.frame
+        frame.size.width = preferredSize.width // update width
+        frame.size.height = preferredSize.height // update height
+        footerModel.frame = frame
     }
     
     private func reloadSectionModels(sectionModelReloadIndexPairs: [(sectionModel: SectionModel, reloadIndex: Int)]) {
@@ -273,60 +283,28 @@ extension ModeState {
 extension ModeState {
     internal func shouldInvalidateLayout(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes,
                                          withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> Bool {
-        guard let layout = layout else { return false }
-        guard let sectionModel = sectionModel(at: preferredAttributes.indexPath.section) else {
-            return false
-        }
-        
-        let scrollDirection = layout.scrollDirection
-        
         let isSameWidth = preferredAttributes.size.width.isEqual(to: originalAttributes.size.width)
         let isSameHeight = preferredAttributes.size.height.isEqual(to: originalAttributes.size.height)
         
         switch preferredAttributes.representedElementCategory {
             case .cell:
-                switch sectionModel.sectionType {
-                    case .waterFlow:
-                        guard let itemModel = itemModel(at: preferredAttributes.indexPath) else {
-                            return false
-                        }
-                        switch scrollDirection {
-                            case .vertical:
-                                switch itemModel.sizeMode.height {
-                                    case .dynamic:
-                                        return !isSameHeight
-                                    case .static:
-                                        return false
-                                }
-                            case .horizontal:
-                                switch itemModel.sizeMode.width {
-                                    case .dynamic:
-                                        return !isSameWidth
-                                    case .static:
-                                        return false
-                                }
-                            default:
-                                break
-                        }
-                    case .tagList:
-                        guard let itemModel = itemModel(at: preferredAttributes.indexPath) else {
-                            return false
-                        }
-                        switch itemModel.sizeMode.width {
-                            case .dynamic:
-                                switch itemModel.sizeMode.height {
-                                    case .dynamic:
-                                        return !isSameWidth || !isSameHeight
-                                    case .static:
-                                        return !isSameWidth
-                                }
+                guard let itemModel = itemModel(at: preferredAttributes.indexPath) else {
+                    return false
+                }
+                switch itemModel.sizeMode.width {
+                    case .dynamic, .full, .fractionalFull:
+                        switch itemModel.sizeMode.height {
+                            case .dynamic, .full, .fractionalFull:
+                                return !isSameWidth || !isSameHeight
                             case .static:
-                                switch itemModel.sizeMode.height {
-                                    case .dynamic:
-                                        return !isSameHeight
-                                    case .static:
-                                        return false
-                                }
+                                return !isSameWidth
+                        }
+                    case .static:
+                        switch itemModel.sizeMode.height {
+                            case .dynamic, .full, .fractionalFull:
+                                return !isSameHeight
+                            case .static:
+                                return false
                         }
                 }
             case .supplementaryView:
@@ -335,45 +313,42 @@ extension ModeState {
                         guard let headerModel = headerModel(at: preferredAttributes.indexPath.section) else {
                             return false
                         }
-                        switch scrollDirection {
-                            case .vertical:
+                        switch headerModel.sizeMode.width {
+                            case .dynamic, .full, .fractionalFull:
                                 switch headerModel.sizeMode.height {
-                                    case .dynamic:
+                                    case .dynamic, .full, .fractionalFull:
+                                        return !isSameWidth || !isSameHeight
+                                    case .static:
+                                        return !isSameWidth
+                                }
+                            case .static:
+                                switch headerModel.sizeMode.height {
+                                    case .dynamic, .full, .fractionalFull:
                                         return !isSameHeight
                                     case .static:
                                         return false
                                 }
-                            case .horizontal:
-                                switch headerModel.sizeMode.width {
-                                    case .dynamic:
-                                        return !isSameWidth
-                                    case .static:
-                                        return false
-                                }
-                            default:
-                                break
+                                
                         }
                     case UICollectionView.elementKindSectionFooter:
                         guard let footerModel = footerModel(at: preferredAttributes.indexPath.section) else {
                             return false
                         }
-                        switch scrollDirection {
-                            case .vertical:
+                        switch footerModel.sizeMode.width {
+                            case .dynamic, .full, .fractionalFull:
                                 switch footerModel.sizeMode.height {
-                                    case .dynamic:
+                                    case .dynamic, .full, .fractionalFull:
+                                        return !isSameWidth || !isSameHeight
+                                    case .static:
+                                        return !isSameWidth
+                                }
+                            case .static:
+                                switch footerModel.sizeMode.height {
+                                    case .dynamic, .full, .fractionalFull:
                                         return !isSameHeight
                                     case .static:
                                         return false
                                 }
-                            case .horizontal:
-                                switch footerModel.sizeMode.width {
-                                    case .dynamic:
-                                        return !isSameWidth
-                                    case .static:
-                                        return false
-                                }
-                            default:
-                                break
                         }
                     default:
                         break
@@ -432,38 +407,38 @@ extension ModeState {
         var attrs: [UICollectionViewLayoutAttributes] = []
         for (section, sectionModel) in currentSectionModels.enumerated() {
             if let headerModel = sectionModel.headerModel {
-//                if rect.contains(headerModel.frame) || rect.intersects(headerModel.frame) {
+                if rect.contains(headerModel.frame) || rect.intersects(headerModel.frame) {
                     let attr = headerLayoutAttributes(at: section,
                                                       frame: headerModel.frame,
                                                       sectionModel: sectionModel,
                                                       sizeMode: headerModel.sizeMode)
                     attrs.append(attr)
-//                }
+                }
             }
             for (index, itemModel) in sectionModel.itemModels.enumerated() {
-//                if rect.contains(itemModel.frame) || rect.intersects(itemModel.frame) {
+                if rect.contains(itemModel.frame) || rect.intersects(itemModel.frame) {
                     let indexPath = IndexPath(item: index, section: section)
                     let attr = itemLayoutAttributes(at: indexPath,
                                                     frame: itemModel.frame,
                                                     sectionModel: sectionModel,
                                                     sizeMode: itemModel.sizeMode)
                     attrs.append(attr)
-//                }
+                }
             }
             if let footerModel = sectionModel.footerModel {
-//                if rect.contains(footerModel.frame) || rect.intersects(footerModel.frame) {
+                if rect.contains(footerModel.frame) || rect.intersects(footerModel.frame) {
                     let attr = footerLayoutAttributes(at: section,
                                                       frame: footerModel.frame,
                                                       sectionModel: sectionModel,
                                                       sizeMode: footerModel.sizeMode)
                     attrs.append(attr)
-//                }
+                }
             }
             if let decorationModel = sectionModel.decorationModel {
-//                if rect.contains(decorationModel.frame) || rect.intersects(decorationModel.frame) {
+                if rect.contains(decorationModel.frame) || rect.intersects(decorationModel.frame) {
                     let attr = decorationLayoutAttributes(at: section, frame: decorationModel.frame)
                     attrs.append(attr)
-//                }
+                }
             }
         }
         return attrs

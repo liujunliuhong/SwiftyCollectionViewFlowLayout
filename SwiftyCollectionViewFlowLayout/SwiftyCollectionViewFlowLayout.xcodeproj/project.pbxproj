@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8518B262299738660046B3F6 /* SectionMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8518B261299738660046B3F6 /* SectionMetrics.swift */; };
 		8565A824298BF50B00FFE2FD /* SwiftyCollectionViewFlowLayout.docc in Sources */ = {isa = PBXBuildFile; fileRef = 8565A823298BF50B00FFE2FD /* SwiftyCollectionViewFlowLayout.docc */; };
 		8565A825298BF50B00FFE2FD /* SwiftyCollectionViewFlowLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 8565A822298BF50B00FFE2FD /* SwiftyCollectionViewFlowLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8565A85E298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A856298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout.swift */; };
 		8565A85F298BF5C400FFE2FD /* SwiftyCollectionViewDelegateFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A857298BF5C300FFE2FD /* SwiftyCollectionViewDelegateFlowLayout.swift */; };
 		8565A862298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */; };
+		8567BE9A2997E8F7003C2640 /* UIView+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8567BE992997E8F7003C2640 /* UIView+Size.swift */; };
 		858C42EB2993F395001F5DF1 /* DecorationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C42EA2993F395001F5DF1 /* DecorationModel.swift */; };
 		858C42ED2993F820001F5DF1 /* ModeState+Decoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C42EC2993F820001F5DF1 /* ModeState+Decoration.swift */; };
 		85DC920E298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DC920D298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift */; };
@@ -36,12 +38,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8518B261299738660046B3F6 /* SectionMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionMetrics.swift; sourceTree = "<group>"; };
 		8565A81F298BF50B00FFE2FD /* SwiftyCollectionViewFlowLayout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyCollectionViewFlowLayout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8565A822298BF50B00FFE2FD /* SwiftyCollectionViewFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftyCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		8565A823298BF50B00FFE2FD /* SwiftyCollectionViewFlowLayout.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = SwiftyCollectionViewFlowLayout.docc; sourceTree = "<group>"; };
 		8565A856298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		8565A857298BF5C300FFE2FD /* SwiftyCollectionViewDelegateFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewDelegateFlowLayout.swift; sourceTree = "<group>"; };
 		8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewSectionType.swift; sourceTree = "<group>"; };
+		8567BE992997E8F7003C2640 /* UIView+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Size.swift"; sourceTree = "<group>"; };
 		858C42EA2993F395001F5DF1 /* DecorationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorationModel.swift; sourceTree = "<group>"; };
 		858C42EC2993F820001F5DF1 /* ModeState+Decoration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModeState+Decoration.swift"; sourceTree = "<group>"; };
 		85DC920D298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewLayoutDecorationAttributes.swift; sourceTree = "<group>"; };
@@ -116,6 +120,7 @@
 				85DC920D298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift */,
 				D1FF4B65299491AB005518D6 /* SwiftyCollectionReusableView.swift */,
 				D1FF4B672994A329005518D6 /* SwiftyCollectionViewCell.swift */,
+				8567BE992997E8F7003C2640 /* UIView+Size.swift */,
 				D14316462992332600669451 /* Default.swift */,
 				D14D3005299372D700E31E7E /* ModeState.swift */,
 				D14D300D29939CB300E31E7E /* ModeState+Item.swift */,
@@ -123,6 +128,7 @@
 				D14D300B29939C5000E31E7E /* ModeState+Footer.swift */,
 				858C42EC2993F820001F5DF1 /* ModeState+Decoration.swift */,
 				D14D300329936DA800E31E7E /* SectionModel.swift */,
+				8518B261299738660046B3F6 /* SectionMetrics.swift */,
 				D14D2FFD29936B9B00E31E7E /* ItemModel.swift */,
 				D14D2FFF29936D1E00E31E7E /* HeaderModel.swift */,
 				D14D300129936D8F00E31E7E /* FooterModel.swift */,
@@ -226,9 +232,11 @@
 				D143164D2992343D00669451 /* SwiftyCollectionViewFlowLayoutLengthMode.swift in Sources */,
 				8565A824298BF50B00FFE2FD /* SwiftyCollectionViewFlowLayout.docc in Sources */,
 				D14316472992332600669451 /* Default.swift in Sources */,
+				8567BE9A2997E8F7003C2640 /* UIView+Size.swift in Sources */,
 				D14D3006299372D700E31E7E /* ModeState.swift in Sources */,
 				D143164B2992341500669451 /* SwiftyCollectionViewFlowLayoutSizeMode.swift in Sources */,
 				D1431649299233C200669451 /* SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode.swift in Sources */,
+				8518B262299738660046B3F6 /* SectionMetrics.swift in Sources */,
 				D14D300029936D1E00E31E7E /* HeaderModel.swift in Sources */,
 				858C42EB2993F395001F5DF1 /* DecorationModel.swift in Sources */,
 				8565A85F298BF5C400FFE2FD /* SwiftyCollectionViewDelegateFlowLayout.swift in Sources */,

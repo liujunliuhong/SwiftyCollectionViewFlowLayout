@@ -22,19 +22,18 @@ extension ModeState {
         
         switch scrollDirection {
             case .vertical:
-                frame.origin.x = sectionModel.sectionInset.left
-                frame.origin.y = .zero
-                frame.size.width = layout.mCollectionView.bounds.width - sectionModel.sectionInset.left - sectionModel.sectionInset.right
-                frame.size.height = sectionModel.allItemsLength(scrollDirection: scrollDirection)
+                frame.origin.x = sectionModel.metrics.sectionInset.left
+                frame.size.width = layout.mCollectionView.bounds.width - sectionModel.metrics.sectionInset.left - sectionModel.metrics.sectionInset.right
                 
-                if let headerModel = sectionModel.headerModel, sectionModel.sectionInsetContainHeader {
-                    frame.origin.y = headerModel.frame.origin.y
-                    frame.size.height += headerModel.frame.height
+                if let headerModel = sectionModel.headerModel, sectionModel.metrics.sectionInsetContainHeader {
+                    frame.origin.y = previousSectionTotalLength + sectionModel.metrics.sectionInset.top
+                    frame.size.height = sectionModel.allItemsLength(scrollDirection: scrollDirection) + headerModel.frame.height
                 } else {
                     frame.origin.y = previousSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection)
+                    frame.size.height = sectionModel.allItemsLength(scrollDirection: scrollDirection)
                 }
                 
-                if let footerModel = sectionModel.footerModel, sectionModel.sectionInsetContainFooter {
+                if let footerModel = sectionModel.footerModel, sectionModel.metrics.sectionInsetContainFooter {
                     frame.size.height += footerModel.frame.height
                 }
                 
@@ -44,19 +43,18 @@ extension ModeState {
                 frame.size.height += (decorationModel.extraInset.top + decorationModel.extraInset.bottom)
                 
             case .horizontal:
-                frame.origin.x = .zero
-                frame.origin.y = sectionModel.sectionInset.top
-                frame.size.width = sectionModel.allItemsLength(scrollDirection: scrollDirection)
-                frame.size.height = layout.mCollectionView.bounds.height - sectionModel.sectionInset.top - sectionModel.sectionInset.bottom
+                frame.origin.y = sectionModel.metrics.sectionInset.top
+                frame.size.height = layout.mCollectionView.bounds.height - sectionModel.metrics.sectionInset.top - sectionModel.metrics.sectionInset.bottom
                 
-                if let headerModel = sectionModel.headerModel, sectionModel.sectionInsetContainHeader {
-                    frame.origin.x = headerModel.frame.origin.x
-                    frame.size.width += headerModel.frame.width
+                if let headerModel = sectionModel.headerModel, sectionModel.metrics.sectionInsetContainHeader {
+                    frame.origin.x = previousSectionTotalLength + sectionModel.metrics.sectionInset.left
+                    frame.size.width = sectionModel.allItemsLength(scrollDirection: scrollDirection) + headerModel.frame.width
                 } else {
-                    frame.origin.x += (previousSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection))
+                    frame.origin.x = previousSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection)
+                    frame.size.width = sectionModel.allItemsLength(scrollDirection: scrollDirection)
                 }
                 
-                if let footerModel = sectionModel.footerModel, sectionModel.sectionInsetContainFooter {
+                if let footerModel = sectionModel.footerModel, sectionModel.metrics.sectionInsetContainFooter {
                     frame.size.width += footerModel.frame.width
                 }
                 
