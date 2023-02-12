@@ -35,6 +35,7 @@ public final class MixListViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.backgroundColor = .cyan
         collectionView.contentInsetAdjustmentBehavior = .never
+        //collectionView.contentInset = UIEdgeInsets(top: 40, left: 40, bottom: 140, right: 40)
         collectionView.register(MixListCell.classForCoder(), forCellWithReuseIdentifier: NSStringFromClass(MixListCell.classForCoder()))
         collectionView.register(MixListHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(MixListHeaderView.classForCoder()))
         collectionView.register(MixListFooterView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(MixListFooterView.classForCoder()))
@@ -51,7 +52,7 @@ public final class MixListViewController: UIViewController {
         collectionView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(120)
             make.left.right.equalToSuperview().inset(25)
-            make.bottom.equalToSuperview().offset(-80)
+            make.bottom.equalToSuperview()//.offset(-80)
         }
         
         loadData()

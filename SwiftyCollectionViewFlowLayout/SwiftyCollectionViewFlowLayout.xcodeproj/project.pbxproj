@@ -110,11 +110,11 @@
 			isa = PBXGroup;
 			children = (
 				8565A856298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout.swift */,
-				8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */,
 				8565A857298BF5C300FFE2FD /* SwiftyCollectionViewDelegateFlowLayout.swift */,
+				8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */,
 				D143164A2992341500669451 /* SwiftyCollectionViewFlowLayoutSizeMode.swift */,
-				D1431648299233C200669451 /* SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode.swift */,
 				D143164C2992343D00669451 /* SwiftyCollectionViewFlowLayoutLengthMode.swift */,
+				D1431648299233C200669451 /* SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode.swift */,
 				D143164E299240C000669451 /* SwiftyCollectionViewFlowLayoutDecorationVisibilityMode.swift */,
 				D14D3009299397CA00E31E7E /* SwiftyCollectionViewLayoutAttributes.swift */,
 				85DC920D298F580800F0170D /* SwiftyCollectionViewLayoutDecorationAttributes.swift */,

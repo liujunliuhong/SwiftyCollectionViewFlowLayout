@@ -7,20 +7,36 @@
 
 import Foundation
 
-
+/// Represents the section type.
 public enum SwiftyCollectionViewSectionType: Equatable {
+    
+    /// water flow
     case waterFlow(numberOfColumns: Int)
+    
+    /// row
     case row(direction: SwiftyCollectionViewRowDirection = .left, alignment: SwiftyCollectionViewRowAlignment = .top)
 }
 
 
+/// Represents the row alignment.
 public enum SwiftyCollectionViewRowAlignment: Equatable {
-    case top      /// if scrollDirection == .horizontal, equal left
-    case center   /// center
-    case bottom   /// if scrollDirection == .horizontal, equal right
+    
+    /// if scrollDirection equal to horizontal, this mode represents left.
+    case top
+    
+    /// center
+    case center
+    
+    /// if scrollDirection equal to horizontal, this mode represents right.
+    case bottom
 }
 
+/// Represents the row direction.
 public enum SwiftyCollectionViewRowDirection: Equatable {
-    case left    /// if scrollDirection == .horizontal, equal top
-    case right   /// if scrollDirection == .horizontal, equal bottom
+    
+    /// if scrollDirection equal to horizontal, this mode represents top.
+    case left
+    
+    /// if scrollDirection equal to horizontal, this mode represents bottom.
+    case right
 }

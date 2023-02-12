@@ -128,7 +128,7 @@ extension SwiftyCollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
                                decorationExtraInset section: Int) -> UIEdgeInsets {
-        return .zero
+        return Default.decorationExtraInset
     }
     
     public func collectionView(_ collectionView: UICollectionView,

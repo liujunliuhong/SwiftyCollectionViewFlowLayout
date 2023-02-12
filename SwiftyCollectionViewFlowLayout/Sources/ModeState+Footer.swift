@@ -23,39 +23,19 @@ extension ModeState {
         
         switch scrollDirection {
             case .vertical:
-//                var width = layout.mCollectionView.bounds.width
-//                if sectionModel.metrics.sectionInsetContainFooter {
-//                    width -= (sectionModel.metrics.sectionInset.left + sectionModel.metrics.sectionInset.right)
-//                }
-//                frame.size.width = width
-                
                 frame.origin.x = .zero
                 frame.origin.y = previousSectionTotalLength + sectionModel.footerBeforeLength(scrollDirection: scrollDirection)
                 if sectionModel.metrics.sectionInsetContainFooter {
                     frame.origin.x = sectionModel.metrics.sectionInset.left
                     frame.origin.y -= sectionModel.metrics.sectionInset.bottom
                 }
-                
-                // reset sizeMode.width
-//                footerModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: width), height: footerModel.sizeMode.height)
-                
             case .horizontal:
-//                var height = layout.mCollectionView.bounds.height
-//                if sectionModel.metrics.sectionInsetContainFooter {
-//                    height -= (sectionModel.metrics.sectionInset.top + sectionModel.metrics.sectionInset.bottom)
-//                }
-//                frame.size.height = height
-                
                 frame.origin.x = previousSectionTotalLength + sectionModel.footerBeforeLength(scrollDirection: scrollDirection)
                 frame.origin.y = .zero
                 if sectionModel.metrics.sectionInsetContainFooter {
                     frame.origin.x -= sectionModel.metrics.sectionInset.right
                     frame.origin.y = sectionModel.metrics.sectionInset.top
                 }
-                
-                // reset sizeMode.height
-//                footerModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: footerModel.sizeMode.width, height: .static(length: height))
-                
             default:
                 break
         }

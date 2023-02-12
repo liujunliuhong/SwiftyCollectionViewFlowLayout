@@ -9,7 +9,7 @@ import UIKit
 import SwiftyCollectionViewFlowLayout
 import SnapKit
 
-public final class DecorationView: UICollectionReusableView {
+public final class DecorationView: SwiftyCollectionReusableView {
     
     private lazy var bgView: UIView = {
         let bgView = UIView()

@@ -212,14 +212,24 @@ extension IrregularTagListViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(IrregularTagListCell.classForCoder()), for: indexPath) as? IrregularTagListCell else {
             return UICollectionViewCell()
         }
-        let model = dataSource[indexPath.section][indexPath.row]
+        let model = dataSource[indexPath.section][indexPath.item]
         cell.bind(to: model)
-        cell.label.text = "\(indexPath.section) - \(indexPath.row)\n点我"
+        cell.label.text = "\(indexPath.section) - \(indexPath.item)\n点我"
         
-        cell.clickClosure = { [weak self] in
-            guard let self = self else { return }
-            self.collectionView.reloadItems(at: [indexPath])
-        }
+//        cell.clickClosure = { [weak self] in
+//            guard let self = self else { return }
+//            self.collectionView.performBatchUpdates { [weak self] in
+//                guard let self = self else { return }
+//                //self.collectionView.reloadItems(at: [indexPath])
+//                if self.dataSource[indexPath.section].count > 1 {
+//                    self.dataSource[indexPath.section].remove(at: indexPath.item)
+//                    self.collectionView.deleteItems(at: [indexPath])
+//                } else {
+//                    self.dataSource[indexPath.section].removeAll()
+//                    self.collectionView.deleteSections(IndexSet(integer: indexPath.section))
+//                }
+//            }
+//        }
         
         return cell
     }
@@ -237,6 +247,22 @@ extension IrregularTagListViewController: UICollectionViewDataSource {
             return footerView
         }
         return UICollectionReusableView()
+    }
+}
+
+extension IrregularTagListViewController: UICollectionViewDelegate {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.collectionView.performBatchUpdates { [weak self] in
+            guard let self = self else { return }
+            //self.collectionView.reloadItems(at: [indexPath])
+            if self.dataSource[indexPath.section].count > 1 {
+                self.dataSource[indexPath.section].remove(at: indexPath.item)
+                self.collectionView.deleteItems(at: [indexPath])
+            } else {
+                self.dataSource.remove(at: indexPath.section)
+                self.collectionView.deleteSections(IndexSet(integer: indexPath.section))
+            }
+        }
     }
 }
 

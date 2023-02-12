@@ -234,7 +234,6 @@ extension SwiftyCollectionViewFlowLayout {
     
     
     public override func invalidateLayout(with context: UICollectionViewLayoutInvalidationContext) {
-        super.invalidateLayout(with: context)
         if context.invalidateEverything {
             prepareActions.formUnion([.recreateSectionModels])
         }
@@ -245,6 +244,8 @@ extension SwiftyCollectionViewFlowLayout {
         }
         
         print("invalidateEverything: \(context.invalidateEverything), invalidateDataSourceCounts: \(context.invalidateDataSourceCounts)")
+        
+        super.invalidateLayout(with: context)
     }
     
     public override var collectionViewContentSize: CGSize {

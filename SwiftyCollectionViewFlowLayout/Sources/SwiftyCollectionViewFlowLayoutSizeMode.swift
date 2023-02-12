@@ -7,8 +7,13 @@
 
 import Foundation
 
+/// Represents the horizontal and vertical sizing mode for an item/header/footer.
 public struct SwiftyCollectionViewFlowLayoutSizeMode: Equatable {
+    
+    /// The width mode for the item/header/footer.
     public let width: SwiftyCollectionViewFlowLayoutLengthMode
+    
+    /// The height mode for the item/header/footer.
     public let height: SwiftyCollectionViewFlowLayoutLengthMode
     
     public init(width: SwiftyCollectionViewFlowLayoutLengthMode,
@@ -17,6 +22,6 @@ public struct SwiftyCollectionViewFlowLayoutSizeMode: Equatable {
         self.height = height
     }
     
-    public static let `default` = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: Default.size.width),
+    internal static let `default` = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: Default.size.width),
                                                                          height: .static(length: Default.size.height))
 }

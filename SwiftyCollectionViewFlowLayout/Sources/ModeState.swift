@@ -435,10 +435,10 @@ extension ModeState {
                 }
             }
             if let decorationModel = sectionModel.decorationModel {
-                if rect.contains(decorationModel.frame) || rect.intersects(decorationModel.frame) {
+//                if rect.contains(decorationModel.frame) || rect.intersects(decorationModel.frame) {
                     let attr = decorationLayoutAttributes(at: section, frame: decorationModel.frame)
                     attrs.append(attr)
-                }
+//                }
             }
         }
         return attrs

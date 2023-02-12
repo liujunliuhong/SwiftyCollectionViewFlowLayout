@@ -18,7 +18,7 @@ public final class IrregularTagListCell: SwiftyCollectionViewCell {
         label.backgroundColor = UIColor(red: 255.0/255.0, green: 105.0/255.0, blue: 193.0/255.0, alpha: 1)
         label.textColor = .white
         label.font = .systemFont(ofSize: 15)
-        label.isUserInteractionEnabled = true
+        label.isUserInteractionEnabled = false
         label.numberOfLines = 0
         return label
     }()
@@ -46,10 +46,10 @@ public final class IrregularTagListCell: SwiftyCollectionViewCell {
     @objc private func tapAction() {
         guard let model = model else { return }
         
-        model.height += 10
-        model.width += 10
-        
-        clickClosure?()
+//        model.height += 10
+//        model.width += 10
+//        
+//        clickClosure?()
     }
     
     public func bind(to model: IrregularTagListModel) {
