@@ -27,16 +27,19 @@ extension ModeState {
         // update all items frame.origin.y or frame.origin.x
         for itemModel in sectionModel.itemModels {
             var frame = itemModel.frame
-            if scrollDirection == .vertical {
-                frame.origin.y += (previousSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection)) // update frame.origin.y
-            } else if scrollDirection == .horizontal {
-                frame.origin.x += (previousSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection)) // update frame.origin.x
+            switch scrollDirection {
+                case .vertical:
+                    frame.origin.y += (previousSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection)) // update frame.origin.y
+                case .horizontal:
+                    frame.origin.x += (previousSectionTotalLength + sectionModel.bodyBeforeLength(scrollDirection: scrollDirection)) // update frame.origin.x
+                default:
+                    break
             }
             itemModel.frame = frame
         }
     }
     
-    internal func itemLayoutAttributes(at indexPath: IndexPath, frame: CGRect, sectionModel: SectionModel, sizeMode: SwiftyCollectionViewFlowLayoutSizeMode) -> UICollectionViewLayoutAttributes {
+    internal func itemLayoutAttributes(at indexPath: IndexPath, frame: CGRect, sectionModel: SectionModel, sizeMode: SwiftyCollectionViewLayoutSizeMode) -> UICollectionViewLayoutAttributes {
         let attr = SwiftyCollectionViewLayoutAttributes(forCellWith: indexPath)
         attr.sizeMode = sizeMode
         attr.sectionModel = sectionModel
@@ -100,7 +103,7 @@ extension ModeState {
                 }
                 
                 // reset sizeMode.width
-                itemModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: .static(length: columnWidth), height: itemModel.sizeMode.height)
+                itemModel.sizeMode = SwiftyCollectionViewLayoutSizeMode(width: .static(length: columnWidth), height: itemModel.sizeMode.height)
                 
             case .horizontal:
                 let columnHeight = (collectionView.frame.height - sectionInset.top - sectionInset.bottom - CGFloat(numberOfColumns - 1) * sectionModel.metrics.interitemSpacing) / CGFloat(numberOfColumns)
@@ -118,7 +121,7 @@ extension ModeState {
                 }
                 
                 // reset sizeMode.height
-                itemModel.sizeMode = SwiftyCollectionViewFlowLayoutSizeMode(width: itemModel.sizeMode.width, height: .static(length: columnHeight))
+                itemModel.sizeMode = SwiftyCollectionViewLayoutSizeMode(width: itemModel.sizeMode.width, height: .static(length: columnHeight))
                 
             default:
                 break

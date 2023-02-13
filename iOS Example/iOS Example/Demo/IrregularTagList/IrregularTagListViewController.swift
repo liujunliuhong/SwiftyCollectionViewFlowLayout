@@ -279,18 +279,18 @@ extension IrregularTagListViewController: SwiftyCollectionViewDelegateFlowLayout
         return .row(direction: direction, alignment: alignment)
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewFlowLayoutSizeMode {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewLayoutSizeMode {
         let model = dataSource[indexPath.section][indexPath.row]
         return .init(width: .static(length: model.width), height: .static(length: model.height))
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
         // 当scrollDirection = .horizontal，高度无效
         // 当scrollDirection = .vertical，宽度无效
         return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
         // 当scrollDirection = .horizontal，高度无效
         // 当scrollDirection = .vertical，宽度无效
         return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
@@ -308,7 +308,7 @@ extension IrregularTagListViewController: SwiftyCollectionViewDelegateFlowLayout
         return 15
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForDecorationInSection section: Int) -> SwiftyCollectionViewFlowLayoutDecorationVisibilityMode {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForDecorationInSection section: Int) -> SwiftyCollectionViewLayoutDecorationVisibilityMode {
         let extraAttributes = DecorationExtraAttributes()
         extraAttributes.cornerRadius = 10.0
         extraAttributes.backgroundColor = .purple

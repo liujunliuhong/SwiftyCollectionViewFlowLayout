@@ -8,7 +8,7 @@
 import UIKit
 import SwiftyCollectionViewFlowLayout
 
-public final class DecorationExtraAttributes: SwiftyCollectionViewLayoutDecorationExtraAttributes {
+public final class DecorationExtraAttributes: SwiftyCollectionViewDecorationExtraAttributes {
     public var cornerRadius: CGFloat = .zero
     public var backgroundColor: UIColor = .purple
     

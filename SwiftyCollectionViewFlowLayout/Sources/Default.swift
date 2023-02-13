@@ -8,19 +8,24 @@
 import Foundation
 import UIKit
 
+/// Default value.
 internal struct Default {
     static let sectionType: SwiftyCollectionViewSectionType = .waterFlow(numberOfColumns: 1)
     static let sectionInset: UIEdgeInsets = .zero
     static let sectionInsetContainHeader: Bool = false
     static let sectionInsetContainFooter: Bool = false
+    static let headerOffet: UIOffset = .zero
+    static let footerOffet: UIOffset = .zero
+    static let headerDirection: SwiftyCollectionViewLayoutSupplementaryDirection = .left
+    static let footerDirection: SwiftyCollectionViewLayoutSupplementaryDirection = .left
     static let lineSpacing: CGFloat = 15.0
     static let interitemSpacing: CGFloat = 15.0
-    static let decorationVisibilityMode: SwiftyCollectionViewFlowLayoutDecorationVisibilityMode = .hidden
+    static let decorationVisibilityMode: SwiftyCollectionViewLayoutDecorationVisibilityMode = .hidden
     static let decorationExtraInset: UIEdgeInsets = .zero
-    static let sizeMode: SwiftyCollectionViewFlowLayoutSizeMode = .default
+    static let sizeMode: SwiftyCollectionViewLayoutSizeMode = .default
     static let size: CGSize = CGSize(width: 50, height: 50)
-    static let headerVisibilityMode: SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode = .hidden
-    static let footerVisibilityMode: SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode = .hidden
+    static let headerVisibilityMode: SwiftyCollectionViewLayoutSupplementaryVisibilityMode = .hidden
+    static let footerVisibilityMode: SwiftyCollectionViewLayoutSupplementaryVisibilityMode = .hidden
     static let metrics: SectionMetrics = SectionMetrics.default
 }
 

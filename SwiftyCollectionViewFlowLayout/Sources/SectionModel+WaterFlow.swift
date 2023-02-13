@@ -8,7 +8,7 @@
 import Foundation
 import ObjectiveC
 
-private var key: String = "com.galaxy.SwiftyCollectionViewFlowLayout.waterFlow"
+private var key: String = "com.galaxy.SwiftyCollectionViewFlowLayout.water-flow"
 
 extension SectionModel {
     internal var waterFlowBodyColumnLengths: [CGFloat] {

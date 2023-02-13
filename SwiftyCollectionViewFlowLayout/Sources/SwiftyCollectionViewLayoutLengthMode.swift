@@ -1,14 +1,15 @@
 //
-//  SwiftyCollectionViewFlowLayoutLengthMode.swift
+//  SwiftyCollectionViewLayoutLengthMode.swift
 //  SwiftyCollectionViewFlowLayout
 //
-//  Created by dfsx6 on 2023/2/7.
+//  Created by dfsx6 on 2023/2/13.
 //
 
 import Foundation
 
+
 /// Represents the width/height mode.
-public enum SwiftyCollectionViewFlowLayoutLengthMode: Equatable {
+public enum SwiftyCollectionViewLayoutLengthMode: Equatable {
     
     /// Represents width/height equal to `length`.
     case `static`(length: CGFloat)

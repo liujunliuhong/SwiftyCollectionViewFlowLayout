@@ -7,6 +7,9 @@
 
 import UIKit
 
+/// A cell that coordinates with `SwiftyCollectionViewLayoutAttributes` to determine how to
+/// size itself: with self-sizing, or without self-sizing. Use this class (or subclasses) for
+/// displaying cells with `SwiftyCollectionViewFlowLayout`.
 open class SwiftyCollectionViewCell: UICollectionViewCell {
     open override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         

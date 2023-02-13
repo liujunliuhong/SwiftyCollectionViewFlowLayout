@@ -45,7 +45,7 @@ public final class DecorationView: SwiftyCollectionReusableView {
     
     public override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
-        guard let layoutAttributes = layoutAttributes as? SwiftyCollectionViewLayoutDecorationAttributes else {
+        guard let layoutAttributes = layoutAttributes as? SwiftyCollectionViewDecorationAttributes else {
             return
         }
         guard let extraAttributes = layoutAttributes.extraAttributes as? DecorationExtraAttributes else {

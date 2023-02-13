@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+/// Manages the state of section and element models.
 internal final class ModeState {
     
     private var currentSectionModels: [SectionModel] = []
@@ -112,9 +113,9 @@ extension ModeState {
                     sectionModelInsertIndexPairs.append((sectionModelToMove, finalSectionIndex))
                 case let .itemMove(initialItemIndexPath, finalItemIndexPath):
                     itemIndexPathsToDelete.append(initialItemIndexPath)
-                    if let itemModelToMove = itemModel(at: initialItemIndexPath) {
-                        itemModelInsertIndexPathPairs.append((itemModelToMove, finalItemIndexPath))
-                    }
+                    let sectionContainingItemModelToMove = sectionModelsBeforeBatchUpdates[initialItemIndexPath.section]
+                    let itemModelToMove = sectionContainingItemModelToMove.itemModels[initialItemIndexPath.item]
+                    itemModelInsertIndexPathPairs.append((itemModelToMove, finalItemIndexPath))
                 case let .sectionInsert(sectionIndex, newSection):
                     sectionModelInsertIndexPairs.append((newSection, sectionIndex))
                 case let .itemInsert(itemIndexPath, newItem):
@@ -172,7 +173,7 @@ extension ModeState {
         sectionModel.decorationModel = nil
     }
     
-    internal func updateItemSizeMode(sizeMode: SwiftyCollectionViewFlowLayoutSizeMode, at indexPath: IndexPath) {
+    internal func updateItemSizeMode(sizeMode: SwiftyCollectionViewLayoutSizeMode, at indexPath: IndexPath) {
         guard let itemModel = itemModel(at: indexPath) else { return }
         itemModel.sizeMode = sizeMode
     }
@@ -246,8 +247,8 @@ extension ModeState {
     
     private func reloadItemModels(itemModelReloadIndexPathPairs: [(itemModel: ItemModel, reloadIndexPath: IndexPath)]) {
         for (itemModel, reloadIndexPath) in itemModelReloadIndexPathPairs {
-            currentSectionModels[reloadIndexPath.section].deleteItemModel(atIndex: reloadIndexPath.item)
-            currentSectionModels[reloadIndexPath.section].insert(itemModel, atIndex: reloadIndexPath.item)
+            currentSectionModels[reloadIndexPath.section].itemModels.remove(at: reloadIndexPath.item)
+            currentSectionModels[reloadIndexPath.section].itemModels.insert(itemModel, at: reloadIndexPath.count)
         }
     }
     
@@ -261,7 +262,7 @@ extension ModeState {
     private func deleteItemModels(atIndexPaths indexPathsOfItemModelsToDelete: [IndexPath]) {
         // Always delete in descending order
         for indexPathOfItemModelToDelete in (indexPathsOfItemModelsToDelete.sorted { $0 > $1 }) {
-            currentSectionModels[indexPathOfItemModelToDelete.section].deleteItemModel(atIndex: indexPathOfItemModelToDelete.item)
+            currentSectionModels[indexPathOfItemModelToDelete.section].itemModels.remove(at: indexPathOfItemModelToDelete.item)
         }
     }
     
@@ -275,7 +276,7 @@ extension ModeState {
     private func insertItemModels(itemModelInsertIndexPathPairs: [(itemModel: ItemModel, insertIndexPath: IndexPath)]) {
         // Always insert in ascending order
         for (itemModel, insertIndexPath) in (itemModelInsertIndexPathPairs.sorted { $0.insertIndexPath < $1.insertIndexPath }) {
-            currentSectionModels[insertIndexPath.section].insert(itemModel, atIndex: insertIndexPath.item)
+            currentSectionModels[insertIndexPath.section].itemModels.insert(itemModel, at: insertIndexPath.item)
         }
     }
 }
@@ -435,10 +436,10 @@ extension ModeState {
                 }
             }
             if let decorationModel = sectionModel.decorationModel {
-//                if rect.contains(decorationModel.frame) || rect.intersects(decorationModel.frame) {
-                    let attr = decorationLayoutAttributes(at: section, frame: decorationModel.frame)
-                    attrs.append(attr)
-//                }
+                //                if rect.contains(decorationModel.frame) || rect.intersects(decorationModel.frame) {
+                let attr = decorationLayoutAttributes(at: section, frame: decorationModel.frame)
+                attrs.append(attr)
+                //                }
             }
         }
         return attrs

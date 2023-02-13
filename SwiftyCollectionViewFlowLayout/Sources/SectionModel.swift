@@ -33,20 +33,23 @@ extension SectionModel {
     /// 当前Section中所有Item的总长度
     internal func allItemsLength(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
         var length: CGFloat = .zero
-        if scrollDirection == .vertical {
-            if !itemModels.isEmpty {
-                let allItemFrame = itemModels.reduce(itemModels.first!.frame) { partialResult, item in
-                    return partialResult.union(item.frame)
+        switch scrollDirection {
+            case .vertical:
+                if !itemModels.isEmpty {
+                    let allItemFrame = itemModels.reduce(itemModels.first!.frame) { partialResult, item in
+                        return partialResult.union(item.frame)
+                    }
+                    length += allItemFrame.height
                 }
-                length += allItemFrame.height
-            }
-        } else {
-            if !itemModels.isEmpty {
-                let allItemFrame = itemModels.reduce(itemModels.first!.frame) { partialResult, item in
-                    return partialResult.union(item.frame)
+            case .horizontal:
+                if !itemModels.isEmpty {
+                    let allItemFrame = itemModels.reduce(itemModels.first!.frame) { partialResult, item in
+                        return partialResult.union(item.frame)
+                    }
+                    length += allItemFrame.width
                 }
-                length += allItemFrame.width
-            }
+            default:
+                break
         }
         return length
     }
@@ -55,36 +58,39 @@ extension SectionModel {
     /// 当前Section总长度
     internal func totalLength(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
         var length: CGFloat = .zero
-        if scrollDirection == .vertical {
-            //
-            length += metrics.sectionInset.top
-            // header
-            if let headerModel = headerModel {
-                length += headerModel.frame.height
-            }
-            // items
-            length += allItemsLength(scrollDirection: scrollDirection)
-            //
-            length += metrics.sectionInset.bottom
-            // footer
-            if let footerModel = footerModel {
-                length += footerModel.frame.height
-            }
-        } else if scrollDirection == .horizontal {
-            //
-            length += metrics.sectionInset.left
-            // header
-            if let headerModel = headerModel {
-                length += headerModel.frame.width
-            }
-            // items
-            length += allItemsLength(scrollDirection: scrollDirection)
-            //
-            length += metrics.sectionInset.right
-            // footer
-            if let footerModel = footerModel {
-                length += footerModel.frame.width
-            }
+        switch scrollDirection {
+            case .vertical:
+                //
+                length += metrics.sectionInset.top
+                // header
+                if let headerModel = headerModel {
+                    length += headerModel.frame.height
+                }
+                // items
+                length += allItemsLength(scrollDirection: scrollDirection)
+                //
+                length += metrics.sectionInset.bottom
+                // footer
+                if let footerModel = footerModel {
+                    length += footerModel.frame.height
+                }
+            case .horizontal:
+                //
+                length += metrics.sectionInset.left
+                // header
+                if let headerModel = headerModel {
+                    length += headerModel.frame.width
+                }
+                // items
+                length += allItemsLength(scrollDirection: scrollDirection)
+                //
+                length += metrics.sectionInset.right
+                // footer
+                if let footerModel = footerModel {
+                    length += footerModel.frame.width
+                }
+            default:
+                break
         }
         return length
     }
@@ -92,20 +98,23 @@ extension SectionModel {
     // 当前Section的Body之前的长度(header + sectionInset.top)
     internal func bodyBeforeLength(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
         var length: CGFloat = .zero
-        if scrollDirection == .vertical {
-            //
-            length += metrics.sectionInset.top
-            // header
-            if let headerModel = headerModel {
-                length += headerModel.frame.height
-            }
-        } else if scrollDirection == .horizontal {
-            //
-            length += metrics.sectionInset.left
-            // header
-            if let headerModel = headerModel {
-                length += headerModel.frame.width
-            }
+        switch scrollDirection {
+            case .vertical:
+                //
+                length += metrics.sectionInset.top
+                // header
+                if let headerModel = headerModel {
+                    length += headerModel.frame.height
+                }
+            case .horizontal:
+                //
+                length += metrics.sectionInset.left
+                // header
+                if let headerModel = headerModel {
+                    length += headerModel.frame.width
+                }
+            default:
+                break
         }
         return length
     }
@@ -113,40 +122,32 @@ extension SectionModel {
     /// 当前Section的Footer之前的长度(header + sectionInset.top + body + sectionInset.bottom)
     internal func footerBeforeLength(scrollDirection: UICollectionView.ScrollDirection) -> CGFloat {
         var length: CGFloat = .zero
-        if scrollDirection == .vertical {
-            //
-            length += metrics.sectionInset.top
-            // header
-            if let headerModel = headerModel {
-                length += headerModel.frame.height
-            }
-            // items
-            length += allItemsLength(scrollDirection: scrollDirection)
-            //
-            length += metrics.sectionInset.bottom
-        } else if scrollDirection == .horizontal {
-            //
-            length += metrics.sectionInset.left
-            // header
-            if let headerModel = headerModel {
-                length += headerModel.frame.width
-            }
-            // items
-            length += allItemsLength(scrollDirection: scrollDirection)
-            //
-            length += metrics.sectionInset.right
+        switch scrollDirection {
+            case .vertical:
+                //
+                length += metrics.sectionInset.top
+                // header
+                if let headerModel = headerModel {
+                    length += headerModel.frame.height
+                }
+                // items
+                length += allItemsLength(scrollDirection: scrollDirection)
+                //
+                length += metrics.sectionInset.bottom
+            case .horizontal:
+                //
+                length += metrics.sectionInset.left
+                // header
+                if let headerModel = headerModel {
+                    length += headerModel.frame.width
+                }
+                // items
+                length += allItemsLength(scrollDirection: scrollDirection)
+                //
+                length += metrics.sectionInset.right
+            default:
+                break
         }
         return length
-    }
-}
-
-extension SectionModel {
-    @discardableResult
-    internal func deleteItemModel(atIndex indexOfDeletion: Int) -> ItemModel {
-        return itemModels.remove(at: indexOfDeletion)
-    }
-    
-    internal func insert(_ itemModel: ItemModel, atIndex indexOfInsertion: Int) {
-        itemModels.insert(itemModel, at: indexOfInsertion)
     }
 }

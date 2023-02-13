@@ -9,12 +9,12 @@ import Foundation
 import UIKit
 
 internal final class DecorationModel {
-    internal let extraAttributes: SwiftyCollectionViewLayoutDecorationExtraAttributes?
+    internal let extraAttributes: SwiftyCollectionViewDecorationExtraAttributes?
     internal let extraInset: UIEdgeInsets
     
     internal var frame: CGRect = .zero
     
-    internal init(extraAttributes: SwiftyCollectionViewLayoutDecorationExtraAttributes?, extraInset: UIEdgeInsets) {
+    internal init(extraAttributes: SwiftyCollectionViewDecorationExtraAttributes?, extraInset: UIEdgeInsets) {
         self.extraAttributes = extraAttributes
         self.extraInset = extraInset
     }

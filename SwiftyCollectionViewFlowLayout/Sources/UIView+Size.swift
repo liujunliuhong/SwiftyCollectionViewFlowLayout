@@ -19,7 +19,7 @@ extension UIView {
     internal func caculate(layout: SwiftyCollectionViewFlowLayout,
                            size: CGSize,
                            sectionModel: SectionModel,
-                           sizeMode: SwiftyCollectionViewFlowLayoutSizeMode,
+                           sizeMode: SwiftyCollectionViewLayoutSizeMode,
                            supplementaryElementKind: String?) -> CGSize {
         
         var _widthMode: LengthMode!
@@ -89,7 +89,11 @@ extension UIView {
                                 _heightMode = .static(length: layout.mCollectionView.frame.height / CGFloat(divisor))
                         }
                     case .fractionalFull(let divisor):
-                        let itemWidth = (containerWidth - CGFloat(divisor - UInt(1)) * sectionModel.metrics.interitemSpacing) / CGFloat(divisor)
+                        var itemWidth = (containerWidth - CGFloat(divisor - UInt(1)) * sectionModel.metrics.interitemSpacing) / CGFloat(divisor)
+                        if supplementaryElementKind == UICollectionView.elementKindSectionHeader || supplementaryElementKind == UICollectionView.elementKindSectionFooter {
+                            itemWidth = containerWidth / CGFloat(divisor)
+                        }
+                        
                         switch sizeMode.height {
                             case .static(let h):
                                 _widthMode = .static(length: itemWidth)
@@ -141,7 +145,12 @@ extension UIView {
                                 _heightMode = .static(length: containerHeight)
                             case .fractionalFull(let divisor):
                                 _widthMode = .static(length: w)
-                                _heightMode = .static(length: containerHeight / CGFloat(divisor))
+                                
+                                var itemHeight = (containerHeight - CGFloat(divisor - UInt(1)) * sectionModel.metrics.interitemSpacing) / CGFloat(divisor)
+                                if supplementaryElementKind == UICollectionView.elementKindSectionHeader || supplementaryElementKind == UICollectionView.elementKindSectionFooter {
+                                    itemHeight = containerHeight / CGFloat(divisor)
+                                }
+                                _heightMode = .static(length: itemHeight)
                         }
                     case .dynamic(let widthIncrement):
                         switch sizeMode.height {
@@ -156,7 +165,12 @@ extension UIView {
                                 _heightMode = .static(length: containerHeight)
                             case .fractionalFull(let divisor):
                                 _widthMode = .dynamic(increment: widthIncrement)
-                                _heightMode = .static(length: containerHeight / CGFloat(divisor))
+                                
+                                var itemHeight = (containerHeight - CGFloat(divisor - UInt(1)) * sectionModel.metrics.interitemSpacing) / CGFloat(divisor)
+                                if supplementaryElementKind == UICollectionView.elementKindSectionHeader || supplementaryElementKind == UICollectionView.elementKindSectionFooter {
+                                    itemHeight = containerHeight / CGFloat(divisor)
+                                }
+                                _heightMode = .static(length: itemHeight)
                         }
                     case .full:
                         switch sizeMode.height {
@@ -171,7 +185,12 @@ extension UIView {
                                 _heightMode = .static(length: containerHeight)
                             case .fractionalFull(let divisor):
                                 _widthMode = .static(length: layout.mCollectionView.frame.width)
-                                _heightMode = .static(length: containerHeight / CGFloat(divisor))
+                                
+                                var itemHeight = (containerHeight - CGFloat(divisor - UInt(1)) * sectionModel.metrics.interitemSpacing) / CGFloat(divisor)
+                                if supplementaryElementKind == UICollectionView.elementKindSectionHeader || supplementaryElementKind == UICollectionView.elementKindSectionFooter {
+                                    itemHeight = containerHeight / CGFloat(divisor)
+                                }
+                                _heightMode = .static(length: itemHeight)
                         }
                     case .fractionalFull(let divisor):
                         let itemWidth = layout.mCollectionView.frame.width / CGFloat(divisor)
@@ -187,7 +206,12 @@ extension UIView {
                                 _heightMode = .static(length: containerHeight)
                             case .fractionalFull(let divisor):
                                 _widthMode = .static(length: itemWidth)
-                                _heightMode = .static(length: containerHeight / CGFloat(divisor))
+                                
+                                var itemHeight = (containerHeight - CGFloat(divisor - UInt(1)) * sectionModel.metrics.interitemSpacing) / CGFloat(divisor)
+                                if supplementaryElementKind == UICollectionView.elementKindSectionHeader || supplementaryElementKind == UICollectionView.elementKindSectionFooter {
+                                    itemHeight = containerHeight / CGFloat(divisor)
+                                }
+                                _heightMode = .static(length: itemHeight)
                         }
                 }
                 return caculate(layout: layout,
@@ -228,7 +252,7 @@ extension UIView {
                             case .dynamic(let heightIncrement):
                                 // static width and dynamic height
                                 w = min(w, containerWidth)
-                                let newSize = CGSize(width: w, height: size.height)
+                                let newSize = CGSize(width: w, height: CGFloat.greatestFiniteMagnitude)
                                 let caculateSize = systemLayoutSizeFitting(newSize,
                                                                            withHorizontalFittingPriority: .required,
                                                                            verticalFittingPriority: .fittingSizeLevel)
@@ -239,7 +263,7 @@ extension UIView {
                         switch heightMode {
                             case .static(let h):
                                 // dynamic width and static height
-                                let newSize = CGSize(width: size.width, height: h)
+                                let newSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: h)
                                 let caculateSize = systemLayoutSizeFitting(newSize,
                                                                            withHorizontalFittingPriority: .fittingSizeLevel,
                                                                            verticalFittingPriority: .required)
@@ -250,7 +274,7 @@ extension UIView {
                                 size.height = h
                             case .dynamic(let heightIncrement):
                                 // dynamic width and dynamic height
-                                let newSize = CGSize(width: size.width, height: size.height)
+                                let newSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
                                 let caculateSize = systemLayoutSizeFitting(newSize,
                                                                            withHorizontalFittingPriority: .fittingSizeLevel,
                                                                            verticalFittingPriority: .fittingSizeLevel)
@@ -259,7 +283,7 @@ extension UIView {
                                 var h = caculateSize.height
                                 
                                 if !w.isLessThanOrEqualTo(containerWidth) {
-                                    let newSize = CGSize(width: containerWidth, height: size.height)
+                                    let newSize = CGSize(width: containerWidth, height: CGFloat.greatestFiniteMagnitude)
                                     let caculateSize = systemLayoutSizeFitting(newSize,
                                                                                withHorizontalFittingPriority: .required,
                                                                                verticalFittingPriority: .fittingSizeLevel)
@@ -285,7 +309,7 @@ extension UIView {
                                 size.height = h
                             case .dynamic(let heightIncrement):
                                 // static width and dynamic height
-                                let newSize = CGSize(width: w, height: size.height)
+                                let newSize = CGSize(width: w, height: CGFloat.greatestFiniteMagnitude)
                                 let caculateSize = systemLayoutSizeFitting(newSize,
                                                                            withHorizontalFittingPriority: .required,
                                                                            verticalFittingPriority: .fittingSizeLevel)
@@ -299,7 +323,7 @@ extension UIView {
                             case .static(let h):
                                 // dynamic width and static height
                                 let h = min(h, containerHeight)
-                                let newSize = CGSize(width: size.width, height: h)
+                                let newSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: h)
                                 let caculateSize = systemLayoutSizeFitting(newSize,
                                                                            withHorizontalFittingPriority: .fittingSizeLevel,
                                                                            verticalFittingPriority: .required)
@@ -307,7 +331,7 @@ extension UIView {
                                 size.height = h
                             case .dynamic(let heightIncrement):
                                 // dynamic width and dynamic height
-                                let newSize = CGSize(width: size.width, height: size.height)
+                                let newSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
                                 let caculateSize = systemLayoutSizeFitting(newSize,
                                                                            withHorizontalFittingPriority: .fittingSizeLevel,
                                                                            verticalFittingPriority: .fittingSizeLevel)
@@ -315,7 +339,7 @@ extension UIView {
                                 var h = caculateSize.height
                                 
                                 if !h.isLessThanOrEqualTo(containerHeight) {
-                                    let newSize = CGSize(width: size.width, height: containerHeight)
+                                    let newSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: containerHeight)
                                     let caculateSize = systemLayoutSizeFitting(newSize,
                                                                                withHorizontalFittingPriority: .fittingSizeLevel,
                                                                                verticalFittingPriority: .required)

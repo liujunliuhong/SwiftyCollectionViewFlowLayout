@@ -38,6 +38,7 @@ public final class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
         return mCollectionView
     }
     
+    /// scroll direction.
     public var scrollDirection: UICollectionView.ScrollDirection = .vertical {
         didSet {
             invalidateLayout()
@@ -315,22 +316,22 @@ extension SwiftyCollectionViewFlowLayout {
         }
     }
     
-    private func sizeModeForItem(at indexPath: IndexPath) -> SwiftyCollectionViewFlowLayoutSizeMode {
+    private func sizeModeForItem(at indexPath: IndexPath) -> SwiftyCollectionViewLayoutSizeMode {
         guard let mDelegate = mDelegate else { return Default.sizeMode }
         return mDelegate.collectionView(mCollectionView, layout: self, itemSizeModeAt: indexPath)
     }
     
-    private func visibilityModeForHeader(at section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
+    private func visibilityModeForHeader(at section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
         guard let mDelegate = mDelegate else { return Default.headerVisibilityMode }
         return mDelegate.collectionView(mCollectionView, layout: self, visibilityModeForHeaderInSection: section)
     }
     
-    private func visibilityModeForFooter(at section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
+    private func visibilityModeForFooter(at section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
         guard let mDelegate = mDelegate else { return Default.footerVisibilityMode }
         return mDelegate.collectionView(mCollectionView, layout: self, visibilityModeForFooterInSection: section)
     }
     
-    private func visibilityModeForDecoration(at section: Int) -> SwiftyCollectionViewFlowLayoutDecorationVisibilityMode {
+    private func visibilityModeForDecoration(at section: Int) -> SwiftyCollectionViewLayoutDecorationVisibilityMode {
         guard let mDelegate = mDelegate else { return Default.decorationVisibilityMode }
         return mDelegate.collectionView(mCollectionView, layout: self, visibilityModeForDecorationInSection: section)
     }

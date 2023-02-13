@@ -8,6 +8,9 @@
 import UIKit
 
 
+/// A collection reusable view that coordinates with `SwiftyCollectionViewLayoutAttributes`
+/// to determine how to size itself: with self-sizing, or without self-sizing. Use this class
+/// (or subclasses) for displaying header and footer supplementary views with `SwiftyCollectionViewFlowLayout`.
 open class SwiftyCollectionReusableView: UICollectionReusableView {
     
     open override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {

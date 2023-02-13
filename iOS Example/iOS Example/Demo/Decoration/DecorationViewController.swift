@@ -45,6 +45,7 @@ public final class DecorationViewController: UIViewController {
             make.left.right.equalToSuperview().inset(25)
             make.top.equalToSuperview().offset(120)
             make.bottom.equalToSuperview().offset(-80)
+            make.edges.equalToSuperview()
         }
         
         loadData()
@@ -121,19 +122,19 @@ extension DecorationViewController: SwiftyCollectionViewDelegateFlowLayout {
         return 15
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
         // 当scrollDirection = .horizontal，高度无效
         // 当scrollDirection = .vertical，宽度无效
         return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewFlowLayoutSupplementaryVisibilityMode {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
         // 当scrollDirection = .horizontal，高度无效
         // 当scrollDirection = .vertical，宽度无效
         return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewFlowLayoutSizeMode {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewLayoutSizeMode {
         let model = dataSource[indexPath.section][indexPath.item]
         return .init(width: .static(length: model.width), height: .static(length: model.height))
     }
@@ -146,7 +147,7 @@ extension DecorationViewController: SwiftyCollectionViewDelegateFlowLayout {
         return true
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForDecorationInSection section: Int) -> SwiftyCollectionViewFlowLayoutDecorationVisibilityMode {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForDecorationInSection section: Int) -> SwiftyCollectionViewLayoutDecorationVisibilityMode {
         if section != 1 {
             let extraAttributes = DecorationExtraAttributes()
             extraAttributes.cornerRadius = 10.0
