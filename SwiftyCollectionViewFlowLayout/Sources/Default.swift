@@ -20,8 +20,8 @@ internal struct Default {
     static let footerDirection: SwiftyCollectionViewLayoutSupplementaryDirection = .left
     static let lineSpacing: CGFloat = 15.0
     static let interitemSpacing: CGFloat = 15.0
-    static let decorationVisibilityMode: SwiftyCollectionViewLayoutDecorationVisibilityMode = .hidden
-    static let decorationExtraInset: UIEdgeInsets = .zero
+    static let backgroundVisibilityMode: SwiftyCollectionViewLayoutBackgroundVisibilityMode = .hidden
+    static let backgroundInset: UIEdgeInsets = .zero
     static let sizeMode: SwiftyCollectionViewLayoutSizeMode = .default
     static let size: CGSize = CGSize(width: 50, height: 50)
     static let headerVisibilityMode: SwiftyCollectionViewLayoutSupplementaryVisibilityMode = .hidden

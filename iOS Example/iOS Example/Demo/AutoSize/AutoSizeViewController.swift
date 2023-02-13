@@ -21,7 +21,6 @@ public final class AutoSizeViewController: UIViewController {
     private lazy var layout: SwiftyCollectionViewFlowLayout = {
         let layout = SwiftyCollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.register(DecorationView.classForCoder(), forDecorationViewOfKind: SwiftyCollectionViewFlowLayout.DecorationElementKind)
         return layout
     }()
     
@@ -34,6 +33,7 @@ public final class AutoSizeViewController: UIViewController {
         collectionView.register(AutoSizeCell.classForCoder(), forCellWithReuseIdentifier: NSStringFromClass(AutoSizeCell.classForCoder()))
         collectionView.register(AutoSizeHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(AutoSizeHeaderView.classForCoder()))
         collectionView.register(AutoSizeFooterView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(AutoSizeFooterView.classForCoder()))
+        collectionView.register(DecorationView.classForCoder(), forSupplementaryViewOfKind: SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind, withReuseIdentifier: NSStringFromClass(DecorationView.classForCoder())) // 注册背景视图
         return collectionView
     }()
     
@@ -123,6 +123,11 @@ extension AutoSizeViewController: UICollectionViewDataSource {
             let model = dataSource[indexPath.section]
             footerView.bind(to: model)
             return footerView
+        } else if kind == SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind {
+            guard let decorationView = collectionView.dequeueReusableSupplementaryView(ofKind: SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind, withReuseIdentifier: NSStringFromClass(DecorationView.classForCoder()), for: indexPath) as? DecorationView else {
+                return UICollectionReusableView()
+            }
+            return decorationView
         }
         return UICollectionReusableView()
     }
@@ -162,14 +167,11 @@ extension AutoSizeViewController: SwiftyCollectionViewDelegateFlowLayout {
         return dataSource[section].sectionType
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForDecorationInSection section: Int) -> SwiftyCollectionViewLayoutDecorationVisibilityMode {
-        let extraAttributes = DecorationExtraAttributes()
-        extraAttributes.cornerRadius = 10.0
-        extraAttributes.backgroundColor = .purple
-        return .visible(extraAttributes: extraAttributes)
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForBackgroundInSection section: Int) -> SwiftyCollectionViewLayoutBackgroundVisibilityMode {
+        return .visible
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, decorationExtraInset section: Int) -> UIEdgeInsets {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, backgroundInset section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
     

@@ -18,6 +18,7 @@ internal final class SectionMetrics {
     internal let sectionInsetContainFooter: Bool
     internal let headerOffset: UIOffset
     internal let footerOffset: UIOffset
+    internal let backgroundInset: UIEdgeInsets
     internal let headerDirection: SwiftyCollectionViewLayoutSupplementaryDirection
     internal let footerDirection: SwiftyCollectionViewLayoutSupplementaryDirection
     
@@ -38,6 +39,7 @@ internal final class SectionMetrics {
         footerOffset = delegate.collectionView(collectionView, layout: layout, footerOffset: section)
         headerDirection = delegate.collectionView(collectionView, layout: layout, headerDirection: section)
         footerDirection = delegate.collectionView(collectionView, layout: layout, footerDirection: section)
+        backgroundInset = delegate.collectionView(collectionView, layout: layout, backgroundInset: section)
         
         scale = collectionView.traitCollection.nonZeroDisplayScale
     }
@@ -52,6 +54,7 @@ internal final class SectionMetrics {
                  sectionInsetContainFooter: Bool,
                  headerOffset: UIOffset,
                  footerOffset: UIOffset,
+                 backgroundInset: UIEdgeInsets,
                  headerDirection: SwiftyCollectionViewLayoutSupplementaryDirection,
                  footerDirection: SwiftyCollectionViewLayoutSupplementaryDirection,
                  scale: CGFloat) {
@@ -65,6 +68,7 @@ internal final class SectionMetrics {
         self.footerOffset = footerOffset
         self.headerDirection = headerDirection
         self.footerDirection = footerDirection
+        self.backgroundInset = backgroundInset
         self.scale = scale
     }
     
@@ -76,6 +80,7 @@ internal final class SectionMetrics {
                                                    sectionInsetContainFooter: Default.sectionInsetContainFooter,
                                                    headerOffset: Default.headerOffet,
                                                    footerOffset: Default.footerOffet,
+                                                   backgroundInset: Default.backgroundInset,
                                                    headerDirection: Default.headerDirection,
                                                    footerDirection: Default.footerDirection,
                                                    scale: Default.scale)

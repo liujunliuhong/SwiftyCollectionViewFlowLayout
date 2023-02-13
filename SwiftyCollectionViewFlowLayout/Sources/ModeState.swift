@@ -68,8 +68,8 @@ extension ModeState {
         return sectionModel(at: section)?.footerModel
     }
     
-    internal func decorationModel(at section: Int) -> DecorationModel? {
-        return sectionModel(at: section)?.decorationModel
+    internal func backgroundModel(at section: Int) -> BackgroundModel? {
+        return sectionModel(at: section)?.backgroundModel
     }
     
     internal func previousSectionTotalLength(currentSection: Int) -> CGFloat {
@@ -163,14 +163,14 @@ extension ModeState {
         sectionModel.footerModel = nil
     }
     
-    internal func setDecoration(decorationModel: DecorationModel, at section: Int) {
+    internal func setBackground(backgroundModel: BackgroundModel, at section: Int) {
         guard let sectionModel = sectionModel(at: section) else { return }
-        sectionModel.decorationModel = decorationModel
+        sectionModel.backgroundModel = backgroundModel
     }
     
-    internal func removeDecoration(at section: Int) {
+    internal func removeBackground(at section: Int) {
         guard let sectionModel = sectionModel(at: section) else { return }
-        sectionModel.decorationModel = nil
+        sectionModel.backgroundModel = nil
     }
     
     internal func updateItemSizeMode(sizeMode: SwiftyCollectionViewLayoutSizeMode, at indexPath: IndexPath) {
@@ -403,7 +403,7 @@ extension ModeState {
             layoutHeaderModel(at: section)
             layoutItemModels(at: section)
             layoutFooterModel(at: section)
-            layoutDecorationModel(at: section)
+            layoutBackgroundModel(at: section)
         }
         var attrs: [UICollectionViewLayoutAttributes] = []
         for (section, sectionModel) in currentSectionModels.enumerated() {
@@ -435,11 +435,11 @@ extension ModeState {
                     attrs.append(attr)
                 }
             }
-            if let decorationModel = sectionModel.decorationModel {
-                //                if rect.contains(decorationModel.frame) || rect.intersects(decorationModel.frame) {
-                let attr = decorationLayoutAttributes(at: section, frame: decorationModel.frame)
-                attrs.append(attr)
-                //                }
+            if let backgroundModel = sectionModel.backgroundModel {
+                if rect.contains(backgroundModel.frame) || rect.intersects(backgroundModel.frame) {
+                    let attr = backgroundLayoutAttributes(at: section, frame: backgroundModel.frame, sectionModel: sectionModel)
+                    attrs.append(attr)
+                }
             }
         }
         return attrs

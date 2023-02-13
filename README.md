@@ -8,11 +8,12 @@ A collection view layout capable of laying out views in vertically and horizonta
 
 - Support `Vertical` and `Horizontal` scroll direction.
 - Support water-flow and grid list.
-- Section background decoration that can be hidden/visible on a per-section basis.
 - Hiding or showing headers and footers on a per-section basis.
 - Self-sizing headers and footers.
 - Headers and footers offset.
 - Headers and footer direction.
+- Section background that can be hidden/visible on a per-section basis.
+- Section background inset.
 - Per-item self-sizing preferences (self-size and statically-size items anywhere in your collection view).
 - Item width/height based on a fraction of the total available width/height.
 
@@ -87,15 +88,15 @@ collectionView.register(MyHeaderView.classForCoder(), forSupplementaryViewOfKind
 collectionView.register(MyFooterView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "MyFooterReuseIdentifier")
 ```
 
-#### Decoration view
+#### Section Background view
 
-`SwiftyCollectionViewFlowLayout` support decoration view.
+`SwiftyCollectionViewFlowLayout` support section background view.
 
 ```swift
-layout.register(DecorationView.classForCoder(), forDecorationViewOfKind: SwiftyCollectionViewFlowLayout.DecorationElementKind)
+collectionView.register(DecorationView.classForCoder(), forSupplementaryViewOfKind: SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind, withReuseIdentifier: NSStringFromClass(DecorationView.classForCoder()))
 ```
 
-Make sure that the custom decoration view kind is **SwiftyCollectionViewFlowLayout.DecorationElementKind**.
+section background view do not self-size, so, the section background view can subclasses from `UICollectionReusableView`
 
 #### Configuring the delegate
 

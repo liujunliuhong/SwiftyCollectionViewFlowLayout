@@ -23,7 +23,6 @@
 		8565A87A298BFBDF00FFE2FD /* IrregularTagListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A879298BFBDF00FFE2FD /* IrregularTagListHeaderView.swift */; };
 		8565A87C298BFBF300FFE2FD /* IrregularTagListFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8565A87B298BFBF300FFE2FD /* IrregularTagListFooterView.swift */; };
 		85DC9212298FEA2B00F0170D /* DecorationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DC9211298FEA2B00F0170D /* DecorationViewController.swift */; };
-		85DC9214298FEBEF00F0170D /* DecorationExtraAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DC9213298FEBEF00F0170D /* DecorationExtraAttributes.swift */; };
 		85DC9216298FECB700F0170D /* DecorationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DC9215298FECB700F0170D /* DecorationCell.swift */; };
 		85DC9218298FECEC00F0170D /* DecorationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DC9217298FECEC00F0170D /* DecorationHeaderView.swift */; };
 		85DC921A298FECF700F0170D /* DecorationFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DC9219298FECF700F0170D /* DecorationFooterView.swift */; };
@@ -100,7 +99,6 @@
 		8565A879298BFBDF00FFE2FD /* IrregularTagListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IrregularTagListHeaderView.swift; sourceTree = "<group>"; };
 		8565A87B298BFBF300FFE2FD /* IrregularTagListFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IrregularTagListFooterView.swift; sourceTree = "<group>"; };
 		85DC9211298FEA2B00F0170D /* DecorationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorationViewController.swift; sourceTree = "<group>"; };
-		85DC9213298FEBEF00F0170D /* DecorationExtraAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorationExtraAttributes.swift; sourceTree = "<group>"; };
 		85DC9215298FECB700F0170D /* DecorationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorationCell.swift; sourceTree = "<group>"; };
 		85DC9217298FECEC00F0170D /* DecorationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorationHeaderView.swift; sourceTree = "<group>"; };
 		85DC9219298FECF700F0170D /* DecorationFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorationFooterView.swift; sourceTree = "<group>"; };
@@ -238,7 +236,6 @@
 				85DC9217298FECEC00F0170D /* DecorationHeaderView.swift */,
 				85DC9219298FECF700F0170D /* DecorationFooterView.swift */,
 				85DC921D298FEF1A00F0170D /* DecorationView.swift */,
-				85DC9213298FEBEF00F0170D /* DecorationExtraAttributes.swift */,
 			);
 			path = Decoration;
 			sourceTree = "<group>";
@@ -435,7 +432,6 @@
 				D14316382992123C00669451 /* AutoSizeHeaderView.swift in Sources */,
 				D11DCE22298CD4B00036B5DD /* MixListViewController.swift in Sources */,
 				8565A871298BF6A800FFE2FD /* IrregularTagListViewController.swift in Sources */,
-				85DC9214298FEBEF00F0170D /* DecorationExtraAttributes.swift in Sources */,
 				8565A874298BF6A800FFE2FD /* TagListCell.swift in Sources */,
 				D11DCE26298CD4EF0036B5DD /* MixListHeaderView.swift in Sources */,
 				85DC921C298FEDBD00F0170D /* DecorationModel.swift in Sources */,

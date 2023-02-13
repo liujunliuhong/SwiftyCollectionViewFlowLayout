@@ -9,7 +9,7 @@ import UIKit
 import SwiftyCollectionViewFlowLayout
 import SnapKit
 
-public final class DecorationView: SwiftyCollectionReusableView {
+public final class DecorationView: UICollectionReusableView {
     
     private lazy var bgView: UIView = {
         let bgView = UIView()
@@ -45,13 +45,10 @@ public final class DecorationView: SwiftyCollectionReusableView {
     
     public override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
-        guard let layoutAttributes = layoutAttributes as? SwiftyCollectionViewDecorationAttributes else {
+        guard let layoutAttributes = layoutAttributes as? SwiftyCollectionViewLayoutAttributes else {
             return
         }
-        guard let extraAttributes = layoutAttributes.extraAttributes as? DecorationExtraAttributes else {
-            return
-        }
-        bgView.layer.cornerRadius = extraAttributes.cornerRadius
-        bgView.backgroundColor = extraAttributes.backgroundColor
+        bgView.layer.cornerRadius = 10.0
+        bgView.backgroundColor = .purple
     }
 }

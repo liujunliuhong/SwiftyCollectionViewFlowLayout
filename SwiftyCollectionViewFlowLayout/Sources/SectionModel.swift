@@ -12,19 +12,19 @@ internal final class SectionModel {
     internal var headerModel: HeaderModel?
     internal var footerModel: FooterModel?
     internal var itemModels: [ItemModel]
-    internal var decorationModel: DecorationModel?
+    internal var backgroundModel: BackgroundModel?
     
     internal var metrics: SectionMetrics
     
     internal init(headerModel: HeaderModel?,
                   footerModel: FooterModel?,
                   itemModels: [ItemModel],
-                  decorationModel: DecorationModel?,
+                  backgroundModel: BackgroundModel?,
                   metrics: SectionMetrics) {
         self.headerModel = headerModel
         self.footerModel = footerModel
         self.itemModels = itemModels
-        self.decorationModel = decorationModel
+        self.backgroundModel = backgroundModel
         self.metrics = metrics
     }
 }

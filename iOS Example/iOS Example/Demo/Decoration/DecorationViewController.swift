@@ -19,7 +19,6 @@ public final class DecorationViewController: UIViewController {
     private lazy var layout: SwiftyCollectionViewFlowLayout = {
         let layout = SwiftyCollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.register(DecorationView.classForCoder(), forDecorationViewOfKind: SwiftyCollectionViewFlowLayout.DecorationElementKind) // 注册装饰视图
         return layout
     }()
     
@@ -32,6 +31,7 @@ public final class DecorationViewController: UIViewController {
         collectionView.register(DecorationCell.classForCoder(), forCellWithReuseIdentifier: NSStringFromClass(DecorationCell.classForCoder()))
         collectionView.register(DecorationHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(DecorationHeaderView.classForCoder()))
         collectionView.register(DecorationFooterView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(DecorationFooterView.classForCoder()))
+        collectionView.register(DecorationView.classForCoder(), forSupplementaryViewOfKind: SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind, withReuseIdentifier: NSStringFromClass(DecorationView.classForCoder())) // 注册背景视图
         return collectionView
     }()
     
@@ -99,6 +99,11 @@ extension DecorationViewController: UICollectionViewDataSource {
                 return UICollectionReusableView()
             }
             return footerView
+        } else if kind == SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind {
+            guard let decorationView = collectionView.dequeueReusableSupplementaryView(ofKind: SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind, withReuseIdentifier: NSStringFromClass(DecorationView.classForCoder()), for: indexPath) as? DecorationView else {
+                return UICollectionReusableView()
+            }
+            return decorationView
         }
         return UICollectionReusableView()
     }
@@ -142,15 +147,11 @@ extension DecorationViewController: SwiftyCollectionViewDelegateFlowLayout {
         return true
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForDecorationInSection section: Int) -> SwiftyCollectionViewLayoutDecorationVisibilityMode {
-        if section != 1 {
-            let extraAttributes = DecorationExtraAttributes()
-            extraAttributes.cornerRadius = 10.0
-            extraAttributes.backgroundColor = .purple
-            
-            return .visible(extraAttributes: extraAttributes)
-        } else {
-            return .hidden
-        }
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForBackgroundInSection section: Int) -> SwiftyCollectionViewLayoutBackgroundVisibilityMode {
+        return section == 1 ? .hidden : .visible
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, backgroundInset section: Int) -> UIEdgeInsets {
+        return .zero
     }
 }

@@ -74,15 +74,15 @@ public protocol SwiftyCollectionViewDelegateFlowLayout: UICollectionViewDelegate
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
                         sectionInsetContainFooter section: Int) -> Bool
     
-    /// VisibilityMode for Decoration.
+    /// VisibilityMode for Background.
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                        visibilityModeForDecorationInSection section: Int) -> SwiftyCollectionViewLayoutDecorationVisibilityMode
+                        visibilityModeForBackgroundInSection section: Int) -> SwiftyCollectionViewLayoutBackgroundVisibilityMode
     
-    /// Decoration view extra inset. Default UIEdgeInsets.zero.
+    /// Background view inset. Default UIEdgeInsets.zero.
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                        decorationExtraInset section: Int) -> UIEdgeInsets
+                        backgroundInset section: Int) -> UIEdgeInsets
     
     /// The collection view calls this method when the collectionView contentSize change.
     func collectionView(_ collectionView: UICollectionView,
@@ -165,14 +165,14 @@ extension SwiftyCollectionViewDelegateFlowLayout {
     
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                               visibilityModeForDecorationInSection section: Int) -> SwiftyCollectionViewLayoutDecorationVisibilityMode {
-        return Default.decorationVisibilityMode
+                               visibilityModeForBackgroundInSection section: Int) -> SwiftyCollectionViewLayoutBackgroundVisibilityMode {
+        return Default.backgroundVisibilityMode
     }
     
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
-                               decorationExtraInset section: Int) -> UIEdgeInsets {
-        return Default.decorationExtraInset
+                               backgroundInset section: Int) -> UIEdgeInsets {
+        return Default.backgroundInset
     }
     
     public func collectionView(_ collectionView: UICollectionView,

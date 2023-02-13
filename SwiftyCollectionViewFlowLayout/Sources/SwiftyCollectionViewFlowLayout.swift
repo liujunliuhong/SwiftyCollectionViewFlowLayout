@@ -23,7 +23,7 @@ public final class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
 #endif
     }
     
-    public static let DecorationElementKind = "SwiftyCollectionViewFlowLayout.DecorationElementKind"
+    public static let SectionBackgroundElementKind = "SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind"
     
     internal var mDelegate: SwiftyCollectionViewDelegateFlowLayout? {
         return collectionView?.delegate as? SwiftyCollectionViewDelegateFlowLayout
@@ -95,10 +95,10 @@ extension SwiftyCollectionViewFlowLayout {
                     modeState.removeFooter(at: section)
                 }
                 
-                if let decorationModel = decorationModel(at: section) {
-                    modeState.setDecoration(decorationModel: decorationModel, at: section)
+                if let backgroundModel = backgroundModel(at: section) {
+                    modeState.setBackground(backgroundModel: backgroundModel, at: section)
                 } else {
-                    modeState.removeDecoration(at: section)
+                    modeState.removeBackground(at: section)
                 }
                 
                 for i in 0..<modeState.numberOfItems(at: section) {
@@ -203,17 +203,16 @@ extension SwiftyCollectionViewFlowLayout {
                 return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
             }
             return modeState.footerLayoutAttributes(at: indexPath.section, frame: footerModel.frame, sectionModel: sectionModel, sizeMode: footerModel.sizeMode)
+        } else if elementKind == SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind {
+            guard let backgroundModel = modeState.backgroundModel(at: indexPath.section) else {
+                return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
+            }
+            return modeState.backgroundLayoutAttributes(at: indexPath.section, frame: backgroundModel.frame, sectionModel: sectionModel)
         }
         return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
     }
     
     public override func layoutAttributesForDecorationView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        if elementKind == SwiftyCollectionViewFlowLayout.DecorationElementKind {
-            guard let decorationModel = decorationModel(at: indexPath.section) else {
-                return super.layoutAttributesForDecorationView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
-            }
-            return modeState.decorationLayoutAttributes(at: indexPath.section, frame: decorationModel.frame)
-        }
         return super.layoutAttributesForDecorationView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
     }
     
@@ -293,7 +292,7 @@ extension SwiftyCollectionViewFlowLayout {
         return SectionModel(headerModel: headerModelForHeader(at: section),
                             footerModel: footerModelForFooter(at: section),
                             itemModels: itemModels,
-                            decorationModel: decorationModel(at: section),
+                            backgroundModel: backgroundModel(at: section),
                             metrics: metricsForSection(at: section))
     }
     
@@ -322,13 +321,13 @@ extension SwiftyCollectionViewFlowLayout {
         }
     }
     
-    private func decorationModel(at section: Int) -> DecorationModel? {
-        let decorationVisibilityMode = visibilityModeForDecoration(at: section)
-        switch decorationVisibilityMode {
+    private func backgroundModel(at section: Int) -> BackgroundModel? {
+        let backgroundVisibilityMode = visibilityModeForBackground(at: section)
+        switch backgroundVisibilityMode {
             case .hidden:
                 return nil
-            case .visible(let extraAttributes):
-                return DecorationModel(extraAttributes: extraAttributes, extraInset: decorationExtraInset(at: section))
+            case .visible:
+                return BackgroundModel()
         }
     }
     
@@ -347,14 +346,9 @@ extension SwiftyCollectionViewFlowLayout {
         return mDelegate.collectionView(mCollectionView, layout: self, visibilityModeForFooterInSection: section)
     }
     
-    private func visibilityModeForDecoration(at section: Int) -> SwiftyCollectionViewLayoutDecorationVisibilityMode {
-        guard let mDelegate = mDelegate else { return Default.decorationVisibilityMode }
-        return mDelegate.collectionView(mCollectionView, layout: self, visibilityModeForDecorationInSection: section)
-    }
-    
-    private func decorationExtraInset(at section: Int) -> UIEdgeInsets {
-        guard let mDelegate = mDelegate else { return Default.decorationExtraInset }
-        return mDelegate.collectionView(mCollectionView, layout: self, decorationExtraInset: section)
+    private func visibilityModeForBackground(at section: Int) -> SwiftyCollectionViewLayoutBackgroundVisibilityMode {
+        guard let mDelegate = mDelegate else { return Default.backgroundVisibilityMode }
+        return mDelegate.collectionView(mCollectionView, layout: self, visibilityModeForBackgroundInSection: section)
     }
     
     private func metricsForSection(at section: Int) -> SectionMetrics {

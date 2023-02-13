@@ -21,7 +21,6 @@ public final class RowViewController: UIViewController {
     private lazy var layout: SwiftyCollectionViewFlowLayout = {
         let layout = SwiftyCollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.register(DecorationView.classForCoder(), forDecorationViewOfKind: SwiftyCollectionViewFlowLayout.DecorationElementKind)
         return layout
     }()
     
@@ -34,6 +33,7 @@ public final class RowViewController: UIViewController {
         collectionView.register(RowCell.classForCoder(), forCellWithReuseIdentifier: NSStringFromClass(RowCell.classForCoder()))
         collectionView.register(RowHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(RowHeaderView.classForCoder()))
         collectionView.register(RowFooterView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(RowFooterView.classForCoder()))
+        collectionView.register(DecorationView.classForCoder(), forSupplementaryViewOfKind: SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind, withReuseIdentifier: NSStringFromClass(DecorationView.classForCoder())) // 注册背景视图
         return collectionView
     }()
     
@@ -162,6 +162,11 @@ extension RowViewController: UICollectionViewDataSource {
                 return UICollectionReusableView()
             }
             return footerView
+        } else if kind == SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind {
+            guard let decorationView = collectionView.dequeueReusableSupplementaryView(ofKind: SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind, withReuseIdentifier: NSStringFromClass(DecorationView.classForCoder()), for: indexPath) as? DecorationView else {
+                return UICollectionReusableView()
+            }
+            return decorationView
         }
         return UICollectionReusableView()
     }
@@ -201,15 +206,11 @@ extension RowViewController: SwiftyCollectionViewDelegateFlowLayout {
         return .row(direction: .left, alignment: .center)
     }
     
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForDecorationInSection section: Int) -> SwiftyCollectionViewLayoutDecorationVisibilityMode {
-        let extraAttributes = DecorationExtraAttributes()
-        extraAttributes.cornerRadius = 10.0
-        extraAttributes.backgroundColor = .purple
-        return .visible(extraAttributes: extraAttributes)
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForBackgroundInSection section: Int) -> SwiftyCollectionViewLayoutBackgroundVisibilityMode {
+        return .visible
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, decorationExtraInset section: Int) -> UIEdgeInsets {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, backgroundInset section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
     

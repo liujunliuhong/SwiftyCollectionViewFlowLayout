@@ -36,7 +36,6 @@ public final class IrregularTagListViewController: UIViewController {
     private lazy var layout: SwiftyCollectionViewFlowLayout = {
         let layout = SwiftyCollectionViewFlowLayout()
         layout.scrollDirection = scrollDirection
-        layout.register(DecorationView.classForCoder(), forDecorationViewOfKind: SwiftyCollectionViewFlowLayout.DecorationElementKind)
         return layout
     }()
     
@@ -73,6 +72,7 @@ public final class IrregularTagListViewController: UIViewController {
         collectionView.register(IrregularTagListCell.classForCoder(), forCellWithReuseIdentifier: NSStringFromClass(IrregularTagListCell.classForCoder()))
         collectionView.register(IrregularTagListHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(IrregularTagListHeaderView.classForCoder()))
         collectionView.register(IrregularTagListFooterView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(IrregularTagListFooterView.classForCoder()))
+        collectionView.register(DecorationView.classForCoder(), forSupplementaryViewOfKind: SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind, withReuseIdentifier: NSStringFromClass(DecorationView.classForCoder())) // 注册背景视图
         return collectionView
     }()
     
@@ -229,6 +229,11 @@ extension IrregularTagListViewController: UICollectionViewDataSource {
                 return UICollectionReusableView()
             }
             return footerView
+        } else if kind == SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind {
+            guard let decorationView = collectionView.dequeueReusableSupplementaryView(ofKind: SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind, withReuseIdentifier: NSStringFromClass(DecorationView.classForCoder()), for: indexPath) as? DecorationView else {
+                return UICollectionReusableView()
+            }
+            return decorationView
         }
         return UICollectionReusableView()
     }
@@ -282,14 +287,11 @@ extension IrregularTagListViewController: SwiftyCollectionViewDelegateFlowLayout
         return 15
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForDecorationInSection section: Int) -> SwiftyCollectionViewLayoutDecorationVisibilityMode {
-        let extraAttributes = DecorationExtraAttributes()
-        extraAttributes.cornerRadius = 10.0
-        extraAttributes.backgroundColor = .purple
-        return .visible(extraAttributes: extraAttributes)
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForBackgroundInSection section: Int) -> SwiftyCollectionViewLayoutBackgroundVisibilityMode {
+        return .visible
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, decorationExtraInset section: Int) -> UIEdgeInsets {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, backgroundInset section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
 }

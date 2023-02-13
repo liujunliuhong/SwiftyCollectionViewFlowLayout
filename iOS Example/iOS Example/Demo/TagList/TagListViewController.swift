@@ -25,7 +25,6 @@ public final class TagListViewController: UIViewController {
     
     private lazy var layout: SwiftyCollectionViewFlowLayout = {
         let layout = SwiftyCollectionViewFlowLayout()
-        
         layout.scrollDirection = .vertical
         return layout
     }()
