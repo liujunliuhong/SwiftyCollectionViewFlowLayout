@@ -33,6 +33,9 @@
 		D16363BB2999D2B300AAD627 /* SwiftyCollectionViewLayoutLengthMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363BA2999D2B300AAD627 /* SwiftyCollectionViewLayoutLengthMode.swift */; };
 		D16363BD2999D2EE00AAD627 /* SwiftyCollectionViewLayoutSizeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363BC2999D2EE00AAD627 /* SwiftyCollectionViewLayoutSizeMode.swift */; };
 		D16363BF2999E6E800AAD627 /* SwiftyCollectionViewLayoutSupplementaryDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363BE2999E6E800AAD627 /* SwiftyCollectionViewLayoutSupplementaryDirection.swift */; };
+		D16363C1299A0DCA00AAD627 /* SwiftyCollectionViewLayoutInvalidationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363C0299A0DCA00AAD627 /* SwiftyCollectionViewLayoutInvalidationContext.swift */; };
+		D16363CF299A1BEB00AAD627 /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363CE299A1BEB00AAD627 /* CGFloat+Extension.swift */; };
+		D16363D1299A1CD900AAD627 /* UITraitCollection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363D0299A1CD900AAD627 /* UITraitCollection+Extension.swift */; };
 		D18A32272996380000E41699 /* CollectionViewUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18A32262996380000E41699 /* CollectionViewUpdate.swift */; };
 		D1FF4B66299491AB005518D6 /* SwiftyCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FF4B65299491AB005518D6 /* SwiftyCollectionReusableView.swift */; };
 		D1FF4B682994A329005518D6 /* SwiftyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FF4B672994A329005518D6 /* SwiftyCollectionViewCell.swift */; };
@@ -66,6 +69,9 @@
 		D16363BA2999D2B300AAD627 /* SwiftyCollectionViewLayoutLengthMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewLayoutLengthMode.swift; sourceTree = "<group>"; };
 		D16363BC2999D2EE00AAD627 /* SwiftyCollectionViewLayoutSizeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewLayoutSizeMode.swift; sourceTree = "<group>"; };
 		D16363BE2999E6E800AAD627 /* SwiftyCollectionViewLayoutSupplementaryDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewLayoutSupplementaryDirection.swift; sourceTree = "<group>"; };
+		D16363C0299A0DCA00AAD627 /* SwiftyCollectionViewLayoutInvalidationContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewLayoutInvalidationContext.swift; sourceTree = "<group>"; };
+		D16363CE299A1BEB00AAD627 /* CGFloat+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
+		D16363D0299A1CD900AAD627 /* UITraitCollection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITraitCollection+Extension.swift"; sourceTree = "<group>"; };
 		D18A32262996380000E41699 /* CollectionViewUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewUpdate.swift; sourceTree = "<group>"; };
 		D1FF4B65299491AB005518D6 /* SwiftyCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionReusableView.swift; sourceTree = "<group>"; };
 		D1FF4B672994A329005518D6 /* SwiftyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -113,6 +119,7 @@
 			children = (
 				8565A856298BF5C300FFE2FD /* SwiftyCollectionViewFlowLayout.swift */,
 				8565A857298BF5C300FFE2FD /* SwiftyCollectionViewDelegateFlowLayout.swift */,
+				D16363C0299A0DCA00AAD627 /* SwiftyCollectionViewLayoutInvalidationContext.swift */,
 				8565A85A298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift */,
 				D16363BC2999D2EE00AAD627 /* SwiftyCollectionViewLayoutSizeMode.swift */,
 				D16363BA2999D2B300AAD627 /* SwiftyCollectionViewLayoutLengthMode.swift */,
@@ -137,6 +144,8 @@
 				D14D300129936D8F00E31E7E /* FooterModel.swift */,
 				858C42EA2993F395001F5DF1 /* DecorationModel.swift */,
 				D14D300F2993A4FD00E31E7E /* SectionModel+WaterFlow.swift */,
+				D16363CE299A1BEB00AAD627 /* CGFloat+Extension.swift */,
+				D16363D0299A1CD900AAD627 /* UITraitCollection+Extension.swift */,
 				D18A32262996380000E41699 /* CollectionViewUpdate.swift */,
 			);
 			path = Sources;
@@ -224,6 +233,7 @@
 				D18A32272996380000E41699 /* CollectionViewUpdate.swift in Sources */,
 				D14D300A299397CA00E31E7E /* SwiftyCollectionViewLayoutAttributes.swift in Sources */,
 				D14D300229936D8F00E31E7E /* FooterModel.swift in Sources */,
+				D16363D1299A1CD900AAD627 /* UITraitCollection+Extension.swift in Sources */,
 				D16363BB2999D2B300AAD627 /* SwiftyCollectionViewLayoutLengthMode.swift in Sources */,
 				D16363B92999D26E00AAD627 /* SwiftyCollectionViewLayoutSupplementaryVisibilityMode.swift in Sources */,
 				D14D2FFE29936B9B00E31E7E /* ItemModel.swift in Sources */,
@@ -235,12 +245,14 @@
 				D14D30102993A4FD00E31E7E /* SectionModel+WaterFlow.swift in Sources */,
 				8565A862298BF5C400FFE2FD /* SwiftyCollectionViewSectionType.swift in Sources */,
 				D16363B72999D22500AAD627 /* SwiftyCollectionViewLayoutDecorationVisibilityMode.swift in Sources */,
+				D16363CF299A1BEB00AAD627 /* CGFloat+Extension.swift in Sources */,
 				D16363BD2999D2EE00AAD627 /* SwiftyCollectionViewLayoutSizeMode.swift in Sources */,
 				8565A824298BF50B00FFE2FD /* SwiftyCollectionViewFlowLayout.docc in Sources */,
 				D14316472992332600669451 /* Default.swift in Sources */,
 				8567BE9A2997E8F7003C2640 /* UIView+Size.swift in Sources */,
 				D14D3006299372D700E31E7E /* ModeState.swift in Sources */,
 				8518B262299738660046B3F6 /* SectionMetrics.swift in Sources */,
+				D16363C1299A0DCA00AAD627 /* SwiftyCollectionViewLayoutInvalidationContext.swift in Sources */,
 				D14D300029936D1E00E31E7E /* HeaderModel.swift in Sources */,
 				858C42EB2993F395001F5DF1 /* DecorationModel.swift in Sources */,
 				D16363BF2999E6E800AAD627 /* SwiftyCollectionViewLayoutSupplementaryDirection.swift in Sources */,

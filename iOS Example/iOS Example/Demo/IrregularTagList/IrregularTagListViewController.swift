@@ -214,23 +214,7 @@ extension IrregularTagListViewController: UICollectionViewDataSource {
         }
         let model = dataSource[indexPath.section][indexPath.item]
         cell.bind(to: model)
-        cell.label.text = "\(indexPath.section) - \(indexPath.item)\n点我"
-        
-//        cell.clickClosure = { [weak self] in
-//            guard let self = self else { return }
-//            self.collectionView.performBatchUpdates { [weak self] in
-//                guard let self = self else { return }
-//                //self.collectionView.reloadItems(at: [indexPath])
-//                if self.dataSource[indexPath.section].count > 1 {
-//                    self.dataSource[indexPath.section].remove(at: indexPath.item)
-//                    self.collectionView.deleteItems(at: [indexPath])
-//                } else {
-//                    self.dataSource[indexPath.section].removeAll()
-//                    self.collectionView.deleteSections(IndexSet(integer: indexPath.section))
-//                }
-//            }
-//        }
-        
+        cell.label.text = "\(indexPath.section) - \(indexPath.item)\n点我Delete"
         return cell
     }
     
@@ -254,14 +238,8 @@ extension IrregularTagListViewController: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.collectionView.performBatchUpdates { [weak self] in
             guard let self = self else { return }
-            //self.collectionView.reloadItems(at: [indexPath])
-            if self.dataSource[indexPath.section].count > 1 {
-                self.dataSource[indexPath.section].remove(at: indexPath.item)
-                self.collectionView.deleteItems(at: [indexPath])
-            } else {
-                self.dataSource.remove(at: indexPath.section)
-                self.collectionView.deleteSections(IndexSet(integer: indexPath.section))
-            }
+            self.dataSource[indexPath.section].remove(at: indexPath.item)
+            self.collectionView.deleteItems(at: [indexPath])
         }
     }
 }
@@ -285,14 +263,10 @@ extension IrregularTagListViewController: SwiftyCollectionViewDelegateFlowLayout
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        // 当scrollDirection = .horizontal，高度无效
-        // 当scrollDirection = .vertical，宽度无效
         return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        // 当scrollDirection = .horizontal，高度无效
-        // 当scrollDirection = .vertical，宽度无效
         return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
     }
     

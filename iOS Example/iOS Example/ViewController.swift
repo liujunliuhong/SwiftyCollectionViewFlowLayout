@@ -42,12 +42,13 @@ public final class ViewController: UIViewController {
         }
         
         
-        dataSource = [Model(title: "瀑布流", vc: NSStringFromClass(WaterFlowListViewController.classForCoder())),
-                      Model(title: "标签列表(等高不等宽)", vc: NSStringFromClass(TagListViewController.classForCoder())),
-                      Model(title: "不规则标签列表", vc: NSStringFromClass(IrregularTagListViewController.classForCoder())),
-                      Model(title: "混合显示", vc: NSStringFromClass(MixListViewController.classForCoder())),
-                      Model(title: "装饰视图", vc: NSStringFromClass(DecorationViewController.classForCoder())),
-                      Model(title: "Auto-Size(动态宽、高)", vc: NSStringFromClass(AutoSizeViewController.classForCoder()))]
+        dataSource = [Model(title: "Water-Flow", vc: NSStringFromClass(WaterFlowListViewController.classForCoder())),
+                      Model(title: "Row", vc: NSStringFromClass(RowViewController.classForCoder())),
+                      Model(title: "Tag List(Equal height, not equal width)", vc: NSStringFromClass(TagListViewController.classForCoder())),
+                      Model(title: "Irregular Tag List", vc: NSStringFromClass(IrregularTagListViewController.classForCoder())),
+                      Model(title: "Mix List", vc: NSStringFromClass(MixListViewController.classForCoder())),
+                      Model(title: "Decoration View", vc: NSStringFromClass(DecorationViewController.classForCoder())),
+                      Model(title: "Auto-Size", vc: NSStringFromClass(AutoSizeViewController.classForCoder()))]
         tableView.reloadData()
     }
 }

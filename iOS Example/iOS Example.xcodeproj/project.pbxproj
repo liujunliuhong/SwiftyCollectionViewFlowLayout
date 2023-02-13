@@ -44,6 +44,14 @@
 		D143163A2992124A00669451 /* AutoSizeFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14316392992124A00669451 /* AutoSizeFooterView.swift */; };
 		D143163C2992125400669451 /* AutoSizeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D143163B2992125400669451 /* AutoSizeModel.swift */; };
 		D143163E2992126900669451 /* AutoSizeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D143163D2992126900669451 /* AutoSizeCell.swift */; };
+		D16363C5299A133700AAD627 /* RowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363C4299A133700AAD627 /* RowViewController.swift */; };
+		D16363C7299A134600AAD627 /* RowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363C6299A134600AAD627 /* RowCell.swift */; };
+		D16363C9299A135900AAD627 /* RowHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363C8299A135900AAD627 /* RowHeaderView.swift */; };
+		D16363CB299A136000AAD627 /* RowFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363CA299A136000AAD627 /* RowFooterView.swift */; };
+		D16363CD299A137100AAD627 /* RowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363CC299A137100AAD627 /* RowModel.swift */; };
+		D16363D2299A401A00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8565A850298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.framework */; };
+		D16363D3299A409E00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8565A850298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.framework */; };
+		D16363D4299A409E00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8565A850298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +63,20 @@
 			remoteInfo = SwiftyCollectionViewFlowLayout;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D16363D5299A409E00AAD627 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D16363D4299A409E00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		644F714E4AACA8FB338D1979 /* Pods_iOS_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +121,11 @@
 		D14316392992124A00669451 /* AutoSizeFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizeFooterView.swift; sourceTree = "<group>"; };
 		D143163B2992125400669451 /* AutoSizeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizeModel.swift; sourceTree = "<group>"; };
 		D143163D2992126900669451 /* AutoSizeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizeCell.swift; sourceTree = "<group>"; };
+		D16363C4299A133700AAD627 /* RowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowViewController.swift; sourceTree = "<group>"; };
+		D16363C6299A134600AAD627 /* RowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowCell.swift; sourceTree = "<group>"; };
+		D16363C8299A135900AAD627 /* RowHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowHeaderView.swift; sourceTree = "<group>"; };
+		D16363CA299A136000AAD627 /* RowFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowFooterView.swift; sourceTree = "<group>"; };
+		D16363CC299A137100AAD627 /* RowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +133,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D16363D2299A401A00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Frameworks */,
+				D16363D3299A409E00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Frameworks */,
 				095AA452A8B2BA31AD9EEC4A /* Pods_iOS_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,6 +196,7 @@
 		8565A867298BF6A800FFE2FD /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				D16363C2299A132700AAD627 /* Row */,
 				D14316332992121000669451 /* AutoSize */,
 				85DC920F298FEA1100F0170D /* Decoration */,
 				D11DCE1F298CD4880036B5DD /* MixList */,
@@ -249,6 +279,18 @@
 			path = AutoSize;
 			sourceTree = "<group>";
 		};
+		D16363C2299A132700AAD627 /* Row */ = {
+			isa = PBXGroup;
+			children = (
+				D16363C4299A133700AAD627 /* RowViewController.swift */,
+				D16363C6299A134600AAD627 /* RowCell.swift */,
+				D16363C8299A135900AAD627 /* RowHeaderView.swift */,
+				D16363CA299A136000AAD627 /* RowFooterView.swift */,
+				D16363CC299A137100AAD627 /* RowModel.swift */,
+			);
+			path = Row;
+			sourceTree = "<group>";
+		};
 		D22885B3094F01A3F4CF85E0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +311,7 @@
 				8565A831298BF57300FFE2FD /* Frameworks */,
 				8565A832298BF57300FFE2FD /* Resources */,
 				17DE41442470343C79379505 /* [CP] Embed Pods Frameworks */,
+				D16363D5299A409E00AAD627 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -398,11 +441,13 @@
 				85DC921C298FEDBD00F0170D /* DecorationModel.swift in Sources */,
 				D11DCE2A298CD5090036B5DD /* MixListCell.swift in Sources */,
 				85DC9212298FEA2B00F0170D /* DecorationViewController.swift in Sources */,
+				D16363CB299A136000AAD627 /* RowFooterView.swift in Sources */,
 				8565A875298BF6A800FFE2FD /* TagListModel.swift in Sources */,
 				D11DCE17298CBDF40036B5DD /* WaterFlowModel.swift in Sources */,
 				D143163E2992126900669451 /* AutoSizeCell.swift in Sources */,
 				8565A878298BF7DB00FFE2FD /* NavigationController.swift in Sources */,
 				8565A873298BF6A800FFE2FD /* IrregularTagListCell.swift in Sources */,
+				D16363C5299A133700AAD627 /* RowViewController.swift in Sources */,
 				D11DCE24298CD4CA0036B5DD /* MixListModel.swift in Sources */,
 				D11DCE28298CD4F90036B5DD /* MixListFooterView.swift in Sources */,
 				8565A876298BF6A800FFE2FD /* TagListViewController.swift in Sources */,
@@ -413,13 +458,16 @@
 				D143163A2992124A00669451 /* AutoSizeFooterView.swift in Sources */,
 				D11DCE1D298CBE290036B5DD /* WaterFlowListFooterView.swift in Sources */,
 				85DC921A298FECF700F0170D /* DecorationFooterView.swift in Sources */,
+				D16363C9299A135900AAD627 /* RowHeaderView.swift in Sources */,
 				8565A83C298BF57300FFE2FD /* ViewController.swift in Sources */,
 				D14316362992122500669451 /* AutoSizeViewController.swift in Sources */,
+				D16363C7299A134600AAD627 /* RowCell.swift in Sources */,
 				8565A87A298BFBDF00FFE2FD /* IrregularTagListHeaderView.swift in Sources */,
 				D11DCE15298CBDDC0036B5DD /* WaterFlowListViewController.swift in Sources */,
 				8565A838298BF57300FFE2FD /* AppDelegate.swift in Sources */,
 				D11DCE19298CBE060036B5DD /* WaterFlowListCell.swift in Sources */,
 				85DC921E298FEF1A00F0170D /* DecorationView.swift in Sources */,
+				D16363CD299A137100AAD627 /* RowModel.swift in Sources */,
 				D11DCE1B298CBE210036B5DD /* WaterFlowListHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

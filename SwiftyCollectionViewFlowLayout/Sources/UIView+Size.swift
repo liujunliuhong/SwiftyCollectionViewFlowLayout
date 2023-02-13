@@ -94,6 +94,8 @@ extension UIView {
                             itemWidth = containerWidth / CGFloat(divisor)
                         }
                         
+                        // itemWidth = itemWidth.alignedToPixel(forScreenWithScale: sectionModel.metrics.scale)
+                        
                         switch sizeMode.height {
                             case .static(let h):
                                 _widthMode = .static(length: itemWidth)
@@ -150,6 +152,8 @@ extension UIView {
                                 if supplementaryElementKind == UICollectionView.elementKindSectionHeader || supplementaryElementKind == UICollectionView.elementKindSectionFooter {
                                     itemHeight = containerHeight / CGFloat(divisor)
                                 }
+                                // itemHeight = itemHeight.alignedToPixel(forScreenWithScale: sectionModel.metrics.scale)
+                                
                                 _heightMode = .static(length: itemHeight)
                         }
                     case .dynamic(let widthIncrement):
@@ -170,6 +174,8 @@ extension UIView {
                                 if supplementaryElementKind == UICollectionView.elementKindSectionHeader || supplementaryElementKind == UICollectionView.elementKindSectionFooter {
                                     itemHeight = containerHeight / CGFloat(divisor)
                                 }
+                                // itemHeight = itemHeight.alignedToPixel(forScreenWithScale: sectionModel.metrics.scale)
+                                
                                 _heightMode = .static(length: itemHeight)
                         }
                     case .full:
@@ -190,6 +196,8 @@ extension UIView {
                                 if supplementaryElementKind == UICollectionView.elementKindSectionHeader || supplementaryElementKind == UICollectionView.elementKindSectionFooter {
                                     itemHeight = containerHeight / CGFloat(divisor)
                                 }
+                                // itemHeight = itemHeight.alignedToPixel(forScreenWithScale: sectionModel.metrics.scale)
+                                
                                 _heightMode = .static(length: itemHeight)
                         }
                     case .fractionalFull(let divisor):
@@ -211,6 +219,8 @@ extension UIView {
                                 if supplementaryElementKind == UICollectionView.elementKindSectionHeader || supplementaryElementKind == UICollectionView.elementKindSectionFooter {
                                     itemHeight = containerHeight / CGFloat(divisor)
                                 }
+                                // itemHeight = itemHeight.alignedToPixel(forScreenWithScale: sectionModel.metrics.scale)
+                                
                                 _heightMode = .static(length: itemHeight)
                         }
                 }

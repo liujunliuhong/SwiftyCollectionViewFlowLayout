@@ -165,7 +165,12 @@ extension ModeState {
                 // left
                 for itemModel in sectionModel.itemModels {
                     if preItemModel != nil {
-                        if (x + sectionModel.metrics.interitemSpacing + itemModel.frame.width).isLessThanOrEqualTo(collectionView.bounds.width - sectionModel.metrics.sectionInset.right) {
+                        let remain = x + sectionModel.metrics.interitemSpacing + itemModel.frame.width
+                        
+                        let isEqual = remain.isEqual(to: collectionView.bounds.width - sectionModel.metrics.sectionInset.right, threshold: 1.0)
+                        let isLessThanOrEqualTo = remain.isLessThanOrEqualTo(collectionView.bounds.width - sectionModel.metrics.sectionInset.right)
+                        
+                        if isEqual || isLessThanOrEqualTo {
                             // no new line
                             itemModel.frame = CGRect(x: x + sectionModel.metrics.interitemSpacing,
                                                      y: preItemModel!.frame.origin.y,
@@ -219,7 +224,12 @@ extension ModeState {
                 // right
                 for itemModel in sectionModel.itemModels {
                     if preItemModel != nil {
-                        if !(x - sectionModel.metrics.interitemSpacing - itemModel.frame.width).isLess(than: sectionModel.metrics.sectionInset.left) {
+                        let remain = x - sectionModel.metrics.interitemSpacing - itemModel.frame.width
+                        
+                        let isEqual = remain.isEqual(to: sectionModel.metrics.sectionInset.left, threshold: 1.0)
+                        let isLess = remain.isLess(than: sectionModel.metrics.sectionInset.left)
+                        
+                        if isEqual || !isLess {
                             // no new line
                             itemModel.frame = CGRect(x: x - sectionModel.metrics.interitemSpacing - itemModel.frame.width,
                                                      y: preItemModel!.frame.origin.y,
@@ -291,7 +301,12 @@ extension ModeState {
             case .left:
                 for itemModel in sectionModel.itemModels {
                     if preItemModel != nil {
-                        if (y + sectionModel.metrics.interitemSpacing + itemModel.frame.height).isLessThanOrEqualTo(collectionView.bounds.height - sectionModel.metrics.sectionInset.bottom) {
+                        let remain = y + sectionModel.metrics.interitemSpacing + itemModel.frame.height
+                        
+                        let isEqual = remain.isEqual(to: collectionView.bounds.height - sectionModel.metrics.sectionInset.bottom, threshold: 1.0)
+                        let isLessThanOrEqualTo = remain.isLessThanOrEqualTo(collectionView.bounds.height - sectionModel.metrics.sectionInset.bottom)
+                        
+                        if isEqual || isLessThanOrEqualTo {
                             // no new line
                             itemModel.frame = CGRect(x: preItemModel!.frame.origin.x,
                                                      y: y + sectionModel.metrics.interitemSpacing,
@@ -344,7 +359,12 @@ extension ModeState {
             case .right:
                 for itemModel in sectionModel.itemModels {
                     if preItemModel != nil {
-                        if !(y - sectionModel.metrics.interitemSpacing - itemModel.frame.height).isLess(than: sectionModel.metrics.sectionInset.top) {
+                        let remain = y - sectionModel.metrics.interitemSpacing - itemModel.frame.height
+                        
+                        let isEqual = remain.isEqual(to: sectionModel.metrics.sectionInset.top, threshold: 1.0)
+                        let isLess = remain.isLess(than: sectionModel.metrics.sectionInset.top)
+                        
+                        if isEqual || !isLess {
                             // no new line
                             itemModel.frame = CGRect(x: preItemModel!.frame.origin.x,
                                                      y: y - sectionModel.metrics.interitemSpacing - itemModel.frame.height,

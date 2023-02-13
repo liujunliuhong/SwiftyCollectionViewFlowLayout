@@ -1,20 +1,18 @@
 //
-//  IrregularTagListCell.swift
+//  RowCell.swift
 //  iOS Example
 //
-//  Created by dfsx6 on 2023/2/2.
+//  Created by dfsx6 on 2023/2/13.
 //
 
 import UIKit
-import SwiftyCollectionViewFlowLayout
 import SnapKit
+import SwiftyCollectionViewFlowLayout
 
-public final class IrregularTagListCell: SwiftyCollectionViewCell {
+public final class RowCell: SwiftyCollectionViewCell {
     public private(set) lazy var label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.layer.cornerRadius = 4.0
-        label.layer.masksToBounds = true
         label.backgroundColor = UIColor(red: 255.0/255.0, green: 105.0/255.0, blue: 193.0/255.0, alpha: 1)
         label.textColor = .white
         label.font = .systemFont(ofSize: 15)
@@ -22,28 +20,18 @@ public final class IrregularTagListCell: SwiftyCollectionViewCell {
         return label
     }()
     
-    var clickClosure: (() -> ())?
-    
-    private var model: IrregularTagListModel?
-    
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(label)
         
+        contentView.addSubview(label)
         label.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.left.right.top.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    public func bind(to model: IrregularTagListModel) {
-        self.model = model
-        
-        label.snp.remakeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
 }
+

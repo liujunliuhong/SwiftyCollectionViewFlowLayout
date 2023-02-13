@@ -62,6 +62,14 @@ public final class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
 }
 
 extension SwiftyCollectionViewFlowLayout {
+    public override class var invalidationContextClass: AnyClass {
+        return SwiftyCollectionViewLayoutInvalidationContext.self
+    }
+    
+    public override class var layoutAttributesClass: AnyClass {
+        return SwiftyCollectionViewLayoutAttributes.self
+    }
+    
     public override func prepare() {
         super.prepare()
         
@@ -219,6 +227,12 @@ extension SwiftyCollectionViewFlowLayout {
         return shouldInvalidateLayout
     }
     
+    public override func invalidationContext(forBoundsChange newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
+        let invalidationContext = super.invalidationContext(forBoundsChange: newBounds) as! SwiftyCollectionViewLayoutInvalidationContext
+        invalidationContext.invalidateLayoutMetrics = false
+        return invalidationContext
+    }
+    
     public override func shouldInvalidateLayout(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> Bool {
         if preferredAttributes.indexPath.isEmpty {
             return super.shouldInvalidateLayout(forPreferredLayoutAttributes: preferredAttributes, withOriginalAttributes: originalAttributes)
@@ -228,23 +242,25 @@ extension SwiftyCollectionViewFlowLayout {
     }
     
     public override func invalidationContext(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutInvalidationContext {
-        let invalidationContext = super.invalidationContext(forPreferredLayoutAttributes: preferredAttributes, withOriginalAttributes: originalAttributes)
         modeState.updatePreferredLayoutAttributesSize(preferredAttributes: preferredAttributes)
+        let invalidationContext = super.invalidationContext(forPreferredLayoutAttributes: preferredAttributes, withOriginalAttributes: originalAttributes) as! SwiftyCollectionViewLayoutInvalidationContext
+        invalidationContext.invalidateLayoutMetrics = false
         return invalidationContext
     }
     
     
     public override func invalidateLayout(with context: UICollectionViewLayoutInvalidationContext) {
+        guard let context = context as? SwiftyCollectionViewLayoutInvalidationContext else { return }
+        
+        
         if context.invalidateEverything {
             prepareActions.formUnion([.recreateSectionModels])
         }
         
         let shouldInvalidateLayoutMetrics = !context.invalidateEverything && !context.invalidateDataSourceCounts
-        if shouldInvalidateLayoutMetrics {
+        if shouldInvalidateLayoutMetrics && context.invalidateLayoutMetrics {
             prepareActions.formUnion(.updateLayoutMetrics)
         }
-        
-        print("invalidateEverything: \(context.invalidateEverything), invalidateDataSourceCounts: \(context.invalidateDataSourceCounts)")
         
         super.invalidateLayout(with: context)
     }

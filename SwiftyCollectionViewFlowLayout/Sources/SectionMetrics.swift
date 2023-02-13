@@ -21,6 +21,8 @@ internal final class SectionMetrics {
     internal let headerDirection: SwiftyCollectionViewLayoutSupplementaryDirection
     internal let footerDirection: SwiftyCollectionViewLayoutSupplementaryDirection
     
+    internal let scale: CGFloat
+    
     internal init(section: Int,
                   collectionView: UICollectionView,
                   layout: SwiftyCollectionViewFlowLayout,
@@ -36,6 +38,8 @@ internal final class SectionMetrics {
         footerOffset = delegate.collectionView(collectionView, layout: layout, footerOffset: section)
         headerDirection = delegate.collectionView(collectionView, layout: layout, headerDirection: section)
         footerDirection = delegate.collectionView(collectionView, layout: layout, footerDirection: section)
+        
+        scale = collectionView.traitCollection.nonZeroDisplayScale
     }
     
     
@@ -49,7 +53,8 @@ internal final class SectionMetrics {
                  headerOffset: UIOffset,
                  footerOffset: UIOffset,
                  headerDirection: SwiftyCollectionViewLayoutSupplementaryDirection,
-                 footerDirection: SwiftyCollectionViewLayoutSupplementaryDirection) {
+                 footerDirection: SwiftyCollectionViewLayoutSupplementaryDirection,
+                 scale: CGFloat) {
         self.sectionType = sectionType
         self.sectionInset = sectionInset
         self.lineSpacing = lineSpacing
@@ -60,6 +65,7 @@ internal final class SectionMetrics {
         self.footerOffset = footerOffset
         self.headerDirection = headerDirection
         self.footerDirection = footerDirection
+        self.scale = scale
     }
     
     internal static let `default` = SectionMetrics(sectionType: Default.sectionType,
@@ -71,6 +77,7 @@ internal final class SectionMetrics {
                                                    headerOffset: Default.headerOffet,
                                                    footerOffset: Default.footerOffet,
                                                    headerDirection: Default.headerDirection,
-                                                   footerDirection: Default.footerDirection)
+                                                   footerDirection: Default.footerDirection,
+                                                   scale: Default.scale)
     
 }

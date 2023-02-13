@@ -1,8 +1,8 @@
 //
-//  AutoSizeViewController.swift
+//  RowViewController.swift
 //  iOS Example
 //
-//  Created by dfsx6 on 2023/2/7.
+//  Created by dfsx6 on 2023/2/13.
 //
 
 import UIKit
@@ -15,8 +15,8 @@ private let sectionTypes: [SwiftyCollectionViewSectionType] = [.waterFlow(number
                                                                .row(direction: .left, alignment: .top)]
 
 /// 自动布局
-public final class AutoSizeViewController: UIViewController {
-    private var dataSource: [AutoSizeSectionModel] = []
+public final class RowViewController: UIViewController {
+    private var dataSource: [RowSectionModel] = []
     
     private lazy var layout: SwiftyCollectionViewFlowLayout = {
         let layout = SwiftyCollectionViewFlowLayout()
@@ -31,22 +31,21 @@ public final class AutoSizeViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.backgroundColor = .cyan
         collectionView.contentInsetAdjustmentBehavior = .never
-        collectionView.register(AutoSizeCell.classForCoder(), forCellWithReuseIdentifier: NSStringFromClass(AutoSizeCell.classForCoder()))
-        collectionView.register(AutoSizeHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(AutoSizeHeaderView.classForCoder()))
-        collectionView.register(AutoSizeFooterView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(AutoSizeFooterView.classForCoder()))
+        collectionView.register(RowCell.classForCoder(), forCellWithReuseIdentifier: NSStringFromClass(RowCell.classForCoder()))
+        collectionView.register(RowHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(RowHeaderView.classForCoder()))
+        collectionView.register(RowFooterView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(RowFooterView.classForCoder()))
         return collectionView
     }()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshAction))
         
         view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(120)
-            make.left.right.equalToSuperview().inset(25)
+            make.left.right.equalToSuperview().inset(15)
             make.bottom.equalToSuperview().offset(-90)
         }
         
@@ -54,43 +53,88 @@ public final class AutoSizeViewController: UIViewController {
     }
 }
 
-extension AutoSizeViewController {
+extension RowViewController {
     private func loadData() {
         dataSource.removeAll()
         
-        let itemTitles: [String] = [
-            "dasda",
-            "dasdasdasdas",
-            "dasdasdasddsadsad", "dsadsadsadadsdadsa", "dasdasdasdsadasdasdasddasd",
-            "dasdasdasdsadasdasdasddasddasdasdasdsadasdasdasddasddasdasdasdsadasdasdasddasddasdasdasdsadasdasdasddasd"
-        ]
-        let headerTitles: [String] = ["This is dynamic Header", "This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header", "This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header, This is dynamic Header"]
-        let footerTitles: [String] = ["This is dynamic Footer", "This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer", "This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer, This is dynamic Footer"]
-        
-        let counts: [Int] = [15, 20, 25, 30]
-        
-        for _ in 0..<sectionTypes.count {
-            var array: [AutoSizeItemModel] = []
-            for _ in 0..<counts.randomElement()! {
-                let width = widths.randomElement()!
-                let height = heights.randomElement()!
-                let model = AutoSizeItemModel(title: itemTitles.randomElement()!, width: width, height: height)
-                array.append(model)
-            }
-            let sectionModel = AutoSizeSectionModel(headerTitle: headerTitles.randomElement()!, footerTitle: footerTitles.randomElement()!, items: array, sectionType: sectionTypes.randomElement()!)
-            dataSource.append(sectionModel)
+        var array: [RowItemModel] = []
+        do {
+            let itemModel = RowItemModel(width: .full, height: .static(length: 40))
+            array.append(itemModel)
         }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 2), height: .static(length: 50))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 2), height: .static(length: 60))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 3), height: .static(length: 70))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 3), height: .static(length: 80))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 3), height: .static(length: 90))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 4), height: .static(length: 100))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 4), height: .static(length: 40))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 4), height: .static(length: 40))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 4), height: .static(length: 40))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .static(length: 40))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .static(length: 40))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .static(length: 40))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .static(length: 40))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .static(length: 40))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 2), height: .fractionalFull(divisor: 3))
+            array.append(itemModel)
+        }
+        do {
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 2), height: .fractionalFull(divisor: 2))
+            array.append(itemModel)
+        }
+        
+        let sectionModel = RowSectionModel(items: array)
+        dataSource.append(sectionModel)
         
         collectionView.reloadData()
     }
-    
-    @objc private func refreshAction() {
-        //layout.scrollDirection = layout.scrollDirection == .vertical ? .horizontal : .vertical
-        loadData()
-    }
 }
 
-extension AutoSizeViewController: UICollectionViewDataSource {
+extension RowViewController: UICollectionViewDataSource {
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataSource.count
     }
@@ -100,67 +144,63 @@ extension AutoSizeViewController: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(AutoSizeCell.classForCoder()), for: indexPath) as? AutoSizeCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(RowCell.classForCoder()), for: indexPath) as? RowCell else {
             return UICollectionViewCell()
         }
-        let model = dataSource[indexPath.section].items[indexPath.item]
-        cell.bind(to: model)
+        cell.label.text = "\(indexPath.section) - \(indexPath.item)"
         return cell
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
-            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(AutoSizeHeaderView.classForCoder()), for: indexPath) as? AutoSizeHeaderView else {
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(RowHeaderView.classForCoder()), for: indexPath) as? RowHeaderView else {
                 return UICollectionReusableView()
             }
-            let model = dataSource[indexPath.section]
-            headerView.bind(to: model)
             return headerView
         } else if kind == UICollectionView.elementKindSectionFooter {
-            guard let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(AutoSizeFooterView.classForCoder()), for: indexPath) as? AutoSizeFooterView else {
+            guard let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(RowFooterView.classForCoder()), for: indexPath) as? RowFooterView else {
                 return UICollectionReusableView()
             }
-            let model = dataSource[indexPath.section]
-            footerView.bind(to: model)
             return footerView
         }
         return UICollectionReusableView()
     }
 }
 
-extension AutoSizeViewController: SwiftyCollectionViewDelegateFlowLayout {
+extension RowViewController: SwiftyCollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewLayoutSizeMode {
         let model = dataSource[indexPath.section].items[indexPath.item]
-        return .init(width: .dynamic(increment: 15), height: .dynamic(increment: 15))
+        return .init(width: model.width, height: model.height)
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        return .visible(sizeMode: .init(width: .fractionalFull(divisor: 3), height: .dynamic()))
+        return .visible(sizeMode: .init(width: .full, height: .dynamic()))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        return .visible(sizeMode: .init(width: .dynamic(), height: .dynamic()))
+        return .visible(sizeMode: .init(width: .full, height: .dynamic()))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, headerDirection section: Int) -> SwiftyCollectionViewLayoutSupplementaryDirection {
-        return .right
+        return .left
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, footerDirection section: Int) -> SwiftyCollectionViewLayoutSupplementaryDirection {
-        return .right
+        return .left
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionInsetContainHeader section: Int) -> Bool {
-        return true
+        return false
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionInsetContainFooter section: Int) -> Bool {
-        return true
+        return false
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionType section: Int) -> SwiftyCollectionViewSectionType {
-        return dataSource[section].sectionType
+        return .row(direction: .left, alignment: .center)
     }
+    
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForDecorationInSection section: Int) -> SwiftyCollectionViewLayoutDecorationVisibilityMode {
         let extraAttributes = DecorationExtraAttributes()

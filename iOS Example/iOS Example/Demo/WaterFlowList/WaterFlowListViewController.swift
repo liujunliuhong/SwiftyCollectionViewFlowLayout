@@ -217,14 +217,10 @@ extension WaterFlowListViewController: SwiftyCollectionViewDelegateFlowLayout {
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        // 当scrollDirection = .horizontal，高度无效
-        // 当scrollDirection = .vertical，宽度无效
         return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        // 当scrollDirection = .horizontal，高度无效
-        // 当scrollDirection = .vertical，宽度无效
         return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
     }
     

@@ -45,7 +45,6 @@ public final class DecorationViewController: UIViewController {
             make.left.right.equalToSuperview().inset(25)
             make.top.equalToSuperview().offset(120)
             make.bottom.equalToSuperview().offset(-80)
-            make.edges.equalToSuperview()
         }
         
         loadData()
@@ -123,14 +122,10 @@ extension DecorationViewController: SwiftyCollectionViewDelegateFlowLayout {
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        // 当scrollDirection = .horizontal，高度无效
-        // 当scrollDirection = .vertical，宽度无效
         return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        // 当scrollDirection = .horizontal，高度无效
-        // 当scrollDirection = .vertical，宽度无效
         return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
     }
     
