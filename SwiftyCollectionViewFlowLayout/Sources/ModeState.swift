@@ -361,6 +361,7 @@ extension ModeState {
     }
     
     internal func updatePreferredLayoutAttributesSize(preferredAttributes: UICollectionViewLayoutAttributes) {
+        // Sometimes, preferredAttributes.size is different from the actual size.
         switch preferredAttributes.representedElementCategory {
             case .cell:
                 updateItemSize(preferredSize: preferredAttributes.size, indexPath: preferredAttributes.indexPath)
@@ -405,12 +406,17 @@ extension ModeState {
             layoutFooterModel(at: section)
             layoutBackgroundModel(at: section)
         }
+        
+        for (section, sectionModel) in currentSectionModels.enumerated() {
+            pinned(sectionModel: sectionModel, section: section)
+        }
+        
         var attrs: [UICollectionViewLayoutAttributes] = []
         for (section, sectionModel) in currentSectionModels.enumerated() {
             if let headerModel = sectionModel.headerModel {
-                if rect.contains(headerModel.frame) || rect.intersects(headerModel.frame) {
+                if rect.contains(headerModel.pinnedFrame) || rect.intersects(headerModel.pinnedFrame) {
                     let attr = headerLayoutAttributes(at: section,
-                                                      frame: headerModel.frame,
+                                                      frame: headerModel.pinnedFrame,
                                                       sectionModel: sectionModel,
                                                       sizeMode: headerModel.sizeMode)
                     attrs.append(attr)
@@ -427,9 +433,9 @@ extension ModeState {
                 }
             }
             if let footerModel = sectionModel.footerModel {
-                if rect.contains(footerModel.frame) || rect.intersects(footerModel.frame) {
+                if rect.contains(footerModel.pinnedFrame) || rect.intersects(footerModel.pinnedFrame) {
                     let attr = footerLayoutAttributes(at: section,
-                                                      frame: footerModel.frame,
+                                                      frame: footerModel.pinnedFrame,
                                                       sectionModel: sectionModel,
                                                       sizeMode: footerModel.sizeMode)
                     attrs.append(attr)

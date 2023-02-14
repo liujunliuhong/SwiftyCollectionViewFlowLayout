@@ -51,6 +51,10 @@
 		D16363D2299A401A00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8565A850298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.framework */; };
 		D16363D3299A409E00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8565A850298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.framework */; };
 		D16363D4299A409E00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8565A850298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D194165F299B3B9800236180 /* PinnedHeaderOrFooterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D194165E299B3B9800236180 /* PinnedHeaderOrFooterViewController.swift */; };
+		D1941661299B3BAD00236180 /* PinnedHeaderOrFooterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1941660299B3BAD00236180 /* PinnedHeaderOrFooterHeaderView.swift */; };
+		D1941663299B3BB600236180 /* PinnedHeaderOrFooterFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1941662299B3BB600236180 /* PinnedHeaderOrFooterFooterView.swift */; };
+		D1941665299B3BBB00236180 /* PinnedHeaderOrFooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1941664299B3BBB00236180 /* PinnedHeaderOrFooterCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +128,10 @@
 		D16363C8299A135900AAD627 /* RowHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowHeaderView.swift; sourceTree = "<group>"; };
 		D16363CA299A136000AAD627 /* RowFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowFooterView.swift; sourceTree = "<group>"; };
 		D16363CC299A137100AAD627 /* RowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowModel.swift; sourceTree = "<group>"; };
+		D194165E299B3B9800236180 /* PinnedHeaderOrFooterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedHeaderOrFooterViewController.swift; sourceTree = "<group>"; };
+		D1941660299B3BAD00236180 /* PinnedHeaderOrFooterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedHeaderOrFooterHeaderView.swift; sourceTree = "<group>"; };
+		D1941662299B3BB600236180 /* PinnedHeaderOrFooterFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedHeaderOrFooterFooterView.swift; sourceTree = "<group>"; };
+		D1941664299B3BBB00236180 /* PinnedHeaderOrFooterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedHeaderOrFooterCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +202,7 @@
 		8565A867298BF6A800FFE2FD /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				D194165C299B3A3400236180 /* PinnedHeaderOrFooter */,
 				D16363C2299A132700AAD627 /* Row */,
 				D14316332992121000669451 /* AutoSize */,
 				85DC920F298FEA1100F0170D /* Decoration */,
@@ -286,6 +295,17 @@
 				D16363CC299A137100AAD627 /* RowModel.swift */,
 			);
 			path = Row;
+			sourceTree = "<group>";
+		};
+		D194165C299B3A3400236180 /* PinnedHeaderOrFooter */ = {
+			isa = PBXGroup;
+			children = (
+				D194165E299B3B9800236180 /* PinnedHeaderOrFooterViewController.swift */,
+				D1941660299B3BAD00236180 /* PinnedHeaderOrFooterHeaderView.swift */,
+				D1941662299B3BB600236180 /* PinnedHeaderOrFooterFooterView.swift */,
+				D1941664299B3BBB00236180 /* PinnedHeaderOrFooterCell.swift */,
+			);
+			path = PinnedHeaderOrFooter;
 			sourceTree = "<group>";
 		};
 		D22885B3094F01A3F4CF85E0 /* Frameworks */ = {
@@ -436,6 +456,7 @@
 				D11DCE26298CD4EF0036B5DD /* MixListHeaderView.swift in Sources */,
 				85DC921C298FEDBD00F0170D /* DecorationModel.swift in Sources */,
 				D11DCE2A298CD5090036B5DD /* MixListCell.swift in Sources */,
+				D1941661299B3BAD00236180 /* PinnedHeaderOrFooterHeaderView.swift in Sources */,
 				85DC9212298FEA2B00F0170D /* DecorationViewController.swift in Sources */,
 				D16363CB299A136000AAD627 /* RowFooterView.swift in Sources */,
 				8565A875298BF6A800FFE2FD /* TagListModel.swift in Sources */,
@@ -443,6 +464,7 @@
 				D143163E2992126900669451 /* AutoSizeCell.swift in Sources */,
 				8565A878298BF7DB00FFE2FD /* NavigationController.swift in Sources */,
 				8565A873298BF6A800FFE2FD /* IrregularTagListCell.swift in Sources */,
+				D1941663299B3BB600236180 /* PinnedHeaderOrFooterFooterView.swift in Sources */,
 				D16363C5299A133700AAD627 /* RowViewController.swift in Sources */,
 				D11DCE24298CD4CA0036B5DD /* MixListModel.swift in Sources */,
 				D11DCE28298CD4F90036B5DD /* MixListFooterView.swift in Sources */,
@@ -451,6 +473,7 @@
 				85DC9216298FECB700F0170D /* DecorationCell.swift in Sources */,
 				D143163C2992125400669451 /* AutoSizeModel.swift in Sources */,
 				8565A87C298BFBF300FFE2FD /* IrregularTagListFooterView.swift in Sources */,
+				D194165F299B3B9800236180 /* PinnedHeaderOrFooterViewController.swift in Sources */,
 				D143163A2992124A00669451 /* AutoSizeFooterView.swift in Sources */,
 				D11DCE1D298CBE290036B5DD /* WaterFlowListFooterView.swift in Sources */,
 				85DC921A298FECF700F0170D /* DecorationFooterView.swift in Sources */,
@@ -464,6 +487,7 @@
 				D11DCE19298CBE060036B5DD /* WaterFlowListCell.swift in Sources */,
 				85DC921E298FEF1A00F0170D /* DecorationView.swift in Sources */,
 				D16363CD299A137100AAD627 /* RowModel.swift in Sources */,
+				D1941665299B3BBB00236180 /* PinnedHeaderOrFooterCell.swift in Sources */,
 				D11DCE1B298CBE210036B5DD /* WaterFlowListHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

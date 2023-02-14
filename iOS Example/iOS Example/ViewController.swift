@@ -48,7 +48,8 @@ public final class ViewController: UIViewController {
                       Model(title: "Irregular Tag List", vc: NSStringFromClass(IrregularTagListViewController.classForCoder())),
                       Model(title: "Mix List", vc: NSStringFromClass(MixListViewController.classForCoder())),
                       Model(title: "Decoration View", vc: NSStringFromClass(DecorationViewController.classForCoder())),
-                      Model(title: "Auto-Size", vc: NSStringFromClass(AutoSizeViewController.classForCoder()))]
+                      Model(title: "Auto-Size", vc: NSStringFromClass(AutoSizeViewController.classForCoder())),
+                      Model(title: "Pinned Header Or Footer", vc: NSStringFromClass(PinnedHeaderOrFooterViewController.classForCoder())),]
         tableView.reloadData()
     }
 }

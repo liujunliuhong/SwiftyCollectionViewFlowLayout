@@ -26,6 +26,8 @@ internal struct Default {
     static let size: CGSize = CGSize(width: 50, height: 50)
     static let headerVisibilityMode: SwiftyCollectionViewLayoutSupplementaryVisibilityMode = .hidden
     static let footerVisibilityMode: SwiftyCollectionViewLayoutSupplementaryVisibilityMode = .hidden
+    static let headerPinToVisibleBounds: Bool = false
+    static let footerPinToVisibleBounds: Bool = false
     static let metrics: SectionMetrics = SectionMetrics.default
     static let scale: CGFloat = 3.0
 }

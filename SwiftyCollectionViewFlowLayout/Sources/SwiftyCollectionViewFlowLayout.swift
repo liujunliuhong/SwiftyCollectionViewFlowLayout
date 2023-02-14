@@ -38,6 +38,8 @@ public final class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
         return mCollectionView
     }
     
+    private var hasPinnedHeaderOrFooter: Bool = false
+    
     /// scroll direction.
     public var scrollDirection: UICollectionView.ScrollDirection = .vertical {
         didSet {
@@ -75,6 +77,10 @@ extension SwiftyCollectionViewFlowLayout {
         
         if prepareActions.isEmpty {
             return
+        }
+        
+        if prepareActions.contains(.updateLayoutMetrics) || prepareActions.contains(.recreateSectionModels) {
+            hasPinnedHeaderOrFooter = false
         }
         
         if prepareActions.contains(.updateLayoutMetrics) {
@@ -217,13 +223,16 @@ extension SwiftyCollectionViewFlowLayout {
     }
     
     public override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        print("layoutAttributesForElements: \(rect) - \(mCollectionView.contentOffset.y)")
         let attrs = modeState.layoutAttributesForElements(in: rect)
         return attrs
     }
     
     public override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+        
         let shouldInvalidateLayout = modeState.shouldInvalidateLayout(forBoundsChange: newBounds)
-        return shouldInvalidateLayout
+//        return shouldInvalidateLayout// || hasPinnedHeaderOrFooter
+        return true
     }
     
     public override func invalidationContext(forBoundsChange newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {

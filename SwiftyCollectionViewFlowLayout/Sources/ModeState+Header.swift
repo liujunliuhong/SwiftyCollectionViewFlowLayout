@@ -69,6 +69,7 @@ extension ModeState {
         frame.origin.y += sectionModel.metrics.headerOffset.vertical
         
         headerModel.frame = frame
+        headerModel.pinnedFrame = frame
     }
     
     internal func headerLayoutAttributes(at section: Int, frame: CGRect, sectionModel: SectionModel, sizeMode: SwiftyCollectionViewLayoutSizeMode) -> UICollectionViewLayoutAttributes {
@@ -78,6 +79,7 @@ extension ModeState {
         attr.sectionModel = sectionModel
         attr.layout = layout
         attr.frame = frame
+        attr.zIndex = 9999
         return attr
     }
 }

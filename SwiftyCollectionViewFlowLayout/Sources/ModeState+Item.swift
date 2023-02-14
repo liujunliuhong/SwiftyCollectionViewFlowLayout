@@ -167,6 +167,9 @@ extension ModeState {
                     if preItemModel != nil {
                         let remain = x + sectionModel.metrics.interitemSpacing + itemModel.frame.width
                         
+                        /// Sometimes, preferredAttributes.size is different from the actual size.
+                        /// `isLessThanOrEqualTo` will return false. so, if difference between the two is less or equal to threshold,
+                        /// I think it's equal
                         let isEqual = remain.isEqual(to: collectionView.bounds.width - sectionModel.metrics.sectionInset.right, threshold: 1.0)
                         let isLessThanOrEqualTo = remain.isLessThanOrEqualTo(collectionView.bounds.width - sectionModel.metrics.sectionInset.right)
                         

@@ -69,6 +69,7 @@ extension ModeState {
         frame.origin.y += sectionModel.metrics.footerOffset.vertical
         
         footerModel.frame = frame
+        footerModel.pinnedFrame = frame
     }
     
     internal func footerLayoutAttributes(at section: Int, frame: CGRect, sectionModel: SectionModel, sizeMode: SwiftyCollectionViewLayoutSizeMode) -> UICollectionViewLayoutAttributes {
@@ -78,6 +79,7 @@ extension ModeState {
         attr.layout = layout
         attr.sectionModel = sectionModel
         attr.frame = frame
+        attr.zIndex = 9999
         return attr
     }
 }

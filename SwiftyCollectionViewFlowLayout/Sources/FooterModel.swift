@@ -12,6 +12,7 @@ internal final class FooterModel {
     internal var sizeMode: SwiftyCollectionViewLayoutSizeMode
     
     internal var frame: CGRect = .zero
+    internal var pinnedFrame: CGRect = .zero
     
     internal init(sizeMode: SwiftyCollectionViewLayoutSizeMode) {
         self.sizeMode = sizeMode

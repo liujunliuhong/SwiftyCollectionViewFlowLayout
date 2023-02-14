@@ -44,6 +44,18 @@ public protocol SwiftyCollectionViewDelegateFlowLayout: UICollectionViewDelegate
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
                         visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode
     
+    /// If return `true`, the header will pin to the visible
+    /// bounds of the collection view while its containing section is visible.
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                        headerPinToVisibleBounds section: Int) -> Bool
+    
+    /// If return `true`, the footer will pin to the visible
+    /// bounds of the collection view while its containing section is visible.
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                        footerPinToVisibleBounds section: Int) -> Bool
+    
     /// Header Offset
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
@@ -125,6 +137,18 @@ extension SwiftyCollectionViewDelegateFlowLayout {
                                layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
                                visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
         return Default.footerVisibilityMode
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                               headerPinToVisibleBounds section: Int) -> Bool {
+        return Default.headerPinToVisibleBounds
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: SwiftyCollectionViewFlowLayout,
+                               footerPinToVisibleBounds section: Int) -> Bool {
+        return Default.footerPinToVisibleBounds
     }
     
     public func collectionView(_ collectionView: UICollectionView,
