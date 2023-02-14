@@ -182,6 +182,15 @@ extension ModeState {
         guard let sectionModel = sectionModel(at: section) else { return }
         sectionModel.metrics = metrics
     }
+    
+    internal func hasPinnedHeaderOrFooter() -> Bool {
+        var hasPinnedHeaderOrFooter: Bool = false
+        for sectionModel in currentSectionModels {
+            hasPinnedHeaderOrFooter = hasPinnedHeaderOrFooter || sectionModel.metrics.headerPinToVisibleBounds
+            hasPinnedHeaderOrFooter = hasPinnedHeaderOrFooter || sectionModel.metrics.footerPinToVisibleBounds
+        }
+        return hasPinnedHeaderOrFooter
+    }
 }
 
 extension ModeState {
@@ -400,14 +409,11 @@ extension ModeState {
     }
     
     internal func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes] {
-        for section in 0..<currentSectionModels.count {
+        for (section, sectionModel) in currentSectionModels.enumerated() {
             layoutHeaderModel(at: section)
             layoutItemModels(at: section)
             layoutFooterModel(at: section)
             layoutBackgroundModel(at: section)
-        }
-        
-        for (section, sectionModel) in currentSectionModels.enumerated() {
             pinned(sectionModel: sectionModel, section: section)
         }
         

@@ -97,7 +97,8 @@ extension PinnedHeaderOrFooterViewController: SwiftyCollectionViewDelegateFlowLa
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        return .visible(sizeMode: .init(width: .full, height: .static(length: 100)))
+        //return .visible(sizeMode: .init(width: .full, height: .static(length: 100)))
+        return .hidden
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, headerDirection section: Int) -> SwiftyCollectionViewLayoutSupplementaryDirection {
@@ -130,5 +131,13 @@ extension PinnedHeaderOrFooterViewController: SwiftyCollectionViewDelegateFlowLa
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, headerPinToVisibleBounds section: Int) -> Bool {
+        return true
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, footerPinToVisibleBounds section: Int) -> Bool {
+        return true
     }
 }

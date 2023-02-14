@@ -17,6 +17,7 @@ public final class PinnedHeaderOrFooterCell: SwiftyCollectionViewCell {
         label.textColor = .white
         label.font = .systemFont(ofSize: 15)
         label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     

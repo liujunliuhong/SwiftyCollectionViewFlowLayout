@@ -17,6 +17,7 @@ public final class PinnedHeaderOrFooterFooterView: SwiftyCollectionReusableView 
         label.font = .boldSystemFont(ofSize: 18)
         label.textAlignment = .center
         label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     

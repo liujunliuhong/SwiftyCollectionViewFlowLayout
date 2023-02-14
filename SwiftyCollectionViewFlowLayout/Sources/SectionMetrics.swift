@@ -21,6 +21,8 @@ internal final class SectionMetrics {
     internal let backgroundInset: UIEdgeInsets
     internal let headerDirection: SwiftyCollectionViewLayoutSupplementaryDirection
     internal let footerDirection: SwiftyCollectionViewLayoutSupplementaryDirection
+    internal let headerPinToVisibleBounds: Bool
+    internal let footerPinToVisibleBounds: Bool
     
     internal let scale: CGFloat
     
@@ -40,7 +42,8 @@ internal final class SectionMetrics {
         headerDirection = delegate.collectionView(collectionView, layout: layout, headerDirection: section)
         footerDirection = delegate.collectionView(collectionView, layout: layout, footerDirection: section)
         backgroundInset = delegate.collectionView(collectionView, layout: layout, backgroundInset: section)
-        
+        headerPinToVisibleBounds = delegate.collectionView(collectionView, layout: layout, headerPinToVisibleBounds: section)
+        footerPinToVisibleBounds = delegate.collectionView(collectionView, layout: layout, footerPinToVisibleBounds: section)
         scale = collectionView.traitCollection.nonZeroDisplayScale
     }
     
@@ -57,6 +60,8 @@ internal final class SectionMetrics {
                  backgroundInset: UIEdgeInsets,
                  headerDirection: SwiftyCollectionViewLayoutSupplementaryDirection,
                  footerDirection: SwiftyCollectionViewLayoutSupplementaryDirection,
+                 headerPinToVisibleBounds: Bool,
+                 footerPinToVisibleBounds: Bool,
                  scale: CGFloat) {
         self.sectionType = sectionType
         self.sectionInset = sectionInset
@@ -69,6 +74,8 @@ internal final class SectionMetrics {
         self.headerDirection = headerDirection
         self.footerDirection = footerDirection
         self.backgroundInset = backgroundInset
+        self.headerPinToVisibleBounds = headerPinToVisibleBounds
+        self.footerPinToVisibleBounds = footerPinToVisibleBounds
         self.scale = scale
     }
     
@@ -83,6 +90,8 @@ internal final class SectionMetrics {
                                                    backgroundInset: Default.backgroundInset,
                                                    headerDirection: Default.headerDirection,
                                                    footerDirection: Default.footerDirection,
+                                                   headerPinToVisibleBounds: Default.headerPinToVisibleBounds,
+                                                   footerPinToVisibleBounds: Default.footerPinToVisibleBounds,
                                                    scale: Default.scale)
     
 }

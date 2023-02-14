@@ -203,11 +203,13 @@ extension SwiftyCollectionViewFlowLayout {
             guard let headerModel = modeState.headerModel(at: indexPath.section) else {
                 return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
             }
+            hasPinnedHeaderOrFooter = modeState.hasPinnedHeaderOrFooter()
             return modeState.headerLayoutAttributes(at: indexPath.section, frame: headerModel.frame, sectionModel: sectionModel, sizeMode: headerModel.sizeMode)
         } else if elementKind == UICollectionView.elementKindSectionFooter {
             guard let footerModel = modeState.footerModel(at: indexPath.section) else {
                 return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
             }
+            hasPinnedHeaderOrFooter = modeState.hasPinnedHeaderOrFooter()
             return modeState.footerLayoutAttributes(at: indexPath.section, frame: footerModel.frame, sectionModel: sectionModel, sizeMode: footerModel.sizeMode)
         } else if elementKind == SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind {
             guard let backgroundModel = modeState.backgroundModel(at: indexPath.section) else {
@@ -224,15 +226,14 @@ extension SwiftyCollectionViewFlowLayout {
     
     public override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         print("layoutAttributesForElements: \(rect) - \(mCollectionView.contentOffset.y)")
+        hasPinnedHeaderOrFooter = modeState.hasPinnedHeaderOrFooter()
         let attrs = modeState.layoutAttributesForElements(in: rect)
         return attrs
     }
     
     public override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        
         let shouldInvalidateLayout = modeState.shouldInvalidateLayout(forBoundsChange: newBounds)
-//        return shouldInvalidateLayout// || hasPinnedHeaderOrFooter
-        return true
+        return shouldInvalidateLayout || hasPinnedHeaderOrFooter
     }
     
     public override func invalidationContext(forBoundsChange newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
