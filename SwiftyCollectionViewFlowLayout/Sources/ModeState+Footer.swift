@@ -13,7 +13,7 @@ extension ModeState {
     internal func layoutFooterModel(at section: Int) {
         guard let layout = layout else { return }
         guard let sectionModel = sectionModel(at: section) else { return }
-        guard let footerModel = footerModel(at: section) else { return }
+        guard let footerModel = sectionModel.footerModel else { return }
         
         let scrollDirection = layout.scrollDirection
         
@@ -72,9 +72,17 @@ extension ModeState {
         footerModel.pinnedFrame = frame
     }
     
-    internal func footerLayoutAttributes(at section: Int, frame: CGRect, sectionModel: SectionModel, sizeMode: SwiftyCollectionViewLayoutSizeMode) -> UICollectionViewLayoutAttributes {
-        let indexPath = IndexPath(item: 0, section: section)
-        let attr = SwiftyCollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, with: indexPath)
+    internal func footerLayoutAttributes(at section: Int,
+                                         frame: CGRect,
+                                         sectionModel: SectionModel,
+                                         sizeMode: SwiftyCollectionViewLayoutSizeMode) -> SwiftyCollectionViewLayoutAttributes {
+        var attr: SwiftyCollectionViewLayoutAttributes
+        if let _attr = cachedFooterLayoutAttributes[section] {
+            attr = _attr
+        } else {
+            let indexPath = IndexPath(item: 0, section: section)
+            attr = SwiftyCollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, with: indexPath)
+        }
         attr.sizeMode = sizeMode
         attr.layout = layout
         attr.sectionModel = sectionModel

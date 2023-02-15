@@ -39,8 +39,13 @@ extension ModeState {
         }
     }
     
-    internal func itemLayoutAttributes(at indexPath: IndexPath, frame: CGRect, sectionModel: SectionModel, sizeMode: SwiftyCollectionViewLayoutSizeMode) -> UICollectionViewLayoutAttributes {
-        let attr = SwiftyCollectionViewLayoutAttributes(forCellWith: indexPath)
+    internal func itemLayoutAttributes(at indexPath: IndexPath, frame: CGRect, sectionModel: SectionModel, sizeMode: SwiftyCollectionViewLayoutSizeMode) -> SwiftyCollectionViewLayoutAttributes {
+        var attr: SwiftyCollectionViewLayoutAttributes
+        if let _attr = cachedItemLayoutAttributes[indexPath.section]?[indexPath.item] {
+            attr = _attr
+        } else {
+            attr = SwiftyCollectionViewLayoutAttributes(forCellWith: indexPath)
+        }
         attr.sizeMode = sizeMode
         attr.sectionModel = sectionModel
         attr.layout = layout

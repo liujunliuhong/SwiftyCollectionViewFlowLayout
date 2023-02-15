@@ -11,6 +11,11 @@ import UIKit
 /// Manages the state of section and element models.
 internal final class ModeState {
     
+    internal var cachedHeaderLayoutAttributes: [Int: SwiftyCollectionViewLayoutAttributes] = [:]
+    internal var cachedFooterLayoutAttributes: [Int: SwiftyCollectionViewLayoutAttributes] = [:]
+    internal var cachedBackgroundLayoutAttributes: [Int: SwiftyCollectionViewLayoutAttributes] = [:]
+    internal var cachedItemLayoutAttributes: [Int: [Int: SwiftyCollectionViewLayoutAttributes]] = [:]
+    
     private var currentSectionModels: [SectionModel] = []
     private var sectionModelsBeforeBatchUpdates = [SectionModel]()
     
@@ -24,6 +29,10 @@ internal final class ModeState {
 extension ModeState {
     internal func clear() {
         currentSectionModels.removeAll()
+        cachedItemLayoutAttributes.removeAll()
+        cachedHeaderLayoutAttributes.removeAll()
+        cachedFooterLayoutAttributes.removeAll()
+        cachedBackgroundLayoutAttributes.removeAll()
     }
     
     internal func setSections(_ sectionModels: [SectionModel]) {
@@ -40,36 +49,17 @@ extension ModeState {
         return sectionModel(at: section)?.itemModels.count ?? .zero
     }
     
-    internal func itemModel(at indexPath: IndexPath) -> ItemModel? {
-        guard let sectionModel = sectionModel(at: indexPath.section) else {
-            return nil
-        }
-        let itemModels = sectionModel.itemModels
-        if indexPath.item < 0 || indexPath.item > itemModels.count - 1 {
-            return nil
-        }
-        let itemModel = itemModels[indexPath.item]
+    internal func itemModel(_ itemModels: [ItemModel]?, index: Int) -> ItemModel? {
+        guard let itemModels = itemModels else { return nil }
+        if index < 0 || index > itemModels.count - 1 { return nil }
+        let itemModel = itemModels[index]
         return itemModel
     }
     
     internal func sectionModel(at section: Int) -> SectionModel? {
-        if section < 0 || section > currentSectionModels.count - 1 {
-            return nil
-        }
+        if section < 0 || section > currentSectionModels.count - 1 { return nil }
         let sectionModel = currentSectionModels[section]
         return sectionModel
-    }
-    
-    internal func headerModel(at section: Int) -> HeaderModel? {
-        return sectionModel(at: section)?.headerModel
-    }
-    
-    internal func footerModel(at section: Int) -> FooterModel? {
-        return sectionModel(at: section)?.footerModel
-    }
-    
-    internal func backgroundModel(at section: Int) -> BackgroundModel? {
-        return sectionModel(at: section)?.backgroundModel
     }
     
     internal func previousSectionTotalLength(currentSection: Int) -> CGFloat {
@@ -174,7 +164,8 @@ extension ModeState {
     }
     
     internal func updateItemSizeMode(sizeMode: SwiftyCollectionViewLayoutSizeMode, at indexPath: IndexPath) {
-        guard let itemModel = itemModel(at: indexPath) else { return }
+        let sectionModel = sectionModel(at: indexPath.section)
+        guard let itemModel = itemModel(sectionModel?.itemModels, index: indexPath.item) else { return }
         itemModel.sizeMode = sizeMode
     }
     
@@ -196,12 +187,8 @@ extension ModeState {
 extension ModeState {
     private func updateItemSize(preferredSize: CGSize, indexPath: IndexPath) {
         guard let layout = layout else { return }
-        guard let sectionModel = sectionModel(at: indexPath.section) else {
-            return
-        }
-        guard let itemModel = itemModel(at: indexPath) else {
-            return
-        }
+        guard let sectionModel = sectionModel(at: indexPath.section) else { return }
+        guard let itemModel = itemModel(sectionModel.itemModels, index: indexPath.item) else { return }
         
         let scrollDirection = layout.scrollDirection
         
@@ -228,7 +215,7 @@ extension ModeState {
     }
     
     private func updateHeaderSize(preferredSize: CGSize, section: Int) {
-        guard let headerModel = headerModel(at: section) else {
+        guard let headerModel = sectionModel(at: section)?.headerModel else {
             return
         }
         var frame = headerModel.frame
@@ -238,7 +225,7 @@ extension ModeState {
     }
     
     private func updateFooterSize(preferredSize: CGSize, section: Int) {
-        guard let footerModel = footerModel(at: section) else {
+        guard let footerModel = sectionModel(at: section)?.footerModel else {
             return
         }
         var frame = footerModel.frame
@@ -298,9 +285,8 @@ extension ModeState {
         
         switch preferredAttributes.representedElementCategory {
             case .cell:
-                guard let itemModel = itemModel(at: preferredAttributes.indexPath) else {
-                    return false
-                }
+                let sectionModel = sectionModel(at: preferredAttributes.indexPath.section)
+                guard let itemModel = itemModel(sectionModel?.itemModels, index: preferredAttributes.indexPath.item) else { return false }
                 switch itemModel.sizeMode.width {
                     case .dynamic, .full, .fractionalFull:
                         switch itemModel.sizeMode.height {
@@ -320,7 +306,7 @@ extension ModeState {
             case .supplementaryView:
                 switch preferredAttributes.representedElementKind {
                     case UICollectionView.elementKindSectionHeader:
-                        guard let headerModel = headerModel(at: preferredAttributes.indexPath.section) else {
+                        guard let headerModel = sectionModel(at: preferredAttributes.indexPath.section)?.headerModel else {
                             return false
                         }
                         switch headerModel.sizeMode.width {
@@ -341,7 +327,7 @@ extension ModeState {
                                 
                         }
                     case UICollectionView.elementKindSectionFooter:
-                        guard let footerModel = footerModel(at: preferredAttributes.indexPath.section) else {
+                        guard let footerModel = sectionModel(at: preferredAttributes.indexPath.section)?.footerModel else {
                             return false
                         }
                         switch footerModel.sizeMode.width {
@@ -409,12 +395,12 @@ extension ModeState {
     }
     
     internal func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes] {
-        for (section, sectionModel) in currentSectionModels.enumerated() {
+        for section in 0..<currentSectionModels.count {
             layoutHeaderModel(at: section)
             layoutItemModels(at: section)
             layoutFooterModel(at: section)
             layoutBackgroundModel(at: section)
-            pinned(sectionModel: sectionModel, section: section)
+            pinned(at: section)
         }
         
         var attrs: [UICollectionViewLayoutAttributes] = []
@@ -425,6 +411,7 @@ extension ModeState {
                                                       frame: headerModel.pinnedFrame,
                                                       sectionModel: sectionModel,
                                                       sizeMode: headerModel.sizeMode)
+                    cachedHeaderLayoutAttributes[section] = attr
                     attrs.append(attr)
                 }
             }
@@ -435,6 +422,13 @@ extension ModeState {
                                                     frame: itemModel.frame,
                                                     sectionModel: sectionModel,
                                                     sizeMode: itemModel.sizeMode)
+                    
+                    if var dic = cachedItemLayoutAttributes[indexPath.section] {
+                        dic[indexPath.item] = attr
+                        cachedItemLayoutAttributes[indexPath.section] = dic
+                    } else {
+                        cachedItemLayoutAttributes[indexPath.section] = [indexPath.section: attr]
+                    }
                     attrs.append(attr)
                 }
             }
@@ -444,12 +438,14 @@ extension ModeState {
                                                       frame: footerModel.pinnedFrame,
                                                       sectionModel: sectionModel,
                                                       sizeMode: footerModel.sizeMode)
+                    cachedFooterLayoutAttributes[section] = attr
                     attrs.append(attr)
                 }
             }
             if let backgroundModel = sectionModel.backgroundModel {
                 if rect.contains(backgroundModel.frame) || rect.intersects(backgroundModel.frame) {
                     let attr = backgroundLayoutAttributes(at: section, frame: backgroundModel.frame, sectionModel: sectionModel)
+                    cachedBackgroundLayoutAttributes[section] = attr
                     attrs.append(attr)
                 }
             }

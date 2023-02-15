@@ -13,7 +13,7 @@ extension ModeState {
     internal func layoutHeaderModel(at section: Int) {
         guard let layout = layout else { return }
         guard let sectionModel = sectionModel(at: section) else { return }
-        guard let headerModel = headerModel(at: section) else { return }
+        guard let headerModel = sectionModel.headerModel else { return }
         
         let scrollDirection = layout.scrollDirection
         
@@ -72,9 +72,14 @@ extension ModeState {
         headerModel.pinnedFrame = frame
     }
     
-    internal func headerLayoutAttributes(at section: Int, frame: CGRect, sectionModel: SectionModel, sizeMode: SwiftyCollectionViewLayoutSizeMode) -> UICollectionViewLayoutAttributes {
-        let indexPath = IndexPath(item: 0, section: section)
-        let attr = SwiftyCollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, with: indexPath)
+    internal func headerLayoutAttributes(at section: Int, frame: CGRect, sectionModel: SectionModel, sizeMode: SwiftyCollectionViewLayoutSizeMode) -> SwiftyCollectionViewLayoutAttributes {
+        var attr: SwiftyCollectionViewLayoutAttributes
+        if let _attr = cachedHeaderLayoutAttributes[section] {
+            attr = _attr
+        } else {
+            let indexPath = IndexPath(item: 0, section: section)
+            attr = SwiftyCollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, with: indexPath)
+        }
         attr.sizeMode = sizeMode
         attr.sectionModel = sectionModel
         attr.layout = layout

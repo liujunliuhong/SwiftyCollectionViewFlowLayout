@@ -11,7 +11,7 @@ import UIKit
 extension ModeState {
     internal func layoutBackgroundModel(at section: Int) {
         guard let sectionModel = sectionModel(at: section) else { return }
-        guard let backgroundModel = backgroundModel(at: section) else { return }
+        guard let backgroundModel = sectionModel.backgroundModel else { return }
         
         guard let layout = layout else { return }
         
@@ -128,9 +128,14 @@ extension ModeState {
         backgroundModel.frame = finalFrame
     }
     
-    internal func backgroundLayoutAttributes(at section: Int, frame: CGRect, sectionModel: SectionModel) -> UICollectionViewLayoutAttributes {
-        let indexPath = IndexPath(item: 0, section: section)
-        let attr = SwiftyCollectionViewLayoutAttributes(forSupplementaryViewOfKind: SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind, with: indexPath)
+    internal func backgroundLayoutAttributes(at section: Int, frame: CGRect, sectionModel: SectionModel) -> SwiftyCollectionViewLayoutAttributes {
+        var attr: SwiftyCollectionViewLayoutAttributes
+        if let _attr = cachedBackgroundLayoutAttributes[section] {
+            attr = _attr
+        } else {
+            let indexPath = IndexPath(item: 0, section: section)
+            attr = SwiftyCollectionViewLayoutAttributes(forSupplementaryViewOfKind: SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind, with: indexPath)
+        }
         attr.sectionModel = sectionModel
         attr.frame = frame
         attr.zIndex = -999

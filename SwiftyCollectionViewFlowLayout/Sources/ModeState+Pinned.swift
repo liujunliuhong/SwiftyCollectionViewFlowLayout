@@ -9,8 +9,9 @@ import Foundation
 import UIKit
 
 extension ModeState {
-    internal func pinned(sectionModel: SectionModel, section: Int) {
+    internal func pinned(at section: Int) {
         guard let layout = layout else { return }
+        guard let sectionModel = self.sectionModel(at: section) else { return }
         
         let offsetX = layout.mCollectionView.contentOffset.x
         let offsetY = layout.mCollectionView.contentOffset.y

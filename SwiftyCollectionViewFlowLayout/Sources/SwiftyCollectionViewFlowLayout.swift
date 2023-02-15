@@ -188,7 +188,7 @@ extension SwiftyCollectionViewFlowLayout {
         guard let sectionModel = modeState.sectionModel(at: indexPath.section) else {
             return super.layoutAttributesForItem(at: indexPath)
         }
-        guard let itemModel = modeState.itemModel(at: indexPath) else {
+        guard let itemModel = modeState.itemModel(sectionModel.itemModels, index: indexPath.item) else {
             return super.layoutAttributesForItem(at: indexPath)
         }
         let attr = modeState.itemLayoutAttributes(at: indexPath, frame: itemModel.frame, sectionModel: sectionModel, sizeMode: itemModel.sizeMode)
@@ -196,26 +196,22 @@ extension SwiftyCollectionViewFlowLayout {
     }
     
     public override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        guard let sectionModel = modeState.sectionModel(at: indexPath.section) else {
-            return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
-        }
-        if elementKind == UICollectionView.elementKindSectionHeader {
-            guard let headerModel = modeState.headerModel(at: indexPath.section) else {
-                return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
+        if let sectionModel = modeState.sectionModel(at: indexPath.section) {
+            if elementKind == UICollectionView.elementKindSectionHeader {
+                if let headerModel = sectionModel.headerModel {
+                    hasPinnedHeaderOrFooter = modeState.hasPinnedHeaderOrFooter()
+                    return modeState.headerLayoutAttributes(at: indexPath.section, frame: headerModel.frame, sectionModel: sectionModel, sizeMode: headerModel.sizeMode)
+                }
+            } else if elementKind == UICollectionView.elementKindSectionFooter {
+                if let footerModel = sectionModel.footerModel {
+                    hasPinnedHeaderOrFooter = modeState.hasPinnedHeaderOrFooter()
+                    return modeState.footerLayoutAttributes(at: indexPath.section, frame: footerModel.frame, sectionModel: sectionModel, sizeMode: footerModel.sizeMode)
+                }
+            } else if elementKind == SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind {
+                if let backgroundModel = sectionModel.backgroundModel {
+                    return modeState.backgroundLayoutAttributes(at: indexPath.section, frame: backgroundModel.frame, sectionModel: sectionModel)
+                }
             }
-            hasPinnedHeaderOrFooter = modeState.hasPinnedHeaderOrFooter()
-            return modeState.headerLayoutAttributes(at: indexPath.section, frame: headerModel.frame, sectionModel: sectionModel, sizeMode: headerModel.sizeMode)
-        } else if elementKind == UICollectionView.elementKindSectionFooter {
-            guard let footerModel = modeState.footerModel(at: indexPath.section) else {
-                return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
-            }
-            hasPinnedHeaderOrFooter = modeState.hasPinnedHeaderOrFooter()
-            return modeState.footerLayoutAttributes(at: indexPath.section, frame: footerModel.frame, sectionModel: sectionModel, sizeMode: footerModel.sizeMode)
-        } else if elementKind == SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind {
-            guard let backgroundModel = modeState.backgroundModel(at: indexPath.section) else {
-                return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
-            }
-            return modeState.backgroundLayoutAttributes(at: indexPath.section, frame: backgroundModel.frame, sectionModel: sectionModel)
         }
         return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
     }
@@ -225,7 +221,6 @@ extension SwiftyCollectionViewFlowLayout {
     }
     
     public override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        print("layoutAttributesForElements: \(rect) - \(mCollectionView.contentOffset.y)")
         hasPinnedHeaderOrFooter = modeState.hasPinnedHeaderOrFooter()
         let attrs = modeState.layoutAttributesForElements(in: rect)
         return attrs
