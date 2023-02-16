@@ -11,7 +11,7 @@ A collection view layout capable of laying out views in vertically and horizonta
 - Hiding or showing headers and footers on a per-section basis.
 - Self-sizing headers and footers.
 - Headers and footers offset.
-- Headers and footer direction.
+- Headers and footers direction.
 - Pinned (sticky) headers and footers on a per-section basis.
 - Section background that can be hidden/visible on a per-section basis.
 - Section background inset.
