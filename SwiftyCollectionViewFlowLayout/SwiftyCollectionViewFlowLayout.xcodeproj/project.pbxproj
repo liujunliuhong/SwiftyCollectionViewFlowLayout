@@ -137,7 +137,6 @@
 				D1FF4B672994A329005518D6 /* SwiftyCollectionViewCell.swift */,
 				D1FDF2FA299DD85000E05C7E /* InternalSizeMode.swift */,
 				D1FDF2F8299DD7DB00E05C7E /* InternalLengthMode.swift */,
-				8567BE992997E8F7003C2640 /* UIView+Size.swift */,
 				D14316462992332600669451 /* Default.swift */,
 				D14D3005299372D700E31E7E /* ModeState.swift */,
 				D14D300D29939CB300E31E7E /* ModeState+Item.swift */,
@@ -153,6 +152,7 @@
 				D14D300129936D8F00E31E7E /* FooterModel.swift */,
 				858822D0299A7A6800BBD9ED /* BackgroundModel.swift */,
 				D14D300F2993A4FD00E31E7E /* SectionModel+WaterFlow.swift */,
+				8567BE992997E8F7003C2640 /* UIView+Size.swift */,
 				D16363CE299A1BEB00AAD627 /* CGFloat+Extension.swift */,
 				D16363D0299A1CD900AAD627 /* UITraitCollection+Extension.swift */,
 				D18A32262996380000E41699 /* CollectionViewUpdate.swift */,
@@ -199,7 +199,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					8565A81E298BF50B00FFE2FD = {
 						CreatedOnToolsVersion = 14.0;
@@ -412,6 +412,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -440,6 +441,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

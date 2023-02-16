@@ -482,7 +482,7 @@ extension ModeState {
             }
             if let backgroundModel = sectionModel.backgroundModel {
                 if rect.contains(backgroundModel.frame) || rect.intersects(backgroundModel.frame) {
-                    let attr = backgroundLayoutAttributes(at: section, frame: backgroundModel.frame, sectionModel: sectionModel)
+                    let attr = backgroundLayoutAttributes(at: section, frame: backgroundModel.frame)
                     cacheBackground(attr, at: section)
                     attrs.append(attr)
                 }

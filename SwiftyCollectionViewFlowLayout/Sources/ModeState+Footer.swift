@@ -75,7 +75,6 @@ extension ModeState {
                                          frame: CGRect,
                                          sectionModel: SectionModel,
                                          correctSizeMode: InternalSizeMode) -> SwiftyCollectionViewLayoutAttributes {
-        
         let metrics = sectionModel.metrics
         
         var attr: SwiftyCollectionViewLayoutAttributes
@@ -86,12 +85,9 @@ extension ModeState {
             attr = SwiftyCollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, with: indexPath)
         }
         
-        let containerWidth = collectionViewSize.width - metrics.sectionInset.left - metrics.sectionInset.right
-        let containerHeight = collectionViewSize.height - metrics.sectionInset.top - metrics.sectionInset.bottom
-        
         attr.sizeMode = correctSizeMode
         attr.scrollDirection = scrollDirection
-        attr.maxSize = CGSize(width: containerWidth, height: containerHeight)
+        attr.maxSize = maxContainerSize(supplementaryElementKind: UICollectionView.elementKindSectionFooter, metrics: metrics)
         attr.frame = frame
         attr.zIndex = 9999
         return attr

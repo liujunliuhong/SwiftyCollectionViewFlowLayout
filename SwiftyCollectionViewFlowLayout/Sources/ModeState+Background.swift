@@ -126,7 +126,7 @@ extension ModeState {
         backgroundModel.frame = finalFrame
     }
     
-    internal func backgroundLayoutAttributes(at section: Int, frame: CGRect, sectionModel: SectionModel) -> SwiftyCollectionViewLayoutAttributes {
+    internal func backgroundLayoutAttributes(at section: Int, frame: CGRect) -> SwiftyCollectionViewLayoutAttributes {
         var attr: SwiftyCollectionViewLayoutAttributes
         if let cachedAttr = getCachedBackground(at: section) {
             attr = cachedAttr

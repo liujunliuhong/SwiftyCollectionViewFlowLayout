@@ -204,16 +204,23 @@ extension SwiftyCollectionViewFlowLayout {
             if elementKind == UICollectionView.elementKindSectionHeader {
                 if let headerModel = sectionModel.headerModel {
                     hasPinnedHeaderOrFooter = modeState.hasPinnedHeaderOrFooter()
-                    return modeState.headerLayoutAttributes(at: indexPath.section, frame: headerModel.frame, sectionModel: sectionModel, correctSizeMode: headerModel.correctSizeMode)
+                    return modeState.headerLayoutAttributes(at: indexPath.section,
+                                                            frame: headerModel.frame,
+                                                            sectionModel: sectionModel,
+                                                            correctSizeMode: headerModel.correctSizeMode)
                 }
             } else if elementKind == UICollectionView.elementKindSectionFooter {
                 if let footerModel = sectionModel.footerModel {
                     hasPinnedHeaderOrFooter = modeState.hasPinnedHeaderOrFooter()
-                    return modeState.footerLayoutAttributes(at: indexPath.section, frame: footerModel.frame, sectionModel: sectionModel, correctSizeMode: footerModel.correctSizeMode)
+                    return modeState.footerLayoutAttributes(at: indexPath.section,
+                                                            frame: footerModel.frame,
+                                                            sectionModel: sectionModel,
+                                                            correctSizeMode: footerModel.correctSizeMode)
                 }
             } else if elementKind == SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind {
                 if let backgroundModel = sectionModel.backgroundModel {
-                    return modeState.backgroundLayoutAttributes(at: indexPath.section, frame: backgroundModel.frame, sectionModel: sectionModel)
+                    return modeState.backgroundLayoutAttributes(at: indexPath.section,
+                                                                frame: backgroundModel.frame)
                 }
             }
         }

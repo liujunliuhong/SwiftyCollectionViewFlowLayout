@@ -326,4 +326,53 @@ extension ModeState {
         }
         return InternalSizeMode(width: _widthMode, height: _heightMode)
     }
+    
+    internal func maxContainerSize(supplementaryElementKind: String?,
+                                   metrics: SectionMetrics) -> CGSize {
+        switch scrollDirection {
+            case .vertical:
+                var containerWidth = collectionViewSize.width - metrics.sectionInset.left - metrics.sectionInset.right
+                
+                if let supplementaryElementKind = supplementaryElementKind {
+                    if supplementaryElementKind == UICollectionView.elementKindSectionHeader {
+                        if !metrics.sectionInsetContainHeader {
+                            containerWidth = collectionViewSize.width
+                        }
+                    }
+                    if supplementaryElementKind == UICollectionView.elementKindSectionFooter {
+                        if !metrics.sectionInsetContainFooter {
+                            containerWidth = collectionViewSize.width
+                        }
+                    }
+                }
+                
+                let containerHeight = collectionViewSize.height
+                
+                return CGSize(width: containerWidth, height: containerHeight)
+                
+            case .horizontal:
+                var containerHeight = collectionViewSize.height - metrics.sectionInset.top - metrics.sectionInset.bottom
+                
+                if let supplementaryElementKind = supplementaryElementKind {
+                    if supplementaryElementKind == UICollectionView.elementKindSectionHeader {
+                        if !metrics.sectionInsetContainHeader {
+                            containerHeight = collectionViewSize.height
+                        }
+                    }
+                    if supplementaryElementKind == UICollectionView.elementKindSectionFooter {
+                        if !metrics.sectionInsetContainFooter {
+                            containerHeight = collectionViewSize.height
+                        }
+                    }
+                }
+                
+                let containerWidth = collectionViewSize.width
+                
+                return CGSize(width: containerWidth, height: containerHeight)
+                
+            default:
+                break
+        }
+        return collectionViewSize
+    }
 }

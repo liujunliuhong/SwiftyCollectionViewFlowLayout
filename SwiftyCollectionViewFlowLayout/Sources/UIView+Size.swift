@@ -123,7 +123,8 @@ extension UIView {
                             case .absolute(let h):
                                 // width ratio and static height
                                 var w = h * ratio
-                                size.width = min(w, containerWidth)
+                                w = min(w, containerWidth)
+                                size.width = w
                                 size.height = h
                             case .dynamic(let heightIncrement):
                                 // width ratio and dynamic height
