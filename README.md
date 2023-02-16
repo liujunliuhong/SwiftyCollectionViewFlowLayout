@@ -108,7 +108,7 @@ section background view do not self-size. so, the section background view can su
 
 #### Configuring the delegate
 
-Here's an example delegate implementation(For more usage, please check Demo):
+Here's an example delegate implementation (For more usage, please check Demo):
 
 ```swift
 public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewLayoutSizeMode {
