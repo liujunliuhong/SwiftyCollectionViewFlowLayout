@@ -37,6 +37,12 @@ A collection view layout capable of laying out views in vertically and horizonta
 pod 'SwiftyCollectionViewFlowLayout'
 ```
 
+Or
+
+```ruby
+pod 'SwiftyCollectionViewFlowLayout', :git => "https://github.com/liujunliuhong/SwiftyCollectionViewFlowLayout.git"
+```
+
 ### Usage
 
 Once you've integrated the `SwiftyCollectionViewFlowLayout` into your project, using it with a collection view is easy.
