@@ -23,6 +23,6 @@ public struct SwiftyCollectionViewLayoutSizeMode: Equatable {
         self.height = height
     }
     
-    internal static let `default` = SwiftyCollectionViewLayoutSizeMode(width: .static(length: Default.size.width),
-                                                                       height: .static(length: Default.size.height))
+    internal static let `default` = SwiftyCollectionViewLayoutSizeMode(width: .absolute(Default.size.width),
+                                                                       height: .absolute(Default.size.height))
 }

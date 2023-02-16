@@ -10,6 +10,7 @@ import UIKit
 
 /// Default value.
 internal struct Default {
+    static let scrollDirection: UICollectionView.ScrollDirection = .vertical
     static let sectionType: SwiftyCollectionViewSectionType = .waterFlow(numberOfColumns: 1)
     static let sectionInset: UIEdgeInsets = .zero
     static let sectionInsetContainHeader: Bool = false

@@ -18,29 +18,10 @@ open class SwiftyCollectionReusableView: UICollectionReusableView {
             return super.preferredLayoutAttributesFitting(layoutAttributes)
         }
         
-        guard let sectionModel = layoutAttributes.sectionModel else {
-            return layoutAttributes
-        }
-        
-        guard let layout = layoutAttributes.layout else {
-            return layoutAttributes
-        }
-        
-        var supplementaryElementKind: String?
-        if layoutAttributes.representedElementKind == UICollectionView.elementKindSectionHeader {
-            supplementaryElementKind = UICollectionView.elementKindSectionHeader
-        } else if layoutAttributes.representedElementKind == UICollectionView.elementKindSectionFooter {
-            supplementaryElementKind = UICollectionView.elementKindSectionFooter
-        }
-        
-        
-        let sizeMode = layoutAttributes.sizeMode
-        
-        let size = caculate(layout: layout,
-                            size: layoutAttributes.size,
-                            sectionModel: sectionModel,
-                            sizeMode: sizeMode,
-                            supplementaryElementKind: supplementaryElementKind)
+        let size = caculate(size: layoutAttributes.size,
+                            sizeMode: layoutAttributes.sizeMode,
+                            maxSize: layoutAttributes.maxSize,
+                            scrollDirection: layoutAttributes.scrollDirection)
         
         layoutAttributes.size = size
         

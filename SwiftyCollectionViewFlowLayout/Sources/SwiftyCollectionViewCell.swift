@@ -12,35 +12,24 @@ import UIKit
 /// displaying cells with `SwiftyCollectionViewFlowLayout`.
 open class SwiftyCollectionViewCell: UICollectionViewCell {
     open override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        
         guard let layoutAttributes = super.preferredLayoutAttributesFitting(layoutAttributes) as? SwiftyCollectionViewLayoutAttributes else {
             return super.preferredLayoutAttributesFitting(layoutAttributes)
         }
         
-        guard let sectionModel = layoutAttributes.sectionModel else {
-            return layoutAttributes
-        }
-        
-        guard let layout = layoutAttributes.layout else {
-            return layoutAttributes
-        }
-        
-        let sizeMode = layoutAttributes.sizeMode
-        
-        let size = caculate(layout: layout,
-                            size: layoutAttributes.size,
-                            sectionModel: sectionModel,
-                            sizeMode: sizeMode,
-                            supplementaryElementKind: nil)
+        let size = caculate(size: layoutAttributes.size,
+                            sizeMode: layoutAttributes.sizeMode,
+                            maxSize: layoutAttributes.maxSize,
+                            scrollDirection: layoutAttributes.scrollDirection)
         
         layoutAttributes.size = size
         
-        if !contentView.bounds.size.width.isEqual(to: size.width) {
+        if !contentView.bounds.size.width.isEqual(to: size.width, threshold: 1) {
             contentView.bounds.size.width = size.width
         }
-        if !contentView.bounds.size.height.isEqual(to: size.height) {
+        if !contentView.bounds.size.height.isEqual(to: size.height, threshold: 1) {
             contentView.bounds.size.height = size.height
         }
+        
         
         return layoutAttributes
     }

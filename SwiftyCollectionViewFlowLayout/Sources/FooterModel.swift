@@ -9,36 +9,36 @@ import Foundation
 
 internal final class FooterModel {
     
-    internal var sizeMode: SwiftyCollectionViewLayoutSizeMode
+    internal var correctSizeMode: InternalSizeMode
     
     internal var frame: CGRect = .zero
     internal var pinnedFrame: CGRect = .zero
     
-    internal init(sizeMode: SwiftyCollectionViewLayoutSizeMode) {
-        self.sizeMode = sizeMode
+    internal init(correctSizeMode: InternalSizeMode) {
+        self.correctSizeMode = correctSizeMode
         
-        switch sizeMode.width {
-            case .static(let w):
-                switch sizeMode.height {
-                    case .static(let h):
+        switch correctSizeMode.width {
+            case .absolute(let w):
+                switch correctSizeMode.height {
+                    case .absolute(let h):
                         var frame = frame
                         frame.size.width = w
                         frame.size.height = h
                         self.frame = frame
-                    case .dynamic, .fractionalFull, .full:
+                    case .dynamic, .ratio:
                         var frame = frame
                         frame.size.width = w
                         frame.size.height = Default.size.height
                         self.frame = frame
                 }
-            case .dynamic, .full, .fractionalFull:
-                switch sizeMode.height {
-                    case .static(let h):
+            case .dynamic, .ratio:
+                switch correctSizeMode.height {
+                    case .absolute(let h):
                         var frame = frame
                         frame.size.width = Default.size.width
                         frame.size.height = h
                         self.frame = frame
-                    case .dynamic, .fractionalFull, .full:
+                    case .dynamic, .ratio:
                         var frame = frame
                         frame.size.width = Default.size.width
                         frame.size.height = Default.size.height

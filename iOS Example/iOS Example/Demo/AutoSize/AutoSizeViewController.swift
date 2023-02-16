@@ -85,7 +85,6 @@ extension AutoSizeViewController {
     }
     
     @objc private func refreshAction() {
-        //layout.scrollDirection = layout.scrollDirection == .vertical ? .horizontal : .vertical
         loadData()
     }
 }

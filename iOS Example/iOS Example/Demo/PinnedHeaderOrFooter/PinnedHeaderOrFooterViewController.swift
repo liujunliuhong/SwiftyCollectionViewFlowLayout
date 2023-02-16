@@ -56,7 +56,7 @@ extension PinnedHeaderOrFooterViewController: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return 15
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -89,15 +89,15 @@ extension PinnedHeaderOrFooterViewController: UICollectionViewDataSource {
 
 extension PinnedHeaderOrFooterViewController: SwiftyCollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewLayoutSizeMode {
-        return .init(width: .fractionalFull(divisor: 3), height: .static(length: 55))
+        return .init(width: .fractionalFull(divisor: 3), height: .ratio(0.2 * CGFloat(indexPath.item + 1)))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        return .visible(sizeMode: .init(width: .full, height: .static(length: 75)))
+        return .visible(sizeMode: .init(width: .full, height: .absolute(75)))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        //return .visible(sizeMode: .init(width: .full, height: .static(length: 100)))
+        //return .visible(sizeMode: .init(width: .full, height: .absolute(100)))
         return .hidden
     }
     
@@ -138,6 +138,6 @@ extension PinnedHeaderOrFooterViewController: SwiftyCollectionViewDelegateFlowLa
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, footerPinToVisibleBounds section: Int) -> Bool {
-        return true
+        return false
     }
 }

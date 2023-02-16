@@ -10,10 +10,7 @@ import UIKit
 
 extension ModeState {
     internal func layoutItemModels(at section: Int) {
-        guard let layout = layout else { return }
         guard let sectionModel = sectionModel(at: section) else { return }
-        
-        let scrollDirection = layout.scrollDirection
         
         switch sectionModel.metrics.sectionType {
             case .waterFlow(let numberOfColumns):
@@ -39,16 +36,25 @@ extension ModeState {
         }
     }
     
-    internal func itemLayoutAttributes(at indexPath: IndexPath, frame: CGRect, sectionModel: SectionModel, sizeMode: SwiftyCollectionViewLayoutSizeMode) -> SwiftyCollectionViewLayoutAttributes {
+    internal func itemLayoutAttributes(at indexPath: IndexPath,
+                                       frame: CGRect,
+                                       sectionModel: SectionModel,
+                                       correctSizeMode: InternalSizeMode) -> SwiftyCollectionViewLayoutAttributes {
+        let metrics = sectionModel.metrics
+        
         var attr: SwiftyCollectionViewLayoutAttributes
-        if let _attr = cachedItemLayoutAttributes[indexPath.section]?[indexPath.item] {
-            attr = _attr
+        if let cachedAttr = getCachedItem(at: indexPath) {
+            attr = cachedAttr
         } else {
             attr = SwiftyCollectionViewLayoutAttributes(forCellWith: indexPath)
         }
-        attr.sizeMode = sizeMode
-        attr.sectionModel = sectionModel
-        attr.layout = layout
+        
+        let containerWidth = collectionViewSize.width - metrics.sectionInset.left - metrics.sectionInset.right
+        let containerHeight = collectionViewSize.height - metrics.sectionInset.top - metrics.sectionInset.bottom
+        
+        attr.sizeMode = correctSizeMode
+        attr.scrollDirection = scrollDirection
+        attr.maxSize = CGSize(width: containerWidth, height: containerHeight)
         attr.frame = frame
         return attr
     }
@@ -68,69 +74,68 @@ extension ModeState {
     }
     
     private func waterFlowLayoutForItem(sectionModel: SectionModel, itemModel: ItemModel) {
-        guard let layout = layout else { return }
+        var waterFlowBodyColumnLengths = sectionModel.waterFlowBodyColumnLengths
         
-        let collectionView = layout.mCollectionView
+        let metrics = sectionModel.metrics
+        let numberOfColumns = waterFlowBodyColumnLengths.count
         
-        let numberOfColumns = sectionModel.waterFlowBodyColumnLengths.count
-        
-        if sectionModel.waterFlowBodyColumnLengths.isEmpty {
+        if numberOfColumns <= 0 {
             return // ensure not empty
         }
-        
-        let scrollDirection = layout.scrollDirection
-        
-        let sectionInset = sectionModel.metrics.sectionInset
         
         var frame = itemModel.frame
         
         // Find min
-        var minGoup: (index: Int, length: CGFloat) = (0, sectionModel.waterFlowBodyColumnLengths[0])
-        for (index, length) in sectionModel.waterFlowBodyColumnLengths.enumerated() {
+        var minGoup: (index: Int, length: CGFloat) = (0, waterFlowBodyColumnLengths[0])
+        for (index, length) in waterFlowBodyColumnLengths.enumerated() {
             if length.isLess(than: minGoup.length) {
                 minGoup = (index, length)
             }
         }
         switch scrollDirection {
             case .vertical:
-                let columnWidth = (collectionView.frame.width - sectionInset.left - sectionInset.right - CGFloat(numberOfColumns - 1) * sectionModel.metrics.interitemSpacing) / CGFloat(numberOfColumns)
+                let allSpace = metrics.sectionInset.left + metrics.sectionInset.right + CGFloat(numberOfColumns - 1) * metrics.interitemSpacing
+                let columnWidth = (collectionViewSize.width - allSpace) / CGFloat(numberOfColumns)
                 
                 frame.size.width = columnWidth
                 
-                frame.origin.x = sectionInset.left + (sectionModel.metrics.interitemSpacing + columnWidth) * CGFloat(minGoup.index)
+                frame.origin.x = metrics.sectionInset.left + (metrics.interitemSpacing + columnWidth) * CGFloat(minGoup.index)
                 
                 if !minGoup.length.isLessThanOrEqualTo(.zero) {
-                    frame.origin.y = minGoup.length + sectionModel.metrics.lineSpacing
-                    sectionModel.waterFlowBodyColumnLengths[minGoup.index] = minGoup.length + sectionModel.metrics.lineSpacing + frame.size.height
+                    frame.origin.y = minGoup.length + metrics.lineSpacing
+                    waterFlowBodyColumnLengths[minGoup.index] = minGoup.length + metrics.lineSpacing + frame.size.height
                 } else {
                     frame.origin.y = .zero
-                    sectionModel.waterFlowBodyColumnLengths[minGoup.index] = frame.size.height
+                    waterFlowBodyColumnLengths[minGoup.index] = frame.size.height
                 }
                 
                 // reset sizeMode.width
-                itemModel.sizeMode = SwiftyCollectionViewLayoutSizeMode(width: .static(length: columnWidth), height: itemModel.sizeMode.height)
+                itemModel.correctSizeMode = InternalSizeMode(width: .absolute(length: columnWidth), height: itemModel.correctSizeMode.height)
                 
             case .horizontal:
-                let columnHeight = (collectionView.frame.height - sectionInset.top - sectionInset.bottom - CGFloat(numberOfColumns - 1) * sectionModel.metrics.interitemSpacing) / CGFloat(numberOfColumns)
+                let allSpace = metrics.sectionInset.top + metrics.sectionInset.bottom + CGFloat(numberOfColumns - 1) * metrics.interitemSpacing
+                let columnHeight = (collectionViewSize.height - allSpace) / CGFloat(numberOfColumns)
                 
                 frame.size.height = columnHeight
                 
-                frame.origin.y = sectionInset.top + (sectionModel.metrics.interitemSpacing + columnHeight) * CGFloat(minGoup.index)
+                frame.origin.y = metrics.sectionInset.top + (metrics.interitemSpacing + columnHeight) * CGFloat(minGoup.index)
                 
                 if !minGoup.length.isLessThanOrEqualTo(.zero) {
-                    frame.origin.x = minGoup.length + sectionModel.metrics.lineSpacing
-                    sectionModel.waterFlowBodyColumnLengths[minGoup.index] = minGoup.length + sectionModel.metrics.lineSpacing + frame.size.width
+                    frame.origin.x = minGoup.length + metrics.lineSpacing
+                    waterFlowBodyColumnLengths[minGoup.index] = minGoup.length + metrics.lineSpacing + frame.size.width
                 } else {
                     frame.origin.x = .zero
-                    sectionModel.waterFlowBodyColumnLengths[minGoup.index] = frame.size.width
+                    waterFlowBodyColumnLengths[minGoup.index] = frame.size.width
                 }
                 
                 // reset sizeMode.height
-                itemModel.sizeMode = SwiftyCollectionViewLayoutSizeMode(width: itemModel.sizeMode.width, height: .static(length: columnHeight))
+                itemModel.correctSizeMode = InternalSizeMode(width: itemModel.correctSizeMode.width, height: .absolute(length: columnHeight))
                 
             default:
                 break
         }
+        sectionModel.waterFlowBodyColumnLengths = waterFlowBodyColumnLengths
+        
         itemModel.frame = frame
     }
 }
@@ -139,8 +144,6 @@ extension ModeState {
     private func rowLayout(sectionModel: SectionModel,
                            direction: SwiftyCollectionViewRowDirection,
                            alignment: SwiftyCollectionViewRowAlignment) {
-        guard let layout = layout else { return }
-        let scrollDirection = layout.scrollDirection
         switch scrollDirection {
             case .vertical:
                 rowVerticalLayout(sectionModel: sectionModel, direction: direction, alignment: alignment)
@@ -154,8 +157,7 @@ extension ModeState {
     private func rowVerticalLayout(sectionModel: SectionModel,
                                    direction: SwiftyCollectionViewRowDirection,
                                    alignment: SwiftyCollectionViewRowAlignment) {
-        guard let layout = layout else { return }
-        let collectionView = layout.mCollectionView
+        let metrics = sectionModel.metrics
         
         var preItemModel: ItemModel?
         var x: CGFloat = .zero
@@ -163,36 +165,36 @@ extension ModeState {
         var subItems: [ItemModel] = []
         var groupItems: [[ItemModel]] = []
         
-        let containerWidth = collectionView.bounds.width - sectionModel.metrics.sectionInset.left - sectionModel.metrics.sectionInset.right
+        let containerWidth = collectionViewSize.width - metrics.sectionInset.left - metrics.sectionInset.right
         
         switch direction {
             case .left:
                 // left
                 for itemModel in sectionModel.itemModels {
                     if preItemModel != nil {
-                        let remain = x + sectionModel.metrics.interitemSpacing + itemModel.frame.width
+                        let remain = x + metrics.interitemSpacing + itemModel.frame.width
                         
                         /// Sometimes, preferredAttributes.size is different from the actual size.
                         /// `isLessThanOrEqualTo` will return false. so, if difference between the two is less or equal to threshold,
                         /// I think it's equal
-                        let isEqual = remain.isEqual(to: collectionView.bounds.width - sectionModel.metrics.sectionInset.right, threshold: 1.0)
-                        let isLessThanOrEqualTo = remain.isLessThanOrEqualTo(collectionView.bounds.width - sectionModel.metrics.sectionInset.right)
+                        let isEqual = remain.isEqual(to: collectionViewSize.width - metrics.sectionInset.right, threshold: 1.0)
+                        let isLessThanOrEqualTo = remain.isLessThanOrEqualTo(collectionViewSize.width - metrics.sectionInset.right)
                         
                         if isEqual || isLessThanOrEqualTo {
                             // no new line
-                            itemModel.frame = CGRect(x: x + sectionModel.metrics.interitemSpacing,
+                            itemModel.frame = CGRect(x: x + metrics.interitemSpacing,
                                                      y: preItemModel!.frame.origin.y,
                                                      width: itemModel.frame.width,
                                                      height: itemModel.frame.height)
-                            x += (sectionModel.metrics.interitemSpacing + itemModel.frame.width)
+                            x += (metrics.interitemSpacing + itemModel.frame.width)
                             if y.isLess(than: itemModel.frame.maxY) {
                                 y = itemModel.frame.maxY
                             }
                             subItems.append(itemModel)
                         } else {
                             // new line
-                            y += sectionModel.metrics.lineSpacing
-                            x = sectionModel.metrics.sectionInset.left
+                            y += metrics.lineSpacing
+                            x = metrics.sectionInset.left
                             
                             if !subItems.isEmpty {
                                 groupItems.append(subItems)
@@ -210,7 +212,7 @@ extension ModeState {
                         }
                     } else {
                         // first
-                        x = sectionModel.metrics.sectionInset.left
+                        x = metrics.sectionInset.left
                         y = .zero
                         
                         let w = min(itemModel.frame.width, containerWidth)
@@ -232,18 +234,18 @@ extension ModeState {
                 // right
                 for itemModel in sectionModel.itemModels {
                     if preItemModel != nil {
-                        let remain = x - sectionModel.metrics.interitemSpacing - itemModel.frame.width
+                        let remain = x - metrics.interitemSpacing - itemModel.frame.width
                         
-                        let isEqual = remain.isEqual(to: sectionModel.metrics.sectionInset.left, threshold: 1.0)
-                        let isLess = remain.isLess(than: sectionModel.metrics.sectionInset.left)
+                        let isEqual = remain.isEqual(to: metrics.sectionInset.left, threshold: 1.0)
+                        let isLess = remain.isLess(than: metrics.sectionInset.left)
                         
                         if isEqual || !isLess {
                             // no new line
-                            itemModel.frame = CGRect(x: x - sectionModel.metrics.interitemSpacing - itemModel.frame.width,
+                            itemModel.frame = CGRect(x: x - metrics.interitemSpacing - itemModel.frame.width,
                                                      y: preItemModel!.frame.origin.y,
                                                      width: itemModel.frame.width,
                                                      height: itemModel.frame.height)
-                            x -= (sectionModel.metrics.interitemSpacing + itemModel.frame.width)
+                            x -= (metrics.interitemSpacing + itemModel.frame.width)
                             if y.isLess(than: itemModel.frame.maxY) {
                                 y = itemModel.frame.maxY
                             }
@@ -257,8 +259,8 @@ extension ModeState {
                             
                             let w = min(itemModel.frame.width, containerWidth)
                             
-                            y += sectionModel.metrics.lineSpacing
-                            x = collectionView.bounds.width - sectionModel.metrics.sectionInset.right - w
+                            y += metrics.lineSpacing
+                            x = collectionViewSize.width - metrics.sectionInset.right - w
                             
                             itemModel.frame = CGRect(x: x,
                                                      y: y,
@@ -271,7 +273,7 @@ extension ModeState {
                         // first
                         let w = min(itemModel.frame.width, containerWidth)
                         
-                        x = collectionView.bounds.width - sectionModel.metrics.sectionInset.right - w
+                        x = collectionViewSize.width - metrics.sectionInset.right - w
                         y = .zero
                         
                         itemModel.frame = CGRect(x: x,
@@ -288,14 +290,13 @@ extension ModeState {
                 }
                 subItems.removeAll()
         }
-        rowAlignment(alignment: alignment, groupItems: groupItems, scrollDirection: layout.scrollDirection)
+        rowAlignment(alignment: alignment, groupItems: groupItems)
     }
     
     private func rowHorizontalLayout(sectionModel: SectionModel,
                                      direction: SwiftyCollectionViewRowDirection,
                                      alignment: SwiftyCollectionViewRowAlignment) {
-        guard let layout = layout else { return }
-        let collectionView = layout.mCollectionView
+        let metrics = sectionModel.metrics
         
         var preItemModel: ItemModel?
         var x: CGFloat = .zero
@@ -303,32 +304,32 @@ extension ModeState {
         var subItems: [ItemModel] = []
         var groupItems: [[ItemModel]] = []
         
-        let containerHeight: CGFloat = collectionView.bounds.height - sectionModel.metrics.sectionInset.top - sectionModel.metrics.sectionInset.bottom
+        let containerHeight = collectionViewSize.height - metrics.sectionInset.top - metrics.sectionInset.bottom
         
         switch direction {
             case .left:
                 for itemModel in sectionModel.itemModels {
                     if preItemModel != nil {
-                        let remain = y + sectionModel.metrics.interitemSpacing + itemModel.frame.height
+                        let remain = y + metrics.interitemSpacing + itemModel.frame.height
                         
-                        let isEqual = remain.isEqual(to: collectionView.bounds.height - sectionModel.metrics.sectionInset.bottom, threshold: 1.0)
-                        let isLessThanOrEqualTo = remain.isLessThanOrEqualTo(collectionView.bounds.height - sectionModel.metrics.sectionInset.bottom)
+                        let isEqual = remain.isEqual(to: collectionViewSize.height - metrics.sectionInset.bottom, threshold: 1.0)
+                        let isLessThanOrEqualTo = remain.isLessThanOrEqualTo(collectionViewSize.height - metrics.sectionInset.bottom)
                         
                         if isEqual || isLessThanOrEqualTo {
                             // no new line
                             itemModel.frame = CGRect(x: preItemModel!.frame.origin.x,
-                                                     y: y + sectionModel.metrics.interitemSpacing,
+                                                     y: y + metrics.interitemSpacing,
                                                      width: itemModel.frame.width,
                                                      height: itemModel.frame.height)
-                            y += (sectionModel.metrics.interitemSpacing + itemModel.frame.height)
+                            y += (metrics.interitemSpacing + itemModel.frame.height)
                             if x.isLess(than: itemModel.frame.maxX) {
                                 x = itemModel.frame.maxX
                             }
                             subItems.append(itemModel)
                         } else {
                             // new line
-                            y = sectionModel.metrics.sectionInset.top
-                            x += sectionModel.metrics.lineSpacing
+                            y = metrics.sectionInset.top
+                            x += metrics.lineSpacing
                             
                             if !subItems.isEmpty {
                                 groupItems.append(subItems)
@@ -347,7 +348,7 @@ extension ModeState {
                     } else {
                         // first
                         x = .zero
-                        y = sectionModel.metrics.sectionInset.top
+                        y = metrics.sectionInset.top
                         
                         let h = min(itemModel.frame.height, containerHeight)
                         itemModel.frame = CGRect(x: x,
@@ -367,18 +368,18 @@ extension ModeState {
             case .right:
                 for itemModel in sectionModel.itemModels {
                     if preItemModel != nil {
-                        let remain = y - sectionModel.metrics.interitemSpacing - itemModel.frame.height
+                        let remain = y - metrics.interitemSpacing - itemModel.frame.height
                         
-                        let isEqual = remain.isEqual(to: sectionModel.metrics.sectionInset.top, threshold: 1.0)
-                        let isLess = remain.isLess(than: sectionModel.metrics.sectionInset.top)
+                        let isEqual = remain.isEqual(to: metrics.sectionInset.top, threshold: 1.0)
+                        let isLess = remain.isLess(than: metrics.sectionInset.top)
                         
                         if isEqual || !isLess {
                             // no new line
                             itemModel.frame = CGRect(x: preItemModel!.frame.origin.x,
-                                                     y: y - sectionModel.metrics.interitemSpacing - itemModel.frame.height,
+                                                     y: y - metrics.interitemSpacing - itemModel.frame.height,
                                                      width: itemModel.frame.width,
                                                      height: itemModel.frame.height)
-                            y -= (sectionModel.metrics.interitemSpacing + itemModel.frame.height)
+                            y -= (metrics.interitemSpacing + itemModel.frame.height)
                             if x.isLess(than: itemModel.frame.maxX) {
                                 x = itemModel.frame.maxX
                             }
@@ -392,8 +393,8 @@ extension ModeState {
                             
                             let h = min(itemModel.frame.height, containerHeight)
                             
-                            y = collectionView.bounds.height - sectionModel.metrics.sectionInset.bottom - h
-                            x += sectionModel.metrics.lineSpacing
+                            y = collectionViewSize.height - metrics.sectionInset.bottom - h
+                            x += metrics.lineSpacing
                             
                             itemModel.frame = CGRect(x: x,
                                                      y: y,
@@ -407,7 +408,7 @@ extension ModeState {
                         let h = min(itemModel.frame.height, containerHeight)
                         
                         x = .zero
-                        y = collectionView.bounds.height - sectionModel.metrics.sectionInset.bottom - h
+                        y = collectionViewSize.height - metrics.sectionInset.bottom - h
                         
                         itemModel.frame = CGRect(x: x,
                                                  y: y,
@@ -423,10 +424,10 @@ extension ModeState {
                 }
                 subItems.removeAll()
         }
-        rowAlignment(alignment: alignment, groupItems: groupItems, scrollDirection: layout.scrollDirection)
+        rowAlignment(alignment: alignment, groupItems: groupItems)
     }
     
-    private func rowAlignment(alignment: SwiftyCollectionViewRowAlignment, groupItems: [[ItemModel]], scrollDirection: UICollectionView.ScrollDirection) {
+    private func rowAlignment(alignment: SwiftyCollectionViewRowAlignment, groupItems: [[ItemModel]]) {
         //
         if groupItems.isEmpty { return }
         //

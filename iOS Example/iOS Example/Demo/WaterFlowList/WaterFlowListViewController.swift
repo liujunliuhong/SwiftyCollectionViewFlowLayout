@@ -201,7 +201,7 @@ extension WaterFlowListViewController: UICollectionViewDataSource {
 extension WaterFlowListViewController: SwiftyCollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewLayoutSizeMode {
         let model = dataSource[indexPath.section][indexPath.item]
-        return .init(width: .static(length: model.width), height: .static(length: model.height))
+        return .init(width: .absolute(model.width), height: .absolute(model.height))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, lineSpacingForSectionAt section: Int) -> CGFloat {
@@ -217,11 +217,11 @@ extension WaterFlowListViewController: SwiftyCollectionViewDelegateFlowLayout {
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
+        return .visible(sizeMode: .init(width: .absolute(80), height: .absolute(80)))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        return .visible(sizeMode: .init(width: .static(length: 80), height: .static(length: 80)))
+        return .visible(sizeMode: .init(width: .absolute(80), height: .absolute(80)))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, sectionInsetContainHeader section: Int) -> Bool {

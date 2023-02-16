@@ -151,7 +151,7 @@ extension TagListViewController: SwiftyCollectionViewDelegateFlowLayout {
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, itemSizeModeAt indexPath: IndexPath) -> SwiftyCollectionViewLayoutSizeMode {
-        return .init(width: .dynamic(increment: 15), height: .static(length: 35))
+        return .init(width: .dynamic(increment: 15), height: .absolute(35))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, contentSizeDidChange size: CGSize) {

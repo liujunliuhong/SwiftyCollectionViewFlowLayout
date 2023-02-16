@@ -37,6 +37,9 @@
 		D16363D1299A1CD900AAD627 /* UITraitCollection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363D0299A1CD900AAD627 /* UITraitCollection+Extension.swift */; };
 		D18A32272996380000E41699 /* CollectionViewUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18A32262996380000E41699 /* CollectionViewUpdate.swift */; };
 		D1941668299B431400236180 /* ModeState+Pinned.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1941667299B431400236180 /* ModeState+Pinned.swift */; };
+		D1FDF2F9299DD7DB00E05C7E /* InternalLengthMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FDF2F8299DD7DB00E05C7E /* InternalLengthMode.swift */; };
+		D1FDF2FB299DD85000E05C7E /* InternalSizeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FDF2FA299DD85000E05C7E /* InternalSizeMode.swift */; };
+		D1FDF2FD299DD9DD00E05C7E /* ModeState+SizeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FDF2FC299DD9DD00E05C7E /* ModeState+SizeMode.swift */; };
 		D1FF4B66299491AB005518D6 /* SwiftyCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FF4B65299491AB005518D6 /* SwiftyCollectionReusableView.swift */; };
 		D1FF4B682994A329005518D6 /* SwiftyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FF4B672994A329005518D6 /* SwiftyCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -73,6 +76,9 @@
 		D16363D0299A1CD900AAD627 /* UITraitCollection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITraitCollection+Extension.swift"; sourceTree = "<group>"; };
 		D18A32262996380000E41699 /* CollectionViewUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewUpdate.swift; sourceTree = "<group>"; };
 		D1941667299B431400236180 /* ModeState+Pinned.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModeState+Pinned.swift"; sourceTree = "<group>"; };
+		D1FDF2F8299DD7DB00E05C7E /* InternalLengthMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalLengthMode.swift; sourceTree = "<group>"; };
+		D1FDF2FA299DD85000E05C7E /* InternalSizeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalSizeMode.swift; sourceTree = "<group>"; };
+		D1FDF2FC299DD9DD00E05C7E /* ModeState+SizeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModeState+SizeMode.swift"; sourceTree = "<group>"; };
 		D1FF4B65299491AB005518D6 /* SwiftyCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionReusableView.swift; sourceTree = "<group>"; };
 		D1FF4B672994A329005518D6 /* SwiftyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -129,6 +135,8 @@
 				D14D3009299397CA00E31E7E /* SwiftyCollectionViewLayoutAttributes.swift */,
 				D1FF4B65299491AB005518D6 /* SwiftyCollectionReusableView.swift */,
 				D1FF4B672994A329005518D6 /* SwiftyCollectionViewCell.swift */,
+				D1FDF2FA299DD85000E05C7E /* InternalSizeMode.swift */,
+				D1FDF2F8299DD7DB00E05C7E /* InternalLengthMode.swift */,
 				8567BE992997E8F7003C2640 /* UIView+Size.swift */,
 				D14316462992332600669451 /* Default.swift */,
 				D14D3005299372D700E31E7E /* ModeState.swift */,
@@ -137,6 +145,7 @@
 				D14D300B29939C5000E31E7E /* ModeState+Footer.swift */,
 				858822CE299A7A2B00BBD9ED /* ModeState+Background.swift */,
 				D1941667299B431400236180 /* ModeState+Pinned.swift */,
+				D1FDF2FC299DD9DD00E05C7E /* ModeState+SizeMode.swift */,
 				D14D300329936DA800E31E7E /* SectionModel.swift */,
 				8518B261299738660046B3F6 /* SectionMetrics.swift */,
 				D14D2FFD29936B9B00E31E7E /* ItemModel.swift */,
@@ -240,6 +249,7 @@
 				858822CF299A7A2B00BBD9ED /* ModeState+Background.swift in Sources */,
 				D14D2FFE29936B9B00E31E7E /* ItemModel.swift in Sources */,
 				D1FF4B66299491AB005518D6 /* SwiftyCollectionReusableView.swift in Sources */,
+				D1FDF2FD299DD9DD00E05C7E /* ModeState+SizeMode.swift in Sources */,
 				D1941668299B431400236180 /* ModeState+Pinned.swift in Sources */,
 				D1FF4B682994A329005518D6 /* SwiftyCollectionViewCell.swift in Sources */,
 				D14D300C29939C5000E31E7E /* ModeState+Footer.swift in Sources */,
@@ -259,6 +269,8 @@
 				D16363BF2999E6E800AAD627 /* SwiftyCollectionViewLayoutSupplementaryDirection.swift in Sources */,
 				8565A85F298BF5C400FFE2FD /* SwiftyCollectionViewDelegateFlowLayout.swift in Sources */,
 				D14D3008299396EB00E31E7E /* ModeState+Header.swift in Sources */,
+				D1FDF2FB299DD85000E05C7E /* InternalSizeMode.swift in Sources */,
+				D1FDF2F9299DD7DB00E05C7E /* InternalLengthMode.swift in Sources */,
 				D14D300429936DA800E31E7E /* SectionModel.swift in Sources */,
 				8565A85E298BF5C400FFE2FD /* SwiftyCollectionViewFlowLayout.swift in Sources */,
 			);

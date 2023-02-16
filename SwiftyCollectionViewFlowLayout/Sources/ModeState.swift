@@ -10,16 +10,28 @@ import UIKit
 
 /// Manages the state of section and element models.
 internal final class ModeState {
-    
-    internal var cachedHeaderLayoutAttributes: [Int: SwiftyCollectionViewLayoutAttributes] = [:]
-    internal var cachedFooterLayoutAttributes: [Int: SwiftyCollectionViewLayoutAttributes] = [:]
-    internal var cachedBackgroundLayoutAttributes: [Int: SwiftyCollectionViewLayoutAttributes] = [:]
-    internal var cachedItemLayoutAttributes: [Int: [Int: SwiftyCollectionViewLayoutAttributes]] = [:]
+    deinit {
+#if DEBUG
+        print("\(self) deinit")
+#endif
+    }
+    private var cachedHeaderLayoutAttributes: [Int: SwiftyCollectionViewLayoutAttributes] = [:]
+    private var cachedFooterLayoutAttributes: [Int: SwiftyCollectionViewLayoutAttributes] = [:]
+    private var cachedBackgroundLayoutAttributes: [Int: SwiftyCollectionViewLayoutAttributes] = [:]
+    private var cachedItemLayoutAttributes: [Int: [Int: SwiftyCollectionViewLayoutAttributes]] = [:]
     
     private var currentSectionModels: [SectionModel] = []
     private var sectionModelsBeforeBatchUpdates = [SectionModel]()
     
     internal weak var layout: SwiftyCollectionViewFlowLayout?
+    
+    internal var scrollDirection: UICollectionView.ScrollDirection {
+        return layout?.scrollDirection ?? Default.scrollDirection
+    }
+    
+    internal var collectionViewSize: CGSize {
+        return layout?.mCollectionView.bounds.size ?? Default.size
+    }
     
     internal init(layout: SwiftyCollectionViewFlowLayout) {
         self.layout = layout
@@ -63,8 +75,6 @@ extension ModeState {
     }
     
     internal func previousSectionTotalLength(currentSection: Int) -> CGFloat {
-        guard let layout = layout else { return .zero }
-        let scrollDirection = layout.scrollDirection
         var totalLength: CGFloat = .zero
         for (i, sectionModel) in currentSectionModels.enumerated() {
             if i < currentSection {
@@ -163,10 +173,10 @@ extension ModeState {
         sectionModel.backgroundModel = nil
     }
     
-    internal func updateItemSizeMode(sizeMode: SwiftyCollectionViewLayoutSizeMode, at indexPath: IndexPath) {
+    internal func updateItemSizeMode(correctSizeMode: InternalSizeMode, at indexPath: IndexPath) {
         let sectionModel = sectionModel(at: indexPath.section)
         guard let itemModel = itemModel(sectionModel?.itemModels, index: indexPath.item) else { return }
-        itemModel.sizeMode = sizeMode
+        itemModel.correctSizeMode = correctSizeMode
     }
     
     internal func updateMetrics(_ metrics: SectionMetrics, at section: Int) {
@@ -182,15 +192,49 @@ extension ModeState {
         }
         return hasPinnedHeaderOrFooter
     }
+    
+    internal func cacheItem(_ attr: SwiftyCollectionViewLayoutAttributes, at indexPath: IndexPath) {
+        if var dic = cachedItemLayoutAttributes[indexPath.section] {
+            dic[indexPath.item] = attr
+            cachedItemLayoutAttributes[indexPath.section] = dic
+        } else {
+            cachedItemLayoutAttributes[indexPath.section] = [indexPath.item: attr]
+        }
+    }
+    
+    internal func getCachedItem(at indexPath: IndexPath) -> SwiftyCollectionViewLayoutAttributes? {
+        return cachedItemLayoutAttributes[indexPath.section]?[indexPath.item]
+    }
+    
+    internal func cacheHeader(_ attr: SwiftyCollectionViewLayoutAttributes, at section: Int) {
+        cachedHeaderLayoutAttributes[section] = attr
+    }
+    
+    internal func getCachedHeader(at section: Int) -> SwiftyCollectionViewLayoutAttributes? {
+        return cachedHeaderLayoutAttributes[section]
+    }
+    
+    internal func cacheFooter(_ attr: SwiftyCollectionViewLayoutAttributes, at section: Int) {
+        cachedFooterLayoutAttributes[section] = attr
+    }
+    
+    internal func getCachedFooter(at section: Int) -> SwiftyCollectionViewLayoutAttributes? {
+        return cachedFooterLayoutAttributes[section]
+    }
+    
+    internal func cacheBackground(_ attr: SwiftyCollectionViewLayoutAttributes, at section: Int) {
+        cachedBackgroundLayoutAttributes[section] = attr
+    }
+    
+    internal func getCachedBackground(at section: Int) -> SwiftyCollectionViewLayoutAttributes? {
+        return cachedBackgroundLayoutAttributes[section]
+    }
 }
 
 extension ModeState {
     private func updateItemSize(preferredSize: CGSize, indexPath: IndexPath) {
-        guard let layout = layout else { return }
         guard let sectionModel = sectionModel(at: indexPath.section) else { return }
         guard let itemModel = itemModel(sectionModel.itemModels, index: indexPath.item) else { return }
-        
-        let scrollDirection = layout.scrollDirection
         
         switch sectionModel.metrics.sectionType {
             case .waterFlow:
@@ -280,26 +324,26 @@ extension ModeState {
 extension ModeState {
     internal func shouldInvalidateLayout(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes,
                                          withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> Bool {
-        let isSameWidth = preferredAttributes.size.width.isEqual(to: originalAttributes.size.width)
-        let isSameHeight = preferredAttributes.size.height.isEqual(to: originalAttributes.size.height)
+        let isSameWidth = preferredAttributes.size.width.isEqual(to: originalAttributes.size.width, threshold: 1.0)
+        let isSameHeight = preferredAttributes.size.height.isEqual(to: originalAttributes.size.height, threshold: 1.0)
         
         switch preferredAttributes.representedElementCategory {
             case .cell:
                 let sectionModel = sectionModel(at: preferredAttributes.indexPath.section)
                 guard let itemModel = itemModel(sectionModel?.itemModels, index: preferredAttributes.indexPath.item) else { return false }
-                switch itemModel.sizeMode.width {
-                    case .dynamic, .full, .fractionalFull:
-                        switch itemModel.sizeMode.height {
-                            case .dynamic, .full, .fractionalFull:
+                switch itemModel.correctSizeMode.width {
+                    case .dynamic, .ratio:
+                        switch itemModel.correctSizeMode.height {
+                            case .dynamic, .ratio:
                                 return !isSameWidth || !isSameHeight
-                            case .static:
+                            case .absolute:
                                 return !isSameWidth
                         }
-                    case .static:
-                        switch itemModel.sizeMode.height {
-                            case .dynamic, .full, .fractionalFull:
+                    case .absolute:
+                        switch itemModel.correctSizeMode.height {
+                            case .dynamic, .ratio:
                                 return !isSameHeight
-                            case .static:
+                            case .absolute:
                                 return false
                         }
                 }
@@ -309,19 +353,19 @@ extension ModeState {
                         guard let headerModel = sectionModel(at: preferredAttributes.indexPath.section)?.headerModel else {
                             return false
                         }
-                        switch headerModel.sizeMode.width {
-                            case .dynamic, .full, .fractionalFull:
-                                switch headerModel.sizeMode.height {
-                                    case .dynamic, .full, .fractionalFull:
+                        switch headerModel.correctSizeMode.width {
+                            case .dynamic,.ratio:
+                                switch headerModel.correctSizeMode.height {
+                                    case .dynamic, .ratio:
                                         return !isSameWidth || !isSameHeight
-                                    case .static:
+                                    case .absolute:
                                         return !isSameWidth
                                 }
-                            case .static:
-                                switch headerModel.sizeMode.height {
-                                    case .dynamic, .full, .fractionalFull:
+                            case .absolute:
+                                switch headerModel.correctSizeMode.height {
+                                    case .dynamic, .ratio:
                                         return !isSameHeight
-                                    case .static:
+                                    case .absolute:
                                         return false
                                 }
                                 
@@ -330,19 +374,19 @@ extension ModeState {
                         guard let footerModel = sectionModel(at: preferredAttributes.indexPath.section)?.footerModel else {
                             return false
                         }
-                        switch footerModel.sizeMode.width {
-                            case .dynamic, .full, .fractionalFull:
-                                switch footerModel.sizeMode.height {
-                                    case .dynamic, .full, .fractionalFull:
+                        switch footerModel.correctSizeMode.width {
+                            case .dynamic, .ratio:
+                                switch footerModel.correctSizeMode.height {
+                                    case .dynamic, .ratio:
                                         return !isSameWidth || !isSameHeight
-                                    case .static:
+                                    case .absolute:
                                         return !isSameWidth
                                 }
-                            case .static:
-                                switch footerModel.sizeMode.height {
-                                    case .dynamic, .full, .fractionalFull:
+                            case .absolute:
+                                switch footerModel.correctSizeMode.height {
+                                    case .dynamic, .ratio:
                                         return !isSameHeight
-                                    case .static:
+                                    case .absolute:
                                         return false
                                 }
                         }
@@ -359,13 +403,16 @@ extension ModeState {
         // Sometimes, preferredAttributes.size is different from the actual size.
         switch preferredAttributes.representedElementCategory {
             case .cell:
-                updateItemSize(preferredSize: preferredAttributes.size, indexPath: preferredAttributes.indexPath)
+                updateItemSize(preferredSize: preferredAttributes.size,
+                               indexPath: preferredAttributes.indexPath)
             case .supplementaryView:
                 switch preferredAttributes.representedElementKind {
                     case UICollectionView.elementKindSectionHeader:
-                        updateHeaderSize(preferredSize: preferredAttributes.size, section: preferredAttributes.indexPath.section)
+                        updateHeaderSize(preferredSize: preferredAttributes.size,
+                                         section: preferredAttributes.indexPath.section)
                     case UICollectionView.elementKindSectionFooter:
-                        updateFooterSize(preferredSize: preferredAttributes.size, section: preferredAttributes.indexPath.section)
+                        updateFooterSize(preferredSize: preferredAttributes.size,
+                                         section: preferredAttributes.indexPath.section)
                     default:
                         break
                 }
@@ -375,13 +422,10 @@ extension ModeState {
     }
     
     internal func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        guard let layout = layout else { return false }
         var shouldInvalidateLayout: Bool = false
         
-        let scrollDirection = layout.scrollDirection
-        
-        let isSameWidth = layout.mCollectionView.bounds.width.isEqual(to: newBounds.size.width)
-        let isSameHeight = layout.mCollectionView.bounds.height.isEqual(to: newBounds.size.height)
+        let isSameWidth = collectionViewSize.width.isEqual(to: newBounds.size.width, threshold: 1)
+        let isSameHeight = collectionViewSize.height.isEqual(to: newBounds.size.height, threshold: 1)
         
         switch scrollDirection {
             case .vertical:
@@ -410,8 +454,8 @@ extension ModeState {
                     let attr = headerLayoutAttributes(at: section,
                                                       frame: headerModel.pinnedFrame,
                                                       sectionModel: sectionModel,
-                                                      sizeMode: headerModel.sizeMode)
-                    cachedHeaderLayoutAttributes[section] = attr
+                                                      correctSizeMode: headerModel.correctSizeMode)
+                    cacheHeader(attr, at: section)
                     attrs.append(attr)
                 }
             }
@@ -421,14 +465,8 @@ extension ModeState {
                     let attr = itemLayoutAttributes(at: indexPath,
                                                     frame: itemModel.frame,
                                                     sectionModel: sectionModel,
-                                                    sizeMode: itemModel.sizeMode)
-                    
-                    if var dic = cachedItemLayoutAttributes[indexPath.section] {
-                        dic[indexPath.item] = attr
-                        cachedItemLayoutAttributes[indexPath.section] = dic
-                    } else {
-                        cachedItemLayoutAttributes[indexPath.section] = [indexPath.section: attr]
-                    }
+                                                    correctSizeMode: itemModel.correctSizeMode)
+                    cacheItem(attr, at: indexPath)
                     attrs.append(attr)
                 }
             }
@@ -437,15 +475,15 @@ extension ModeState {
                     let attr = footerLayoutAttributes(at: section,
                                                       frame: footerModel.pinnedFrame,
                                                       sectionModel: sectionModel,
-                                                      sizeMode: footerModel.sizeMode)
-                    cachedFooterLayoutAttributes[section] = attr
+                                                      correctSizeMode: footerModel.correctSizeMode)
+                    cacheFooter(attr, at: section)
                     attrs.append(attr)
                 }
             }
             if let backgroundModel = sectionModel.backgroundModel {
                 if rect.contains(backgroundModel.frame) || rect.intersects(backgroundModel.frame) {
                     let attr = backgroundLayoutAttributes(at: section, frame: backgroundModel.frame, sectionModel: sectionModel)
-                    cachedBackgroundLayoutAttributes[section] = attr
+                    cacheBackground(attr, at: section)
                     attrs.append(attr)
                 }
             }
@@ -454,9 +492,6 @@ extension ModeState {
     }
     
     internal func collectionViewContentSize() -> CGSize {
-        guard let layout = layout else { return .zero }
-        let scrollDirection = layout.scrollDirection
-        //
         var totalLength: CGFloat = .zero
         for sectionModel in currentSectionModels {
             totalLength += sectionModel.totalLength(scrollDirection: scrollDirection)
@@ -465,9 +500,9 @@ extension ModeState {
         var size: CGSize = .zero
         switch scrollDirection {
             case .vertical:
-                size = CGSize(width: layout.mCollectionView.bounds.width, height: totalLength)
+                size = CGSize(width: collectionViewSize.width, height: totalLength)
             case .horizontal:
-                size = CGSize(width: totalLength, height: layout.mCollectionView.bounds.height)
+                size = CGSize(width: totalLength, height: collectionViewSize.height)
             @unknown default:
                 break
         }

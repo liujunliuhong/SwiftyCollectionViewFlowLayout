@@ -12,7 +12,7 @@ import Foundation
 public enum SwiftyCollectionViewLayoutLengthMode: Equatable {
     
     /// Represents width/height equal to `length`.
-    case `static`(length: CGFloat)
+    case absolute(_ length: CGFloat)
     
     /// Represents get its width/height from the Auto Layout engine.
     case dynamic(increment: CGFloat = .zero)
@@ -31,4 +31,9 @@ public enum SwiftyCollectionViewLayoutLengthMode: Equatable {
     /// - Warning: `divisor` must be greater than `0`. Specifying `0` as the `divisor` is a programmer
     /// error and **will result in a runtime crash**.
     case fractionalFull(divisor: UInt)
+    
+    /// Width ratio or height ratio.
+    ///
+    /// - Warning: **width and height cannot be ratio at the same time.**
+    case ratio(_ ratio: CGFloat)
 }

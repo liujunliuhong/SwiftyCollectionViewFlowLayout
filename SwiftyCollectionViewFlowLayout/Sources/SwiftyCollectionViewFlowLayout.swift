@@ -19,7 +19,7 @@ private struct PrepareActions: OptionSet {
 public final class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
     deinit {
 #if DEBUG
-        print("\(self.classForCoder) deinit")
+        print("\(NSStringFromClass(self.classForCoder)) deinit")
 #endif
     }
     
@@ -33,7 +33,7 @@ public final class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
     
     internal var mCollectionView: UICollectionView {
         guard let mCollectionView = collectionView else {
-            preconditionFailure("`collectionView` should not be `nil`")
+            fatalError("`collectionView` should not be `nil`")
         }
         return mCollectionView
     }
@@ -89,13 +89,13 @@ extension SwiftyCollectionViewFlowLayout {
                 let metrics = metricsForSection(at: section)
                 modeState.updateMetrics(metrics, at: section)
                 
-                if let headerModel = headerModelForHeader(at: section) {
+                if let headerModel = headerModelForHeader(at: section, metrics: metrics) {
                     modeState.setHeader(headerModel: headerModel, at: section)
                 } else {
                     modeState.removeFooter(at: section)
                 }
                 
-                if let footerModel = footerModelForFooter(at: section) {
+                if let footerModel = footerModelForFooter(at: section, metrics: metrics) {
                     modeState.setFooter(footerModel: footerModel, at: section)
                 } else {
                     modeState.removeFooter(at: section)
@@ -109,7 +109,11 @@ extension SwiftyCollectionViewFlowLayout {
                 
                 for i in 0..<modeState.numberOfItems(at: section) {
                     let indexPath = IndexPath(item: i, section: section)
-                    modeState.updateItemSizeMode(sizeMode: sizeModeForItem(at: indexPath), at: indexPath)
+                    let initialSizeMode = sizeModeForItem(at: indexPath)
+                    let correctSizeMode = modeState.correctSizeMode(initialSizeMode,
+                                                                    supplementaryElementKind: nil,
+                                                                    metrics: metrics)
+                    modeState.updateItemSizeMode(correctSizeMode: correctSizeMode, at: indexPath)
                 }
             }
         }
@@ -138,11 +142,11 @@ extension SwiftyCollectionViewFlowLayout {
             
             if updateAction == .reload {
                 guard let indexPath = indexPathBeforeUpdate else { continue }
+                let sectionModel = sectionModelForSection(at: indexPath.section)
                 if indexPath.item == NSNotFound {
-                    let sectionModel = sectionModelForSection(at: indexPath.section)
                     updates.append(.sectionReload(sectionIndex: indexPath.section, newSection: sectionModel))
                 } else {
-                    let itemModel = itemModelForItem(at: indexPath)
+                    let itemModel = itemModelForItem(at: indexPath, metrics: sectionModel.metrics)
                     updates.append(.itemReload(itemIndexPath: indexPath, newItem: itemModel))
                 }
             }
@@ -158,11 +162,11 @@ extension SwiftyCollectionViewFlowLayout {
             
             if updateAction == .insert {
                 guard let indexPath = indexPathAfterUpdate else { continue }
+                let sectionModel = sectionModelForSection(at: indexPath.section)
                 if indexPath.item == NSNotFound {
-                    let sectionModel = sectionModelForSection(at: indexPath.section)
                     updates.append(.sectionInsert(sectionIndex: indexPath.section, newSection: sectionModel))
                 } else {
-                    let itemModel = itemModelForItem(at: indexPath)
+                    let itemModel = itemModelForItem(at: indexPath, metrics: sectionModel.metrics)
                     updates.append(.itemInsert(itemIndexPath: indexPath, newItem: itemModel))
                 }
             }
@@ -191,7 +195,7 @@ extension SwiftyCollectionViewFlowLayout {
         guard let itemModel = modeState.itemModel(sectionModel.itemModels, index: indexPath.item) else {
             return super.layoutAttributesForItem(at: indexPath)
         }
-        let attr = modeState.itemLayoutAttributes(at: indexPath, frame: itemModel.frame, sectionModel: sectionModel, sizeMode: itemModel.sizeMode)
+        let attr = modeState.itemLayoutAttributes(at: indexPath, frame: itemModel.frame, sectionModel: sectionModel, correctSizeMode: itemModel.correctSizeMode)
         return attr
     }
     
@@ -200,12 +204,12 @@ extension SwiftyCollectionViewFlowLayout {
             if elementKind == UICollectionView.elementKindSectionHeader {
                 if let headerModel = sectionModel.headerModel {
                     hasPinnedHeaderOrFooter = modeState.hasPinnedHeaderOrFooter()
-                    return modeState.headerLayoutAttributes(at: indexPath.section, frame: headerModel.frame, sectionModel: sectionModel, sizeMode: headerModel.sizeMode)
+                    return modeState.headerLayoutAttributes(at: indexPath.section, frame: headerModel.frame, sectionModel: sectionModel, correctSizeMode: headerModel.correctSizeMode)
                 }
             } else if elementKind == UICollectionView.elementKindSectionFooter {
                 if let footerModel = sectionModel.footerModel {
                     hasPinnedHeaderOrFooter = modeState.hasPinnedHeaderOrFooter()
-                    return modeState.footerLayoutAttributes(at: indexPath.section, frame: footerModel.frame, sectionModel: sectionModel, sizeMode: footerModel.sizeMode)
+                    return modeState.footerLayoutAttributes(at: indexPath.section, frame: footerModel.frame, sectionModel: sectionModel, correctSizeMode: footerModel.correctSizeMode)
                 }
             } else if elementKind == SwiftyCollectionViewFlowLayout.SectionBackgroundElementKind {
                 if let backgroundModel = sectionModel.backgroundModel {
@@ -287,42 +291,57 @@ extension SwiftyCollectionViewFlowLayout {
 
 extension SwiftyCollectionViewFlowLayout {
     private func sectionModelForSection(at section: Int) -> SectionModel {
+        let metrics = metricsForSection(at: section)
+        
         var itemModels: [ItemModel] = []
         let numberOfItems = mCollectionView.numberOfItems(inSection: section)
         for index in 0..<numberOfItems {
-            let itemModel = itemModelForItem(at: IndexPath(item: index, section: section))
+            let itemModel = itemModelForItem(at: IndexPath(item: index, section: section), metrics: metrics)
             itemModels.append(itemModel)
         }
         
-        return SectionModel(headerModel: headerModelForHeader(at: section),
-                            footerModel: footerModelForFooter(at: section),
+        let headerModel = headerModelForHeader(at: section, metrics: metrics)
+        let footerModel = footerModelForFooter(at: section, metrics: metrics)
+        let backgroundModel = backgroundModel(at: section)
+        
+        return SectionModel(headerModel: headerModel,
+                            footerModel: footerModel,
                             itemModels: itemModels,
-                            backgroundModel: backgroundModel(at: section),
-                            metrics: metricsForSection(at: section))
+                            backgroundModel: backgroundModel,
+                            metrics: metrics)
     }
     
-    private func itemModelForItem(at indexPath: IndexPath) -> ItemModel {
+    private func itemModelForItem(at indexPath: IndexPath, metrics: SectionMetrics) -> ItemModel {
         let itemSizeMode = sizeModeForItem(at: indexPath)
-        return ItemModel(sizeMode: itemSizeMode)
+        let correctSizeMode = modeState.correctSizeMode(itemSizeMode,
+                                                        supplementaryElementKind: nil,
+                                                        metrics: metrics)
+        return ItemModel(correctSizeMode: correctSizeMode)
     }
     
-    private func headerModelForHeader(at section: Int) -> HeaderModel? {
+    private func headerModelForHeader(at section: Int, metrics: SectionMetrics) -> HeaderModel? {
         let headerVisibilityMode = visibilityModeForHeader(at: section)
         switch headerVisibilityMode {
             case .hidden:
                 return nil
             case .visible(let sizeMode):
-                return HeaderModel(sizeMode: sizeMode)
+                let correctSizeMode = modeState.correctSizeMode(sizeMode,
+                                                                supplementaryElementKind: UICollectionView.elementKindSectionHeader,
+                                                                metrics: metrics)
+                return HeaderModel(correctSizeMode: correctSizeMode)
         }
     }
     
-    private func footerModelForFooter(at section: Int) -> FooterModel? {
+    private func footerModelForFooter(at section: Int, metrics: SectionMetrics) -> FooterModel? {
         let footerVisibilityMode = visibilityModeForFooter(at: section)
         switch footerVisibilityMode {
             case .hidden:
                 return nil
             case .visible(let sizeMode):
-                return FooterModel(sizeMode: sizeMode)
+                let correctSizeMode = modeState.correctSizeMode(sizeMode,
+                                                                supplementaryElementKind: UICollectionView.elementKindSectionFooter,
+                                                                metrics: metrics)
+                return FooterModel(correctSizeMode: correctSizeMode)
         }
     }
     

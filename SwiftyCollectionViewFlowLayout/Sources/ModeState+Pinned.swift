@@ -13,12 +13,14 @@ extension ModeState {
         guard let layout = layout else { return }
         guard let sectionModel = self.sectionModel(at: section) else { return }
         
+        let metrics = sectionModel.metrics
+        
         let offsetX = layout.mCollectionView.contentOffset.x
         let offsetY = layout.mCollectionView.contentOffset.y
         
         switch layout.scrollDirection {
             case .vertical:
-                if let header = sectionModel.headerModel, sectionModel.metrics.headerPinToVisibleBounds {
+                if let header = sectionModel.headerModel, metrics.headerPinToVisibleBounds {
                     var bottomY: CGFloat
                     if let footer = sectionModel.footerModel {
                         bottomY = footer.frame.origin.y
@@ -26,10 +28,10 @@ extension ModeState {
                         var allItemFrame = sectionModel.itemModels.first!.frame
                         allItemFrame = sectionModel.itemModels.reduce(allItemFrame, { $0.union($1.frame) })
                         var _bottomY = allItemFrame.maxY
-                        _bottomY += sectionModel.metrics.sectionInset.bottom
+                        _bottomY += metrics.sectionInset.bottom
                         bottomY = _bottomY
                     } else {
-                        bottomY = header.frame.maxY + sectionModel.metrics.sectionInset.top + sectionModel.metrics.sectionInset.bottom
+                        bottomY = header.frame.maxY + metrics.sectionInset.top + metrics.sectionInset.bottom
                     }
                     
                     let pinTopOriginY = offsetY
@@ -43,7 +45,7 @@ extension ModeState {
                     }
                     header.pinnedFrame = headerFrame
                 }
-                if let footer = sectionModel.footerModel, sectionModel.metrics.footerPinToVisibleBounds {
+                if let footer = sectionModel.footerModel, metrics.footerPinToVisibleBounds {
                     var topY: CGFloat
                     if let header = sectionModel.headerModel {
                         topY = header.frame.maxY
@@ -51,7 +53,7 @@ extension ModeState {
                         var allItemFrame = sectionModel.itemModels.first!.frame
                         allItemFrame = sectionModel.itemModels.reduce(allItemFrame, { $0.union($1.frame) })
                         var _topY = allItemFrame.minY
-                        _topY -= sectionModel.metrics.sectionInset.top
+                        _topY -= metrics.sectionInset.top
                         topY = _topY
                     } else {
                         topY = previousSectionTotalLength(currentSection: section)
@@ -71,7 +73,7 @@ extension ModeState {
                     
                 }
             case .horizontal:
-                if let header = sectionModel.headerModel, sectionModel.metrics.headerPinToVisibleBounds {
+                if let header = sectionModel.headerModel, metrics.headerPinToVisibleBounds {
                     var bottomX: CGFloat
                     if let footer = sectionModel.footerModel {
                         bottomX = footer.frame.origin.x
@@ -79,10 +81,10 @@ extension ModeState {
                         var allItemFrame = sectionModel.itemModels.first!.frame
                         allItemFrame = sectionModel.itemModels.reduce(allItemFrame, { $0.union($1.frame) })
                         var _bottomX = allItemFrame.maxX
-                        _bottomX += sectionModel.metrics.sectionInset.right
+                        _bottomX += metrics.sectionInset.right
                         bottomX = _bottomX
                     } else {
-                        bottomX = header.frame.maxX + sectionModel.metrics.sectionInset.left + sectionModel.metrics.sectionInset.right
+                        bottomX = header.frame.maxX + metrics.sectionInset.left + metrics.sectionInset.right
                     }
                     
                     let pinTopOriginX = offsetX
@@ -96,7 +98,7 @@ extension ModeState {
                     }
                     header.pinnedFrame = headerFrame
                 }
-                if let footer = sectionModel.footerModel, sectionModel.metrics.footerPinToVisibleBounds {
+                if let footer = sectionModel.footerModel, metrics.footerPinToVisibleBounds {
                     var topX: CGFloat
                     if let header = sectionModel.headerModel {
                         topX = header.frame.maxX
@@ -104,7 +106,7 @@ extension ModeState {
                         var allItemFrame = sectionModel.itemModels.first!.frame
                         allItemFrame = sectionModel.itemModels.reduce(allItemFrame, { $0.union($1.frame) })
                         var _topX = allItemFrame.minX
-                        _topX -= sectionModel.metrics.sectionInset.left
+                        _topX -= metrics.sectionInset.left
                         topX = _topX
                     } else {
                         topX = previousSectionTotalLength(currentSection: section)

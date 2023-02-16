@@ -13,16 +13,21 @@ import UIKit
 /// `preferredLayoutAttributesFitting(_:)`.
 public final class SwiftyCollectionViewLayoutAttributes: UICollectionViewLayoutAttributes {
     
-    internal var sectionModel: SectionModel?
-    internal weak var layout: SwiftyCollectionViewFlowLayout?
+    public internal(set) var scrollDirection: UICollectionView.ScrollDirection = .vertical
+    public internal(set) var maxSize: CGSize = Default.size
     
-    public internal(set) var sizeMode: SwiftyCollectionViewLayoutSizeMode = Default.sizeMode
+    internal var sizeMode: InternalSizeMode = .init(width: .absolute(length: Default.size.width), height: .absolute(length: Default.size.height))
     
     public override func copy(with zone: NSZone? = nil) -> Any {
         let copy = super.copy(with: zone) as! SwiftyCollectionViewLayoutAttributes
         copy.sizeMode = sizeMode
-        copy.sectionModel = sectionModel
-        copy.layout = layout
+        copy.scrollDirection = scrollDirection
+        copy.maxSize = maxSize
         return copy
+    }
+    
+    public override func isEqual(_ object: Any?) -> Bool {
+        let other = object as? SwiftyCollectionViewLayoutAttributes
+        return super.isEqual(object) && other?.sizeMode == sizeMode && other?.scrollDirection == scrollDirection && other?.maxSize == maxSize
     }
 }

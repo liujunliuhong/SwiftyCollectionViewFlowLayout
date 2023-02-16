@@ -54,63 +54,63 @@ extension RowViewController {
         
         var array: [RowItemModel] = []
         do {
-            let itemModel = RowItemModel(width: .full, height: .static(length: 40))
+            let itemModel = RowItemModel(width: .full, height: .absolute(40))
             array.append(itemModel)
         }
         do {
-            let itemModel = RowItemModel(width: .fractionalFull(divisor: 2), height: .static(length: 50))
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 2), height: .absolute(50))
             array.append(itemModel)
         }
         do {
-            let itemModel = RowItemModel(width: .fractionalFull(divisor: 2), height: .static(length: 60))
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 2), height: .absolute(60))
             array.append(itemModel)
         }
         do {
-            let itemModel = RowItemModel(width: .fractionalFull(divisor: 3), height: .static(length: 70))
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 3), height: .absolute(70))
             array.append(itemModel)
         }
         do {
-            let itemModel = RowItemModel(width: .fractionalFull(divisor: 3), height: .static(length: 80))
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 3), height: .absolute(80))
             array.append(itemModel)
         }
         do {
-            let itemModel = RowItemModel(width: .fractionalFull(divisor: 3), height: .static(length: 90))
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 3), height: .absolute(90))
             array.append(itemModel)
         }
         do {
-            let itemModel = RowItemModel(width: .fractionalFull(divisor: 4), height: .static(length: 100))
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 4), height: .absolute(100))
             array.append(itemModel)
         }
         do {
-            let itemModel = RowItemModel(width: .fractionalFull(divisor: 4), height: .static(length: 40))
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 4), height: .absolute(40))
             array.append(itemModel)
         }
         do {
-            let itemModel = RowItemModel(width: .fractionalFull(divisor: 4), height: .static(length: 40))
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 4), height: .absolute(40))
             array.append(itemModel)
         }
         do {
-            let itemModel = RowItemModel(width: .fractionalFull(divisor: 4), height: .static(length: 40))
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 4), height: .absolute(40))
             array.append(itemModel)
         }
         do {
-            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .static(length: 40))
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .absolute(40))
             array.append(itemModel)
         }
         do {
-            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .static(length: 40))
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .absolute(40))
             array.append(itemModel)
         }
         do {
-            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .static(length: 40))
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .absolute(40))
             array.append(itemModel)
         }
         do {
-            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .static(length: 40))
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .absolute(40))
             array.append(itemModel)
         }
         do {
-            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .static(length: 40))
+            let itemModel = RowItemModel(width: .fractionalFull(divisor: 5), height: .absolute(40))
             array.append(itemModel)
         }
         do {

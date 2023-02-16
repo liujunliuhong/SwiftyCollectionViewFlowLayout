@@ -11,11 +11,10 @@ import UIKit
 
 extension ModeState {
     internal func layoutHeaderModel(at section: Int) {
-        guard let layout = layout else { return }
         guard let sectionModel = sectionModel(at: section) else { return }
         guard let headerModel = sectionModel.headerModel else { return }
         
-        let scrollDirection = layout.scrollDirection
+        let metrics = sectionModel.metrics
         
         let previousSectionTotalLength = previousSectionTotalLength(currentSection: section)
         
@@ -24,40 +23,40 @@ extension ModeState {
         switch scrollDirection {
             case .vertical:
                 frame.origin.y = previousSectionTotalLength
-                if sectionModel.metrics.sectionInsetContainHeader {
-                    frame.origin.y += sectionModel.metrics.sectionInset.top
+                if metrics.sectionInsetContainHeader {
+                    frame.origin.y += metrics.sectionInset.top
                 }
-                switch sectionModel.metrics.headerDirection {
+                switch metrics.headerDirection {
                     case .left:
                         frame.origin.x = .zero
-                        if sectionModel.metrics.sectionInsetContainHeader {
-                            frame.origin.x = sectionModel.metrics.sectionInset.left
+                        if metrics.sectionInsetContainHeader {
+                            frame.origin.x = metrics.sectionInset.left
                         }
                     case .center:
-                        frame.origin.x = (layout.mCollectionView.bounds.width - frame.width) / 2.0
+                        frame.origin.x = (collectionViewSize.width - frame.width) / 2.0
                     case .right:
-                        frame.origin.x = layout.mCollectionView.bounds.width - frame.width
-                        if sectionModel.metrics.sectionInsetContainHeader {
-                            frame.origin.x = layout.mCollectionView.bounds.width - frame.width - sectionModel.metrics.sectionInset.right
+                        frame.origin.x = collectionViewSize.width - frame.width
+                        if metrics.sectionInsetContainHeader {
+                            frame.origin.x = collectionViewSize.width - frame.width - metrics.sectionInset.right
                         }
                 }
             case .horizontal:
                 frame.origin.x = previousSectionTotalLength
-                if sectionModel.metrics.sectionInsetContainHeader {
-                    frame.origin.x += sectionModel.metrics.sectionInset.left
+                if metrics.sectionInsetContainHeader {
+                    frame.origin.x += metrics.sectionInset.left
                 }
-                switch sectionModel.metrics.headerDirection {
+                switch metrics.headerDirection {
                     case .left:
                         frame.origin.y = .zero
-                        if sectionModel.metrics.sectionInsetContainHeader {
-                            frame.origin.y = sectionModel.metrics.sectionInset.top
+                        if metrics.sectionInsetContainHeader {
+                            frame.origin.y = metrics.sectionInset.top
                         }
                     case .center:
-                        frame.origin.y = (layout.mCollectionView.bounds.height - frame.height) / 2.0
+                        frame.origin.y = (collectionViewSize.height - frame.height) / 2.0
                     case .right:
-                        frame.origin.y = layout.mCollectionView.bounds.height - frame.height
-                        if sectionModel.metrics.sectionInsetContainHeader {
-                            frame.origin.y = layout.mCollectionView.bounds.height - frame.height - sectionModel.metrics.sectionInset.bottom
+                        frame.origin.y = collectionViewSize.height - frame.height
+                        if metrics.sectionInsetContainHeader {
+                            frame.origin.y = collectionViewSize.height - frame.height - metrics.sectionInset.bottom
                         }
                 }
             default:
@@ -65,24 +64,33 @@ extension ModeState {
         }
         
         // Offset
-        frame.origin.x += sectionModel.metrics.headerOffset.horizontal
-        frame.origin.y += sectionModel.metrics.headerOffset.vertical
+        frame.origin.x += metrics.headerOffset.horizontal
+        frame.origin.y += metrics.headerOffset.vertical
         
         headerModel.frame = frame
         headerModel.pinnedFrame = frame
     }
     
-    internal func headerLayoutAttributes(at section: Int, frame: CGRect, sectionModel: SectionModel, sizeMode: SwiftyCollectionViewLayoutSizeMode) -> SwiftyCollectionViewLayoutAttributes {
+    internal func headerLayoutAttributes(at section: Int,
+                                         frame: CGRect,
+                                         sectionModel: SectionModel,
+                                         correctSizeMode: InternalSizeMode) -> SwiftyCollectionViewLayoutAttributes {
+        let metrics = sectionModel.metrics
+        
         var attr: SwiftyCollectionViewLayoutAttributes
-        if let _attr = cachedHeaderLayoutAttributes[section] {
-            attr = _attr
+        if let cachedAttr = getCachedHeader(at: section) {
+            attr = cachedAttr
         } else {
             let indexPath = IndexPath(item: 0, section: section)
             attr = SwiftyCollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, with: indexPath)
         }
-        attr.sizeMode = sizeMode
-        attr.sectionModel = sectionModel
-        attr.layout = layout
+        
+        let containerWidth = collectionViewSize.width - metrics.sectionInset.left - metrics.sectionInset.right
+        let containerHeight = collectionViewSize.height - metrics.sectionInset.top - metrics.sectionInset.bottom
+        
+        attr.sizeMode = correctSizeMode
+        attr.scrollDirection = scrollDirection
+        attr.maxSize = CGSize(width: containerWidth, height: containerHeight)
         attr.frame = frame
         attr.zIndex = 9999
         return attr
