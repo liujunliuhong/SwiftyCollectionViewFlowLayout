@@ -36,7 +36,8 @@ public final class PinnedHeaderOrFooterCell: SwiftyCollectionViewCell {
     }
     
     public override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
-        label.text = "\(layoutAttributes.indexPath.section) - \(layoutAttributes.indexPath.item)\n\(layoutAttributes.frame)"
+        //label.text = "\(layoutAttributes.indexPath.section) - \(layoutAttributes.indexPath.item)\n\(layoutAttributes.frame)"
+        label.text = "\(layoutAttributes.indexPath.section) - \(layoutAttributes.indexPath.item)"
     }
 }
 

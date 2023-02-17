@@ -30,6 +30,8 @@ public final class PinnedHeaderOrFooterFooterView: SwiftyCollectionReusableView 
             make.left.right.top.equalToSuperview()
             make.bottom.equalToSuperview()
         }
+        
+        label.text = "This is Section Footer"
     }
     
     required init?(coder: NSCoder) {
@@ -41,7 +43,7 @@ public final class PinnedHeaderOrFooterFooterView: SwiftyCollectionReusableView 
     }
     
     public override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
-        label.text = "Footer\nSection: \(layoutAttributes.indexPath.section)\n\(layoutAttributes.frame)"
+        //label.text = "Footer\nSection: \(layoutAttributes.indexPath.section)\n\(layoutAttributes.frame)"
     }
 }
 

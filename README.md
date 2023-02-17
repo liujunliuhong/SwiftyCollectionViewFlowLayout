@@ -21,6 +21,13 @@ A collection view layout capable of laying out views in vertically and horizonta
 
 ## Preview
 
+| Support | Preview |
+| -- | -- |
+| Water-Flow | <img src="Images/water_flow.gif" width="250"> |
+| Water-Flow | <img src="Images/tag_list.gif" width="250"> |
+| AutoSize | <img src="Images/auto_size.gif" width="250"> |
+| PinnedHeaderOrFooter | <img src="Images/pinned_header_footer.gif" width="250"> |
+
 ## Getting Start
 
 ### Requirements
@@ -166,6 +173,6 @@ public func collectionView(_ collectionView: UICollectionView, layout collection
 
 You must implement this method: `collectionView(_:layout:sectionType:)`.
 
+## Author
 
-
-
+liujun, universegalaxy96@gmail.com

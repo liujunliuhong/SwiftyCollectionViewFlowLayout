@@ -79,6 +79,12 @@ public final class IrregularTagListViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add,
+                                                              target: self,
+                                                              action: #selector(addAction)),
+                                              UIBarButtonItem(barButtonSystemItem: .rewind,
+                                                              target: self,
+                                                              action: #selector(moveAction))]
         
         view.addSubview(scrollDirectionButton)
         view.addSubview(directionButton)
@@ -164,36 +170,86 @@ extension IrregularTagListViewController {
     private func updateUI() {
         if scrollDirection == .vertical {
             if direction == .left {
-                directionButton.setTitle("标签排列方向\n左", for: .normal)
+                directionButton.setTitle("标签排列方向:\n左", for: .normal)
             } else if direction == .right {
-                directionButton.setTitle("标签排列方向\n右", for: .normal)
+                directionButton.setTitle("标签排列方向:\n右", for: .normal)
             }
-            scrollDirectionButton.setTitle("滑动方向\n垂直", for: .normal)
+            scrollDirectionButton.setTitle("滑动方向:\n垂直", for: .normal)
         } else if scrollDirection == .horizontal {
             if direction == .left {
-                directionButton.setTitle("标签排列方向\n上", for: .normal)
+                directionButton.setTitle("标签排列方向:\n上", for: .normal)
             } else if direction == .right {
-                directionButton.setTitle("标签排列方向\n下", for: .normal)
+                directionButton.setTitle("标签排列方向:\n下", for: .normal)
             }
-            scrollDirectionButton.setTitle("滑动方向\n水平", for: .normal)
+            scrollDirectionButton.setTitle("滑动方向:\n水平", for: .normal)
         }
         
         
         if scrollDirection == .vertical {
             if alignment == .top {
-                alignmentButton.setTitle("对齐方向\n顶部对齐", for: .normal)
+                alignmentButton.setTitle("对齐方向:\n顶部对齐", for: .normal)
             } else if alignment == .center {
-                alignmentButton.setTitle("对齐方向\n居中对齐", for: .normal)
+                alignmentButton.setTitle("对齐方向:\n居中对齐", for: .normal)
             } else if alignment == .bottom {
-                alignmentButton.setTitle("对齐方向\n底部对齐", for: .normal)
+                alignmentButton.setTitle("对齐方向:\n底部对齐", for: .normal)
             }
         } else if scrollDirection == .horizontal {
             if alignment == .top {
-                alignmentButton.setTitle("对齐方向\n向左对齐", for: .normal)
+                alignmentButton.setTitle("对齐方向:\n向左对齐", for: .normal)
             } else if alignment == .center {
-                alignmentButton.setTitle("对齐方向\n居中对齐", for: .normal)
+                alignmentButton.setTitle("对齐方向:\n居中对齐", for: .normal)
             } else if alignment == .bottom {
-                alignmentButton.setTitle("对齐方向\n向右对齐", for: .normal)
+                alignmentButton.setTitle("对齐方向:\n向右对齐", for: .normal)
+            }
+        }
+    }
+    
+    @objc private func addAction() {
+        let width = widths.randomElement()!
+        let height = heights.randomElement()!
+        let model = IrregularTagListModel(width: width, height: height)
+        
+        let addSection: Int = 0
+        let addItem: Int = 2
+        let addIndexPath: IndexPath = IndexPath(item: addItem, section: addSection)
+        
+        if addSection >= 0 && addSection <= dataSource.count - 1 {
+            var array = dataSource[addSection]
+            if addItem >= 0 && addItem <= array.count - 1 {
+                array.insert(model, at: addItem)
+            } else {
+                array.append(model)
+            }
+            collectionView.performBatchUpdates { [weak self] in
+                guard let self = self else { return }
+                self.dataSource[addSection] = array
+                self.collectionView.insertItems(at: [addIndexPath])
+            } completion: { [weak self] _ in
+                guard let self = self else { return }
+            }
+        }
+    }
+    
+    @objc private func moveAction() {
+        let section: Int = 0
+        let fromItem: Int = 2
+        let toItem: Int = 4
+        
+        if section >= 0 && section <= dataSource.count - 1 {
+            var array = dataSource[section]
+            if fromItem >= 0 && fromItem <= array.count - 1 &&
+                toItem >= 0 && toItem <= array.count - 1{
+                let t = array[fromItem]
+                array[fromItem] = array[toItem]
+                array[toItem] = t
+                collectionView.performBatchUpdates { [weak self] in
+                    guard let self = self else { return }
+                    self.dataSource[section] = array
+                    self.collectionView.moveItem(at: IndexPath(item: fromItem, section: section), to: IndexPath(item: toItem, section: section))
+                } completion: { [weak self] _ in
+                    guard let self = self else { return }
+                    
+                }
             }
         }
     }

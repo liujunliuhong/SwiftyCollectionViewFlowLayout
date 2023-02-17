@@ -139,11 +139,11 @@ extension AutoSizeViewController: SwiftyCollectionViewDelegateFlowLayout {
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForHeaderInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        return .visible(sizeMode: .init(width: .fractionalFull(divisor: 3), height: .dynamic()))
+        return .visible(sizeMode: .init(width: .full, height: .dynamic()))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, visibilityModeForFooterInSection section: Int) -> SwiftyCollectionViewLayoutSupplementaryVisibilityMode {
-        return .visible(sizeMode: .init(width: .dynamic(), height: .dynamic()))
+        return .visible(sizeMode: .init(width: .full, height: .dynamic()))
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: SwiftyCollectionViewFlowLayout, headerDirection section: Int) -> SwiftyCollectionViewLayoutSupplementaryDirection {
