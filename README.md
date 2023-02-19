@@ -99,7 +99,7 @@ collectionView.register(MyCell.classForCoder(), forCellWithReuseIdentifier: "MyC
 // Header
 collectionView.register(MyHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "MyHeaderReuseIdentifier")
 
-//Footer
+// Footer
 collectionView.register(MyFooterView.classForCoder(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "MyFooterReuseIdentifier")
 ```
 
