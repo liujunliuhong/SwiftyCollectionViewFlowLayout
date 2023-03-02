@@ -48,24 +48,11 @@
 		D16363C9299A135900AAD627 /* RowHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363C8299A135900AAD627 /* RowHeaderView.swift */; };
 		D16363CB299A136000AAD627 /* RowFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363CA299A136000AAD627 /* RowFooterView.swift */; };
 		D16363CD299A137100AAD627 /* RowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16363CC299A137100AAD627 /* RowModel.swift */; };
-		D16363D2299A401A00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8565A850298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.framework */; };
-		D16363D3299A409E00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8565A850298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.framework */; };
-		D16363D4299A409E00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8565A850298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D194165F299B3B9800236180 /* PinnedHeaderOrFooterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D194165E299B3B9800236180 /* PinnedHeaderOrFooterViewController.swift */; };
 		D1941661299B3BAD00236180 /* PinnedHeaderOrFooterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1941660299B3BAD00236180 /* PinnedHeaderOrFooterHeaderView.swift */; };
 		D1941663299B3BB600236180 /* PinnedHeaderOrFooterFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1941662299B3BB600236180 /* PinnedHeaderOrFooterFooterView.swift */; };
 		D1941665299B3BBB00236180 /* PinnedHeaderOrFooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1941664299B3BBB00236180 /* PinnedHeaderOrFooterCell.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		8565A84F298BF58D00FFE2FD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8565A84B298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8565A81F298BF50B00FFE2FD;
-			remoteInfo = SwiftyCollectionViewFlowLayout;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		D16363D5299A409E00AAD627 /* Embed Frameworks */ = {
@@ -74,7 +61,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D16363D4299A409E00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -92,7 +78,6 @@
 		8565A840298BF57400FFE2FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8565A843298BF57400FFE2FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8565A845298BF57400FFE2FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8565A84B298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyCollectionViewFlowLayout.xcodeproj; path = ../SwiftyCollectionViewFlowLayout/SwiftyCollectionViewFlowLayout.xcodeproj; sourceTree = "<group>"; };
 		8565A869298BF6A800FFE2FD /* IrregularTagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IrregularTagListViewController.swift; sourceTree = "<group>"; };
 		8565A86A298BF6A800FFE2FD /* IrregularTagListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IrregularTagListModel.swift; sourceTree = "<group>"; };
 		8565A86B298BF6A800FFE2FD /* IrregularTagListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IrregularTagListCell.swift; sourceTree = "<group>"; };
@@ -139,8 +124,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D16363D2299A401A00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Frameworks */,
-				D16363D3299A409E00AAD627 /* SwiftyCollectionViewFlowLayout.framework in Frameworks */,
 				095AA452A8B2BA31AD9EEC4A /* Pods_iOS_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -160,7 +143,6 @@
 		8565A82B298BF57300FFE2FD = {
 			isa = PBXGroup;
 			children = (
-				8565A84B298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.xcodeproj */,
 				8565A836298BF57300FFE2FD /* iOS Example */,
 				8565A835298BF57300FFE2FD /* Products */,
 				6EE01B081120607FEACA0E48 /* Pods */,
@@ -189,14 +171,6 @@
 				8565A845298BF57400FFE2FD /* Info.plist */,
 			);
 			path = "iOS Example";
-			sourceTree = "<group>";
-		};
-		8565A84C298BF58D00FFE2FD /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8565A850298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		8565A867298BF6A800FFE2FD /* Demo */ = {
@@ -365,28 +339,12 @@
 			mainGroup = 8565A82B298BF57300FFE2FD;
 			productRefGroup = 8565A835298BF57300FFE2FD /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 8565A84C298BF58D00FFE2FD /* Products */;
-					ProjectRef = 8565A84B298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8565A833298BF57300FFE2FD /* iOS Example */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		8565A850298BF58D00FFE2FD /* SwiftyCollectionViewFlowLayout.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SwiftyCollectionViewFlowLayout.framework;
-			remoteRef = 8565A84F298BF58D00FFE2FD /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8565A832298BF57300FFE2FD /* Resources */ = {

@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../SwiftyCollectionViewFlowLayout/SwiftyCollectionViewFlowLayout.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:iOS Example.xcodeproj">
    </FileRef>
    <FileRef
