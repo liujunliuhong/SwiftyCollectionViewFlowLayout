@@ -46,6 +46,11 @@ public final class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
             invalidateLayout()
         }
     }
+	
+	private let shouldFlipForRTL: Bool	//If your subclass’s implementation overrides this property to return true, a UICollectionView showing this layout will ensure its bounds.origin is always found at the leading edge, flipping its coordinate system horizontally if necessary.
+	public override var flipsHorizontallyInOppositeLayoutDirection: Bool {
+		shouldFlipForRTL
+	}
     
     private var prepareActions: PrepareActions = []
     
@@ -55,12 +60,18 @@ public final class SwiftyCollectionViewFlowLayout: UICollectionViewLayout {
     }()
     
     public override init() {
+		shouldFlipForRTL = false
         super.init()
     }
     
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+	
+	public init(flipForRTL: Bool) {
+		shouldFlipForRTL = flipForRTL
+		super.init()
+	}
 }
 
 extension SwiftyCollectionViewFlowLayout {
