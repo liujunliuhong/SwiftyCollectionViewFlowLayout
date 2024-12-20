@@ -14,7 +14,7 @@ public final class RowViewController: UIViewController {
     private var dataSource: [RowSectionModel] = []
     
     private lazy var layout: SwiftyCollectionViewFlowLayout = {
-        let layout = SwiftyCollectionViewFlowLayout()
+        let layout = SwiftyCollectionViewFlowLayout(flipForRTL: true)
         layout.scrollDirection = .vertical
         return layout
     }()

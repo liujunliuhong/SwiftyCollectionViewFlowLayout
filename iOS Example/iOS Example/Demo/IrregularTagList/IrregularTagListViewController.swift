@@ -34,7 +34,7 @@ public final class IrregularTagListViewController: UIViewController {
     }
     
     private lazy var layout: SwiftyCollectionViewFlowLayout = {
-        let layout = SwiftyCollectionViewFlowLayout()
+        let layout = SwiftyCollectionViewFlowLayout(flipForRTL: true)
         layout.scrollDirection = scrollDirection
         return layout
     }()
